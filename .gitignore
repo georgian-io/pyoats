@@ -1,0 +1,5 @@
+# exlcude temp folder
+temp
+
+# exclude data files
+data/*
