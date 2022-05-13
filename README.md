@@ -1,5 +1,6 @@
-**O**utlier **N**??? **E**xtractor
 
+### **O**utlier **N**??? **E**xtractor
+A package for detecting outliers in time series data.
 
 > One package to rule them all, \
 > One package to find them.
@@ -10,7 +11,7 @@
 * Clone the package
 * Run: `poetry install`
 
-### Downloading Data
+### To Download Data
 * Navigate to package root
 * Run: `cd scripts`
 * then: `sh download_ucr.sh`
