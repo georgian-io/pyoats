@@ -6,7 +6,9 @@ TEMP_PATH="./$TEMP_NAME"
 TEMP_FPATH="$TEMP_PATH/dataset.zip"
 DATA_PATH="/AnomalyDatasets_2021/UCR_TimeSeriesAnomalyDatasets2021/FilesAreInHere/UCR_Anomaly_FullData"
 
-TARGET_PATH="./data"
+TARGET_PATH="./data/ucr"
+
+cd ..
 
 # mkdir
 if [ ! -d "$TEMP_PATH" ]
