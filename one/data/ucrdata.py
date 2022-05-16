@@ -14,6 +14,18 @@ class UcrData(Data):
     labels: npt.NDArray[Any]
     train_len: int
 
+    @property
+    def train(self) -> Tuple[npt.NDArray[Any], npt.NDArray[Any]]:
+        # data, label
+        tl = self.train_len
+        return self.series[:tl], self.labels[:tl]
+
+    @property
+    def test(self) -> Tuple[npt.NDArray[Any], npt.NDArray[Any]]:
+        # data, label
+        tl = self.train_len
+        return self.series[tl:], self.labels[tl:]
+
     def __eq__(self, other):
         if self is other:
             return True

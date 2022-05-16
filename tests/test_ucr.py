@@ -30,3 +30,19 @@ def test_read_nonexisting():
 
     assert res is None
 
+
+def test_get_train(data_reader):
+    res = data_reader.read()
+
+    data, label = res.train
+
+    np.testing.assert_array_almost_equal(data, np.array([2.0, 3.0]))
+    np.testing.assert_array_almost_equal(label, np.array([0.0, 0.0]))
+
+def test_get_test(data_reader):
+    res = data_reader.read()
+
+    data, label = res.test
+
+    np.testing.assert_array_almost_equal(data, np.array([4.0, 5.0, 6.0]))
+    np.testing.assert_array_almost_equal(label, np.array([1.0, 1.0, 0.0]))
