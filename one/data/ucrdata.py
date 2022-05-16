@@ -1,40 +1,59 @@
+from dataclasses import dataclass, astuple
 from typing import Tuple, Any
 
 import numpy as np
 import numpy.typing as npt
 
-from one.data.base import DataReader
+from one.data.base import DataReader, Data
+from one.utils import array_safe_eq
+
+
+@dataclass(eq=False)
+class UcrData(Data):
+    series: npt.NDArray[Any]
+    labels: npt.NDArray[Any]
+    train_len: int
+
+    def __eq__(self, other):
+        if self is other:
+            return True
+
+        if self.__class__ is not other.__class__:
+            return NotImplemented
+
+        t1 = astuple(self)
+        t2 = astuple(other)
+
+        return all(array_safe_eq(a1, a2) for a1, a2 in zip(t1, t2))
+
+
 
 class UcrDataReader(DataReader):
     def __init__(self):
         self.path: str = None
-        self.series: npt.NDArray[Any] = None
-        self.labels: npt.NDArray[Any] = None
-        self.train_len: int = None
 
-        return
+    def __call__(self, path:str) -> UcrData:
+        self.set_path(path)
+        return self.read()
+
 
     def set_path(self, path:str) -> None:
         self.path = path
 
-        return
-
-    def read(self) -> bool:
+    def read(self) -> UcrData:
         try:
-            self.series = np.loadtxt(self.path)
+            series = np.loadtxt(self.path)
         except FileNotFoundError:
-            return False
+            return None
 
-        self.train_len = self._get_train_len()
-        self.labels = self._get_labels()
+        train_len = self._get_train_len()
+        labels = self._get_labels(series)
 
-        return True
+        return UcrData(series, labels, train_len)
 
-    def _get_labels(self) -> npt.NDArray[Any]:
-        if self.series is None: return None
-
+    def _get_labels(self, series: npt.NDArray[Any]) -> npt.NDArray[Any]:
         start_idx, end_idx = self._get_label_range()
-        arr = np.zeros(self.series.size)
+        arr = np.zeros(series.size)
         arr[start_idx-1: end_idx] = 1.
 
         return arr
