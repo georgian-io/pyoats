@@ -26,7 +26,7 @@ class UcrData(Data):
         tl = self.train_len
         return self.series[tl:], self.labels[tl:]
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if self is other:
             return True
 
