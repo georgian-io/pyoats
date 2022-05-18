@@ -18,6 +18,7 @@ scipy = "^1.8.1"
 black = "^22.3.0"
 jupyterlab = "^3.4.2"
 pytest = "^7.1.2"
+seaborn = "^0.11.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
