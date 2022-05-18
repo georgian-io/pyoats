@@ -26,9 +26,6 @@ class DataReader(Protocol):
     def __call__(self, path:str) -> Data:
         raise NotImplementedError
 
-    def set_path(self, path: str) -> None:
-        raise NotImplementedError
-
     def read(self) -> Data:
         raise NotImplementedError
 
