@@ -1,9 +1,10 @@
 from typing import Any, Tuple
 
-from darts.datasets import TimeSeries
-from darts.dataprocessing.transformers import Scaler
+import numpy as np
 import numpy.typing as npt
 from numpy.lib.stride_tricks import sliding_window_view
+from darts.timeseries import TimeSeries
+from darts.dataprocessing.transformers import Scaler
 from torch.cuda import device_count
 
 from one.models.base import Model
@@ -14,12 +15,10 @@ class DartsModel(Model):
                  model,
                  window: int,
                  n_steps: int,
-                 use_gpu: bool,
                  val_split: float = 0.05):
 
         self.window = window
         self.n_steps = n_steps
-        self.use_gpu = use_gpu
         self.val_split = val_split
 
         self.model = model
@@ -27,10 +26,10 @@ class DartsModel(Model):
 
         return
 
-    def _get_trainer_kwargs(self) -> dict:
+    def _get_trainer_kwargs(self, use_gpu: bool) -> dict:
         d = {}
 
-        if self.use_gpu:
+        if use_gpu:
             d.update(
                 {
                     "accelerator": "gpu",
@@ -38,7 +37,7 @@ class DartsModel(Model):
                 }
             )
 
-        d.update({"callbacks": get_default_early_stopping()})
+        d.update({"callbacks": [get_default_early_stopping()]})
 
         return d
 
@@ -80,7 +79,7 @@ class DartsModel(Model):
         return series[:split_at], series[split_at:]
 
     def _scale_series(self, series:npt.NDArray[Any]):
-        series = TimeSeries.from_values(train_data)
+        series = TimeSeries.from_values(series)
         series = self.transformer.fit_transform(series)
 
         return series.pd_series().to_numpy().astype(np.float32)
