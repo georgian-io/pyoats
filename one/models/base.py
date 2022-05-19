@@ -1,7 +1,7 @@
 from typing import Protocol
+import numpy.typing as npt
 
-
-class PredictiveModel(Protocol):
+class Model(Protocol):
     def fit(self):
         raise NotImplementedError
 
@@ -9,7 +9,4 @@ class PredictiveModel(Protocol):
         raise NotImplementedError
 
     def get_classification(self):
-        raise NotImplementedError
-
-    def set_contamination(self):
         raise NotImplementedError
