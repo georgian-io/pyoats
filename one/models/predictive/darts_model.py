@@ -52,25 +52,34 @@ class DartsModel(Model):
                        num_loader_workers = 4
                        )
 
-    def get_scores(self, test_data: npt.NDArray[Any]) -> npt.NDArray[Any]:
+    def get_scores(self, test_data: npt.NDArray[Any]) -> Tuple[npt.NDArray[Any]]:
         test_data = self._scale_series(test_data)
 
         windows = sliding_window_view(test_data, self.window)
-        windows = windws[::self.n_steps]
+        windows = windows[::self.n_steps]
 
         preds = np.array([])
 
         seq = []
-        for arr in enumerate(windows.astype(np.float32)):
+        for arr in windows.astype(np.float32):
             ts = TimeSeries.from_values(arr)
             seq.append(ts)
 
-        scores = model.predict(n=self.n_steps, series=seq)
+        scores = self.model.predict(n=self.n_steps, series=seq)
 
         for step in scores:
             preds = np.append(preds, step.pd_series().to_numpy())
+       
+        tdata_trim = test_data[self.window:]
+        
+        preds = preds[:len(tdata_trim)]
+        residual = preds - tdata_trim
+        anom = np.absolute(residual)
 
-        return preds
+        i_preds = TimeSeries.from_values(preds[:len(tdata_trim)])
+        i_preds = self.transformer.inverse_transform(i_preds).pd_series().to_numpy()
+
+        return anom, residual, i_preds
 
     def _get_train_val_split(self, series:npt.NDArray[Any], pct_val: float) -> Tuple[npt.NDArray[Any], npt.NDArray[Any]]:
         arr_len = len(series)

@@ -55,7 +55,7 @@ def get_default_early_stopping():
     return EarlyStopping(
         monitor="val_loss",
         patience=5,
-        min_delta=0.0005,
+        min_delta=0.0001,
         mode='min'
     )
 
