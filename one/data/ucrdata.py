@@ -26,6 +26,10 @@ class UcrData(Data):
         tl = self.train_len
         return self.series[tl:], self.labels[tl:]
 
+    def get_test_with_window(self, window:int) -> Tuple[npt.NDArray[Any], npt.NDArray[Any]]:
+        tl = self.train_len
+        return self.series[tl-window:], self.labels[tl:]
+
     def __eq__(self, other) -> bool:
         if self is other:
             return True

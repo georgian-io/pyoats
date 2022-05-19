@@ -5,7 +5,7 @@ from typing import Any
 import numpy as np
 import numpy.typing as npt
 import matplotlib.pyplot as plt
-from torch_lightning.callbacks.early_stopping import EarlyStopping
+from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 
 from one.constants import *
 
@@ -55,7 +55,7 @@ def get_default_early_stopping():
     return EarlyStopping(
         monitor="val_loss",
         patience=5,
-        min_delta=0.001,
+        min_delta=0.0005,
         mode='min'
     )
 
