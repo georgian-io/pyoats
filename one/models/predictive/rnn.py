@@ -6,19 +6,14 @@ from darts import models
 from one.models.predictive.darts_model import DartsModel
 
 
-class RNN():
-    __init__ = partialmethod(models.RNNModel.__init__, model="RNN")
-
 class RNNModel(DartsModel):
     def __init__(self,
-                 window: int,
-                 n_steps: int,
-                 use_gpu: bool,
-                 val_split: float = 0.05):
+                 window: int = 10,
+                 n_steps: int = 1,
+                 use_gpu: bool = False,
+                 val_split: float = 0.05,
+                 rnn_model: str = "RNN"):
 
-        trainer_kwargs = self._get_trainer_kwargs(use_gpu)
-        model = models.RNNModel(window,
-                                pl_trainer_kwargs=trainer_kwargs
-                                )
+        model_cls = models.RNNModel
 
-        super().__init__(model, window, n_steps, val_split)
+        super().__init__(model_cls, window, n_steps, use_gpu, val_split, rnn_model = rnn_model)

@@ -25,8 +25,8 @@ class SimpleDartsModel(Model):
         self.n_steps = n_steps
         self.lags = lags
 
-        self.model = None
         self.model_cls = model_cls
+        self.model = model_cls(self.lags)
         self.transformer = Scaler()
 
 
