@@ -1,10 +1,14 @@
 from typing import Any, Tuple
+from functools import partial
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 import numpy as np
 import numpy.typing as npt
 from numpy.lib.stride_tricks import sliding_window_view
 from darts.timeseries import TimeSeries
 from darts.dataprocessing.transformers import Scaler
+import optuna
 
 from one.models.base import Model
 
@@ -12,18 +16,55 @@ from one.models.base import Model
 
 class SimpleDartsModel(Model):
     def __init__(self,
-                 model,
+                 model_cls,
                  window: int,
-                 n_steps: int):
+                 n_steps: int,
+                 lags: int):
 
         self.window = window
         self.n_steps = n_steps
+        self.lags = lags
 
-        self.model = model
+        self.model = None
+        self.model_cls = model_cls
         self.transformer = Scaler()
 
 
+    def hyperopt_ws(self, train_data: npt.NDArray[any], test_data: npt.NDArray[any], n_trials: int = 30):
+        obj = partial(self._ws_objective, train_data=train_data, test_data=test_data, model_cls=self.model_cls)
+
+        study = optuna.create_study()
+        study.optimize(obj, n_trials=n_trials)
+
+        w = study.best_params.get("w")
+        s = study.best_params.get("s")
+        l = study.best_params.get("l")
+
+        self.window = w
+        self.n_steps = s
+        self.lags = l
+
+        self.model = self.model_cls(l)
+
+
+    def _ws_objective(self, trial, train_data: npt.NDArray[any], test_data: npt.NDArray[any], model_cls):
+        w_high = int(0.25 * len(train_data))
+        self.window = trial.suggest_int('w', 20, w_high, 5)
+        self.n_steps = trial.suggest_int('s', 1, 20)
+        self.lags = trial.suggest_int('l', 1, 20 - 1)
+
+        self.model = model_cls(self.lags)
+        self.fit(train_data)
+        _, res, _ = self.get_scores(test_data)
+
+        return np.sum(res**2)
+
+
     def fit(self, train_data: npt.NDArray[Any]):
+        if self.model is None:
+            print("Unspecified hyperparameters, please run hyperopt_ws()")
+            return
+
         tr = self._scale_series(train_data)
 
         self.model.fit(TimeSeries.from_values(tr))

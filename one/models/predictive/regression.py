@@ -5,12 +5,12 @@ from one.models.predictive.darts_simple import SimpleDartsModel
 
 class RegressionModel(SimpleDartsModel):
     def __init__(self,
-                 window: int,
-                 n_steps: int,
+                 window: int = 10,
+                 n_steps: int = 1,
                  lags: int = 1):
 
-        model = models.RegressionModel(lags)
+        model_cls = models.RegressionModel
 
-        super().__init__(model, window, n_steps)
+        super().__init__(model_cls, window, n_steps, lags)
 
 

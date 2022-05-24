@@ -12,7 +12,7 @@ from one.utils import get_default_early_stopping
 
 class DartsModel(Model):
     def __init__(self,
-                 model,
+                 model_cls,
                  window: int,
                  n_steps: int,
                  val_split: float = 0.05):
@@ -21,6 +21,7 @@ class DartsModel(Model):
         self.n_steps = n_steps
         self.val_split = val_split
 
+        self.model_cls = model_cls
         self.model = model
         self.transformer = Scaler()
 

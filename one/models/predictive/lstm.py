@@ -1,15 +1,14 @@
 from typing import Literal
-from functools import partialmethod
 
 from darts import models
 
 from one.models.predictive.darts_model import DartsModel
 
 
-class RNN():
-    __init__ = partialmethod(models.RNNModel.__init__, model="RNN")
+class LSTM():
+    __init__ = partialmethod(models.RNNModel.__init__, model="LSTM")
 
-class RNNModel(DartsModel):
+class LSTMModel(DartsModel):
     def __init__(self,
                  window: int,
                  n_steps: int,
