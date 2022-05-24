@@ -4,9 +4,13 @@ from one.models.predictive.darts_simple import SimpleDartsModel
 
 
 class RegressionModel(SimpleDartsModel):
-    def __init__(self, lags: int = -1):
+    def __init__(self,
+                 window: int,
+                 n_steps: int,
+                 lags: int = -1):
 
         model = models.RegressionModel(lags)
 
-        #TODO: OVERRIDE MOETHODS!!
+        super().__init__(model, window, n_steps)
+
 

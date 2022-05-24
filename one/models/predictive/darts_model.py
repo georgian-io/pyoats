@@ -24,7 +24,6 @@ class DartsModel(Model):
         self.model = model
         self.transformer = Scaler()
 
-        return
 
     def _get_trainer_kwargs(self, use_gpu: bool) -> dict:
         d = {}
@@ -69,9 +68,9 @@ class DartsModel(Model):
 
         for step in scores:
             preds = np.append(preds, step.pd_series().to_numpy())
-       
+
         tdata_trim = test_data[self.window:]
-        
+
         preds = preds[:len(tdata_trim)]
         residual = preds - tdata_trim
         anom = np.absolute(residual)
