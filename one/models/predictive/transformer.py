@@ -8,12 +8,7 @@ class TransformerModel(DartsModel):
                  window: int,
                  n_steps: int,
                  use_gpu: bool,
-                 model_type: str = "LSTM",
                  val_split: float = 0.05):
 
-        trainer_kwargs = self._get_trainer_kwargs(use_gpu)
-        model = models.TransformerModel(window,
-                                        model_type,
-                                        pl_trainer_kwargs=trainer_kwargs)
-
-        super().__init__(model, window, n_steps, val_split)
+        model = models.TransformerModel
+        super().__init__(model, window, n_steps, use_gpu, val_split)
