@@ -10,7 +10,7 @@ class RNNModel(DartsModel):
                  window: int,
                  n_steps: int,
                  use_gpu: bool,
-                 model_type: Literal["RNN", "LTSM", "GRU"],
+                 model_type: Literal["RNN", "LTSM", "GRU"] = "GRU",
                  val_split: float = 0.05):
 
         trainer_kwargs = self._get_trainer_kwargs(use_gpu)

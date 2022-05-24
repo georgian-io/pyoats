@@ -7,7 +7,7 @@ class RegressionModel(SimpleDartsModel):
     def __init__(self,
                  window: int,
                  n_steps: int,
-                 lags: int = -1):
+                 lags: int = 1):
 
         model = models.RegressionModel(lags)
 
