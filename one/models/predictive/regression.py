@@ -9,3 +9,7 @@ class RegressionModel(SimpleDartsModel):
         model_cls = models.RegressionModel
 
         super().__init__(model_cls, window, n_steps, lags)
+
+    def hyperopt_model(self):
+        # overriding parent method as there's nothing to tune
+        return

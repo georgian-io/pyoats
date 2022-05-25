@@ -3,11 +3,13 @@ import numpy as np
 
 from one.data.ucrdata import UcrDataReader, UcrData
 
+
 @pytest.fixture
 def data_reader():
     d = UcrDataReader()
     d.set_path("./tests/test_files/ucr/001_UCR_Anomaly_test_2_3_4.txt")
     return d
+
 
 @pytest.fixture
 def expected():
@@ -22,6 +24,7 @@ def test_read_existing(data_reader, expected):
     res = data_reader.read()
 
     assert res == expected
+
 
 def test_read_nonexisting():
     d = UcrDataReader()
@@ -38,6 +41,7 @@ def test_get_train(data_reader):
 
     np.testing.assert_array_almost_equal(data, np.array([2.0, 3.0]))
     np.testing.assert_array_almost_equal(label, np.array([0.0, 0.0]))
+
 
 def test_get_test(data_reader):
     res = data_reader.read()

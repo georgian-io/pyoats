@@ -11,3 +11,9 @@ class Model(Protocol):
 
     def get_classification(self):
         raise NotImplementedError
+
+    def hyperopt_ws(self):
+        raise NotImplementedError
+
+    def hyperopt_model(self):
+        raise NotImplementedError

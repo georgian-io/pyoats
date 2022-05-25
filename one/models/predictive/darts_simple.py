@@ -25,6 +25,28 @@ class SimpleDartsModel(Model):
         self.model = model_cls(self.lags)
         self.transformer = Scaler()
 
+    def hyperopt_model(
+        self,
+        train_data: npt.NDArray[Any],
+        test_data: npt.NDArray[Any],
+        n_trials: int = 30,
+    ):
+        # TODO: we can probably merge this with the hyperparam tuning method for window size
+
+        # obj
+        obj = partial(
+            self._model_objective,
+            train_data=train_data,
+            test_data=test_data,
+        )
+
+        study = optuna.create_study()
+        study.optimize(obj, n_trials=n_trials)
+
+        self.params = study.best_params
+
+        self.model = self.model_cls(self.lags, **self.params)
+
     def hyperopt_ws(
         self,
         train_data: npt.NDArray[any],
@@ -35,7 +57,6 @@ class SimpleDartsModel(Model):
             self._ws_objective,
             train_data=train_data,
             test_data=test_data,
-            model_cls=self.model_cls,
         )
 
         study = optuna.create_study()
@@ -56,14 +77,13 @@ class SimpleDartsModel(Model):
         trial,
         train_data: npt.NDArray[any],
         test_data: npt.NDArray[any],
-        model_cls,
     ):
         w_high = int(0.25 * len(train_data))
         self.window = trial.suggest_int("w", 20, w_high, 5)
         self.n_steps = trial.suggest_int("s", 1, 20)
         self.lags = trial.suggest_int("l", 1, 20 - 1)
 
-        self.model = model_cls(self.lags)
+        self.model = self.model_cls(self.lags)
         self.fit(train_data)
         _, res, _ = self.get_scores(test_data)
 

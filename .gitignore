@@ -2,7 +2,7 @@
 temp
 
 # exclude data files
-data/*
+data/ucr/*
 
 # Jupyter
 *.bundle.*
