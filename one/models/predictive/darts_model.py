@@ -48,7 +48,7 @@ class DartsModel(Model):
                 **kwargs
             )
             return
-
+        
         self.model = self.model_cls(
             self.window,
             self.n_steps,

@@ -25,27 +25,6 @@ class RNNModel(DartsModel):
             model_cls, window, n_steps, use_gpu, val_split, rnn_model=rnn_model
         )
 
-    def hyperopt_model(
-        self,
-        train_data: npt.NDArray[Any],
-        test_data: npt.NDArray[Any],
-        n_trials: int = 30,
-    ):
-        # TODO: we can probably merge this with the hyperparam tuning method in the parent...
-
-        # obj
-        obj = partial(
-            self._model_objective,
-            train_data=train_data,
-            test_data=test_data,
-        )
-
-        study = optuna.create_study()
-        study.optimize(obj, n_trials=n_trials)
-
-        self.params = study.best_params
-        self.model = self._init_model(**self.params)
-
     def _model_objective(
         self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
     ):
@@ -59,7 +38,7 @@ class RNNModel(DartsModel):
             ),
         }
 
-        self.model = self._init_model(**params)
+        self._init_model(**params)
         self.fit(train_data)
         _, res, _ = self.get_scores(test_data)
 

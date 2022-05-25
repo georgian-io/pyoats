@@ -36,7 +36,7 @@ class NHiTSModel(DartsModel):
             ),
         }
 
-        self.model = self._init_model(**params)
+        self._init_model(**params)
         self.fit(train_data)
         _, res, _ = self.get_scores(test_data)
 
