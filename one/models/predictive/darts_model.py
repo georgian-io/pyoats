@@ -47,13 +47,14 @@ class DartsModel(Model):
                 model=self.rnn_model,
                 **kwargs
             )
-        else:
-            self.model = self.model_cls(
-                self.window,
-                self.n_steps,
-                pl_trainer_kwargs=self._get_trainer_kwargs(),
-                **kwargs
-            )
+            return
+
+        self.model = self.model_cls(
+            self.window,
+            self.n_steps,
+            pl_trainer_kwargs=self._get_trainer_kwargs(),
+            **kwargs
+        )
 
     def _get_trainer_kwargs(self) -> dict:
         d = {}
