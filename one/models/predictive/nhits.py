@@ -30,9 +30,8 @@ class NHiTSModel(DartsModel):
             "num_blocks": trial.suggest_int("num_blocks", 1, 16),
             "num_layers": trial.suggest_int("num_layers", 1, 32),
             "dropout": trial.suggest_float("dropout", 0.0, 0.3),
-            "optimizer_kwargs": {"lr": trial.suggest_uniform("lr", 1e-5, 1e-1)},
             "batch_size": trial.suggest_int(
-                "min_child_samples", 1, (len(train_data) - self.window) // self.n_steps
+                "batch_size", 1, (len(train_data) - self.window) // self.n_steps // 4
             ),
         }
 

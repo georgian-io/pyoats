@@ -9,7 +9,7 @@ import optuna
 from one.models.predictive.darts_model import DartsModel
 
 
-class TCNModel(DartsModel):
+class TFTModel(DartsModel):
     def __init__(
         self,
         window: int = 10,
@@ -26,6 +26,7 @@ class TCNModel(DartsModel):
         self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
     ):
         params = {
+            "add_relative_index": trial.suggest_categorical("add_relative_idex", [True]),
             "hidden_size": trial.suggest_int("hidden_size", 8, 128),
             "lstm_layers": trial.suggest_int("lstm_layers", 1, 32),
             "num_attention_heads": trial.suggest_int("num_attention_heads", 2, 8),
@@ -36,9 +37,8 @@ class TCNModel(DartsModel):
                 "full_attention", [True, False]
             ),
             "dropout": trial.suggest_float("dropout", 0.0, 0.3),
-            "optimizer_kwargs": {"lr": trial.suggest_uniform("lr", 1e-5, 1e-1)},
             "batch_size": trial.suggest_int(
-                "min_child_samples", 1, (len(train_data) - self.window) // self.n_steps
+                "batch_size", 1, (len(train_data) - self.window) // self.n_steps // 4
             ),
         }
 

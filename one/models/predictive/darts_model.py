@@ -74,6 +74,15 @@ class DartsModel(Model):
     ):
         # TODO: we can probably merge this with the hyperparam tuning method for window size
 
+        # Set appropriate val_split
+        # TODO: make this a method
+        w = self.window
+        s = self.n_steps
+
+        self.val_split = max(self.val_split_mem, (w + s) / len(train_data) + 0.01)
+
+
+
         # obj
         obj = partial(
             self._model_objective,
@@ -85,7 +94,7 @@ class DartsModel(Model):
         study.optimize(obj, n_trials=n_trials)
 
         self.params = study.best_params
-        self.model = self._init_model(**self.params)
+        self._init_model(**self.params)
 
     def hyperopt_ws(
         self,
