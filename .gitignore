@@ -13,7 +13,9 @@ node_modules/
 .ipynb_checkpoints/
 *.tsbuildinfo
 
-
+# IDE
+.vscode
+.vscode/*
 
 #Cython
 *.pyc

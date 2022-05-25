@@ -4,11 +4,13 @@ from one.models.predictive.darts_model import DartsModel
 
 
 class TCNModel(DartsModel):
-    def __init__(self,
-                 window: int = 10,
-                 n_steps: int = 1,
-                 use_gpu: bool = 1,
-                 val_split: float = 0.05):
+    def __init__(
+        self,
+        window: int = 10,
+        n_steps: int = 1,
+        use_gpu: bool = 1,
+        val_split: float = 0.05,
+    ):
 
         model = models.TCNModel
 

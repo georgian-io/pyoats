@@ -1,7 +1,8 @@
 from typing import Any, Tuple
 from functools import partial
 import warnings
-warnings.simplefilter(action='ignore', category=FutureWarning)
+
+warnings.simplefilter(action="ignore", category=FutureWarning)
 
 import numpy as np
 import numpy.typing as npt
@@ -13,13 +14,8 @@ import optuna
 from one.models.base import Model
 
 
-
 class SimpleDartsModel(Model):
-    def __init__(self,
-                 model_cls,
-                 window: int,
-                 n_steps: int,
-                 lags: int):
+    def __init__(self, model_cls, window: int, n_steps: int, lags: int):
 
         self.window = window
         self.n_steps = n_steps
@@ -29,9 +25,18 @@ class SimpleDartsModel(Model):
         self.model = model_cls(self.lags)
         self.transformer = Scaler()
 
-
-    def hyperopt_ws(self, train_data: npt.NDArray[any], test_data: npt.NDArray[any], n_trials: int = 30):
-        obj = partial(self._ws_objective, train_data=train_data, test_data=test_data, model_cls=self.model_cls)
+    def hyperopt_ws(
+        self,
+        train_data: npt.NDArray[any],
+        test_data: npt.NDArray[any],
+        n_trials: int = 30,
+    ):
+        obj = partial(
+            self._ws_objective,
+            train_data=train_data,
+            test_data=test_data,
+            model_cls=self.model_cls,
+        )
 
         study = optuna.create_study()
         study.optimize(obj, n_trials=n_trials)
@@ -46,19 +51,23 @@ class SimpleDartsModel(Model):
 
         self.model = self.model_cls(l)
 
-
-    def _ws_objective(self, trial, train_data: npt.NDArray[any], test_data: npt.NDArray[any], model_cls):
+    def _ws_objective(
+        self,
+        trial,
+        train_data: npt.NDArray[any],
+        test_data: npt.NDArray[any],
+        model_cls,
+    ):
         w_high = int(0.25 * len(train_data))
-        self.window = trial.suggest_int('w', 20, w_high, 5)
-        self.n_steps = trial.suggest_int('s', 1, 20)
-        self.lags = trial.suggest_int('l', 1, 20 - 1)
+        self.window = trial.suggest_int("w", 20, w_high, 5)
+        self.n_steps = trial.suggest_int("s", 1, 20)
+        self.lags = trial.suggest_int("l", 1, 20 - 1)
 
         self.model = model_cls(self.lags)
         self.fit(train_data)
         _, res, _ = self.get_scores(test_data)
 
         return np.sum(res**2)
-
 
     def fit(self, train_data: npt.NDArray[Any]):
         if self.model is None:
@@ -69,14 +78,13 @@ class SimpleDartsModel(Model):
 
         self.model.fit(TimeSeries.from_values(tr))
 
-
     def get_scores(self, test_data: npt.NDArray[Any]) -> Tuple[npt.NDArray[Any]]:
         # TODO: if makes sense, have a base class for this and DartsModel...
 
         test_data = self._scale_series(test_data)
 
         windows = sliding_window_view(test_data, self.window)
-        windows = windows[::self.n_steps]
+        windows = windows[:: self.n_steps]
 
         preds = np.array([])
 
@@ -90,25 +98,22 @@ class SimpleDartsModel(Model):
         for step in scores:
             preds = np.append(preds, step.pd_series().to_numpy())
 
-        tdata_trim = test_data[self.window:]
+        tdata_trim = test_data[self.window :]
 
-        preds = preds[:len(tdata_trim)]
+        preds = preds[: len(tdata_trim)]
         residual = preds - tdata_trim
         anom = np.absolute(residual)
 
-        i_preds = TimeSeries.from_values(preds[:len(tdata_trim)])
+        i_preds = TimeSeries.from_values(preds[: len(tdata_trim)])
         i_preds = self.transformer.inverse_transform(i_preds).pd_series().to_numpy()
 
         return anom, residual, i_preds
 
-
     def get_classification(self):
         pass
 
-
-    def _scale_series(self, series:npt.NDArray[Any]):
+    def _scale_series(self, series: npt.NDArray[Any]):
         series = TimeSeries.from_values(series)
         series = self.transformer.fit_transform(series)
 
         return series.pd_series().to_numpy().astype(np.float32)
-

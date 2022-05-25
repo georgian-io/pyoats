@@ -1,6 +1,7 @@
 from typing import Protocol
 import numpy.typing as npt
 
+
 class Model(Protocol):
     def fit(self):
         raise NotImplementedError

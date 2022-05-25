@@ -26,9 +26,11 @@ class UcrData(Data):
         tl = self.train_len
         return self.series[tl:], self.labels[tl:]
 
-    def get_test_with_window(self, window:int) -> Tuple[npt.NDArray[Any], npt.NDArray[Any]]:
+    def get_test_with_window(
+        self, window: int
+    ) -> Tuple[npt.NDArray[Any], npt.NDArray[Any]]:
         tl = self.train_len
-        return self.series[tl-window:], self.labels[tl:]
+        return self.series[tl - window :], self.labels[tl:]
 
     def __eq__(self, other) -> bool:
         if self is other:
@@ -43,17 +45,15 @@ class UcrData(Data):
         return all(array_safe_eq(a1, a2) for a1, a2 in zip(t1, t2))
 
 
-
 class UcrDataReader(DataReader):
     def __init__(self):
         self.path: str = None
 
-    def __call__(self, path:str) -> UcrData:
+    def __call__(self, path: str) -> UcrData:
         self.set_path(path)
         return self.read()
 
-
-    def set_path(self, path:str) -> None:
+    def set_path(self, path: str) -> None:
         self.path = path
 
     def read(self) -> UcrData:
@@ -70,25 +70,26 @@ class UcrDataReader(DataReader):
     def _get_labels(self, series: npt.NDArray[Any]) -> npt.NDArray[Any]:
         start_idx, end_idx = self._get_label_range()
         arr = np.zeros(series.size)
-        arr[start_idx-1: end_idx] = 1.
+        arr[start_idx - 1 : end_idx] = 1.0
 
         return arr
 
     def _get_file_name(self) -> str:
-        if self.path is None: return None
+        if self.path is None:
+            return None
 
         return self.path.split("/")[-1].split(".")[0]
 
-
     def _get_train_len(self) -> int:
-        if self.path is None: return None
+        if self.path is None:
+            return None
 
         file_name = self._get_file_name()
         return int(file_name.split("_")[-3])
 
-
     def _get_label_range(self) -> Tuple[int, int]:
-        if self.path is None: return None
+        if self.path is None:
+            return None
 
         file_name = self._get_file_name()
         fn_split = file_name.split("_")
