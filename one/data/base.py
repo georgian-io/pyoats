@@ -21,11 +21,9 @@ class Data(Protocol):
         raise NotImplementedError
 
 
-
 class DataReader(Protocol):
-    def __call__(self, path:str) -> Data:
+    def __call__(self, path: str) -> Data:
         raise NotImplementedError
 
     def read(self) -> Data:
         raise NotImplementedError
-

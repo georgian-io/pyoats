@@ -2,7 +2,7 @@
 temp
 
 # exclude data files
-data/*
+data/ucr/*
 
 # Jupyter
 *.bundle.*
@@ -10,9 +10,12 @@ lib/
 node_modules/
 *.egg-info/
 .ipynb_checkpoints
+.ipynb_checkpoints/
 *.tsbuildinfo
 
-
+# IDE
+.vscode
+.vscode/*
 
 #Cython
 *.pyc
