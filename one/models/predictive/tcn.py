@@ -26,19 +26,17 @@ class TCNModel(DartsModel):
         self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
     ):
         params = {
-            "kernel_size": trial.suggest_int("kernel_size", 1, 16),
-            "num_filters": trial.suggest_int("num_filters", 1, 16),
+            "kernel_size": trial.suggest_int("kernel_size", 2, min(32, self.window-1)),
+            "num_filters": trial.suggest_int("num_filters", 2, 8),
             "weight_norm": trial.suggest_categorical("weight_norm", [True, False]),
-            "dilation_base": trial.suggest_float("dilation_base", 1, 4),
-            "num_layers": trial.suggest_float("num_layers", 8, 64),
+            "dilation_base": trial.suggest_int("dilation_base", 1, 4),
             "dropout": trial.suggest_float("dropout", 0.0, 0.3),
-            "optimizer_kwargs": {"lr": trial.suggest_uniform("lr", 1e-5, 1e-1)},
             "batch_size": trial.suggest_int(
-                "min_child_samples", 1, (len(train_data) - self.window) // self.n_steps
-            ),
+                "batch_size", 1, len(train_data) - self.window // self.n_steps // 4
+            )
         }
 
-        self.model = self._init_model(**params)
+        self._init_model(**params)
         self.fit(train_data)
         _, res, _ = self.get_scores(test_data)
 

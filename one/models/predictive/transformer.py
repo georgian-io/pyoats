@@ -22,18 +22,17 @@ class TransformerModel(DartsModel):
         self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
     ):
         params = {
-            "d_model": trial.suggest_int("d_model", 16, 512),
-            "nhead": trial.suggest_int("nhead", 2, 8),
-            "num_encoder_layers": trial.suggest_int("num_encoder_layers", 2, 32),
-            "num_decoder_layers": trial.suggest_int("num_decoder_layers", 2, 32),
-            "dim_feedforward": trial.suggest_int("dim_feedforward", 256, 2048),
-            "optimizer_kwargs": {"lr": trial.suggest_uniform("lr", 1e-5, 1e-1)},
+            "d_model": trial.suggest_int("d_model", 16, 512, 8),
+            "nhead": trial.suggest_int("nhead", 2, 8, 2),
+            "num_encoder_layers": trial.suggest_int("num_encoder_layers", 2, 32, 2),
+            "num_decoder_layers": trial.suggest_int("num_decoder_layers", 2, 32, 2),
+            "dim_feedforward": trial.suggest_int("dim_feedforward", 256, 2048, 8),
             "batch_size": trial.suggest_int(
-                "min_child_samples", 1, (len(train_data) - self.window) // self.n_steps
+                "batch_size", 1, (len(train_data) - self.window) // self.n_steps // 4
             ),
         }
 
-        self.model = self._init_model(**params)
+        self._init_model(**params)
         self.fit(train_data)
         _, res, _ = self.get_scores(test_data)
 

@@ -26,19 +26,20 @@ class NBEATSModel(DartsModel):
         self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
     ):
         params = {
-            "num_blocks": trial.suggest_int("num_blocks", 1, 16),
-            "num_layers": trial.suggest_int("num_layers", 1, 32),
+            "num_blocks": trial.suggest_int("num_blocks", 1, 4),
+            "num_stacks": trial.suggest_int("num_stacks", 2, 64),
+            "num_layers": trial.suggest_int("num_layers", 1, 16),
             "layer_widths": trial.suggest_int("layer_widths", 128, 512),
             "expansion_coefficient_dim": trial.suggest_int(
                 "expansion_coefficient_dim", 1, 10
             ),
-            "optimizer_kwargs": {"lr": trial.suggest_uniform("lr", 1e-5, 1e-1)},
             "batch_size": trial.suggest_int(
-                "min_child_samples", 1, (len(train_data) - self.window) // self.n_steps
+                "batch_size", 1, (len(train_data) - self.window) // self.n_steps // 4
             ),
         }
 
-        self.model = self._init_model(**params)
+
+        self._init_model(**params)
         self.fit(train_data)
         _, res, _ = self.get_scores(test_data)
 
