@@ -16,7 +16,6 @@ from one.models.base import Model
 
 class SimpleDartsModel(Model):
     def __init__(self, model_cls, window: int, n_steps: int, lags: int):
-
         self.window = window
         self.n_steps = n_steps
         self.lags = lags
@@ -24,6 +23,21 @@ class SimpleDartsModel(Model):
         self.model_cls = model_cls
         self.model = model_cls(self.lags)
         self.transformer = Scaler()
+        self.params = None
+
+    @property
+    def model_name(self):
+        return type(self).__name__
+
+    def __repr__(self):
+        r = {}
+        r.update({"model_name": self.model_name})
+        r.update({"window": self.window})
+        r.update({"n_steps": self.n_steps})
+        r.update({"lags": self.lags})
+        r.update({"model_params": {} if not self.params else self.params})
+
+        return str(r)
 
     def hyperopt_model(
         self,

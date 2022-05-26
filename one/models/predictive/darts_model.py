@@ -36,7 +36,27 @@ class DartsModel(Model):
         # TODO: maybe seperate these into another class? fine for now...
         self.transformer = Scaler()
 
+        self.params = None
+
         self._init_model()
+
+    @property
+    def model_name(self):
+        name = type(self).__name__
+        if self.rnn_model:
+            return f"{name}_{self.rnn_model}"
+
+        return name
+
+    def __repr__(self):
+        r = {}
+        r.update({"model_name": self.model_name})
+        r.update({"window": self.window})
+        r.update({"n_steps": self.n_steps})
+        r.update({"val_split": self.val_split})
+        r.update({"model_params": {} if not self.params else self.params})
+
+        return str(r)
 
     def _init_model(self, **kwargs):
         if self.rnn_model:
@@ -45,15 +65,15 @@ class DartsModel(Model):
                 training_length=self.window,
                 pl_trainer_kwargs=self._get_trainer_kwargs(),
                 model=self.rnn_model,
-                **kwargs
+                **kwargs,
             )
             return
-        
+
         self.model = self.model_cls(
             self.window,
             self.n_steps,
             pl_trainer_kwargs=self._get_trainer_kwargs(),
-            **kwargs
+            **kwargs,
         )
 
     def _get_trainer_kwargs(self) -> dict:
@@ -80,8 +100,6 @@ class DartsModel(Model):
         s = self.n_steps
 
         self.val_split = max(self.val_split_mem, (w + s) / len(train_data) + 0.01)
-
-
 
         # obj
         obj = partial(

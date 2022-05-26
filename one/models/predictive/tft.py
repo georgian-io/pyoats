@@ -26,7 +26,9 @@ class TFTModel(DartsModel):
         self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
     ):
         params = {
-            "add_relative_index": trial.suggest_categorical("add_relative_idex", [True]),
+            "add_relative_index": trial.suggest_categorical(
+                "add_relative_idex", [True]
+            ),
             "hidden_size": trial.suggest_int("hidden_size", 8, 128),
             "lstm_layers": trial.suggest_int("lstm_layers", 1, 32),
             "num_attention_heads": trial.suggest_int("num_attention_heads", 2, 8),

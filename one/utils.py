@@ -62,3 +62,8 @@ def graph_data(series: npt.NDArray[Any], labels: npt.NDArray[Any], train_len: in
 
 def get_default_early_stopping():
     return EarlyStopping(monitor="val_loss", patience=5, min_delta=0.0001, mode="min")
+
+
+def save_model_output(series: npt.NDArray[Any], model, fname: str):
+    spec = str(model)
+    np.savetxt(fname, series, header=spec)
