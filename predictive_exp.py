@@ -1,4 +1,5 @@
 import os
+import logging
 
 from one.utils import *
 from one.models import *
@@ -15,33 +16,40 @@ FILES = get_files_from_path(ROOT_DIR)
 
 
 def run_model(m, data, fdir):
+    print(f"{m.model_name} #####################")
     os.makedirs(fdir, exist_ok=True)
 
     train_data, train_label = data.train
     test_data, test_label = data.test
-
+    
+    print("Tuning window and step sizes")
     m.hyperopt_ws(train_data, test_data, 30)
 
     model_test_data, model_test_label = data.get_test_with_window(m.window)
 
+    print("Tuning model hyperparameters")
     m.hyperopt_model(train_data, model_test_data, 50)
     m.fit(train_data)
 
+    print("Generating predictions and scores")
     score, _, preds = m.get_scores(model_test_data)
 
+    print("Saving outputs")
     save_model_output(score, m, f"{fdir}{m.model_name}_scores.txt")
     save_model_output(preds, m, f"{fdir}{m.model_name}_preds.txt")
 
 
 def main():
+    logger = logging.getLogger()
     reader = UcrDataReader()
 
     for file in FILES:
+        print(f"{file} !!!!!!!!!!!!!!!!!!!!!!")
         data_name = file.split(".")[0]
         data = reader(ROOT_DIR + file)
         fdir = f"{SAVE_DIR}{data_name}/"
 
-        for model in MODELS:
+        for model in SIMPLE_MODELS:
             m = model()
             run_model(m, data, fdir)
 

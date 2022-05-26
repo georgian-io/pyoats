@@ -15,3 +15,7 @@ A package for detecting outliers in time series data.
 * Navigate to package root
 * Run: `cd scripts`
 * then: `sh download_ucr.sh`
+
+
+### To Run Experiment
+* Predictive Models: `python -u predictive_exp.py 2>&1 | tee log.txt`
