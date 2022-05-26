@@ -1,3 +1,5 @@
+import os
+
 from one.utils import *
 from one.models import *
 from one.data.ucrdata import UcrDataReader
@@ -13,6 +15,8 @@ FILES = get_files_from_path(ROOT_DIR)
 
 
 def run_model(m, data, fdir):
+    os.makedirs(fdir, exist_ok=True)
+
     train_data, train_label = data.train
     test_data, test_label = data.test
 
