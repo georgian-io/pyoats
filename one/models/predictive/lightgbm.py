@@ -29,7 +29,7 @@ class LightGBMModel(SimpleDartsModel):
             "min_child_samples": trial.suggest_int("min_child_samples", 5, 100),
         }
 
-        cls = self.__class__(self.model_cls, self.window, self.n_steps, self.lags)
+        cls = self.__class__(self.window, self.n_steps, self.lags)
         cls.model = cls.model_cls(self.lags, **params)
         cls.fit(train_data)
         _, res, _ = cls.get_scores(test_data)

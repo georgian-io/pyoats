@@ -29,7 +29,7 @@ class RandomForestModel(SimpleDartsModel):
             "ccp_alpha": trial.suggest_float("ccp_alpha", 0.0, 5e-2),
         }
 
-        cls = self.__class__(self.model_cls, self.window, self.n_steps, self.lags)
+        cls = self.__class__(self.window, self.n_steps, self.lags)
         cls.model = cls.model_cls(self.lags, **params)
         cls.fit(train_data)
         _, res, _ = cls.get_scores(test_data)

@@ -44,8 +44,4 @@ class TFTModel(DartsModel):
             ),
         }
 
-        self._init_model(**params)
-        self.fit(train_data)
-        _, res, _ = self.get_scores(test_data)
-
-        return np.sum(res**2)
+        return self._get_hyperopt_res(params, train_data, test_data)

@@ -93,11 +93,12 @@ class SimpleDartsModel(Model):
         test_data: npt.NDArray[any],
     ):
         w_high = int(0.25 * len(train_data))
+
         window = trial.suggest_int("w", 20, w_high, 5)
         n_steps = trial.suggest_int("s", 1, 20)
         lags = trial.suggest_int("l", 1, 20 - 1)
 
-        cls = self.__class__(self.model_cls, window, n_steps, lags)
+        cls = self.__class__(window, n_steps, lags)
         cls.model = cls.model_cls(lags)
         cls.fit(train_data)
         _, res, _ = cls.get_scores(test_data)

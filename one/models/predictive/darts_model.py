@@ -99,7 +99,7 @@ class DartsModel(Model):
         w = self.window
         s = self.n_steps
 
-        self.val_split = max(self.val_split_mem, (w + s) / len(train_data) + 0.01)
+        # self.val_split = max(self.val_split_mem, (w + s) / len(train_data) + 0.01)
 
         # obj
         obj = partial(
@@ -132,8 +132,6 @@ class DartsModel(Model):
         w = study.best_params.get("w")
         s = study.best_params.get("s")
 
-        self.val_split = max(self.val_split, (w + s) / len(train_data) + 0.01)
-
         self.window = w
         self.n_steps = s
         self.val_split = max(
@@ -149,16 +147,18 @@ class DartsModel(Model):
         test_data: npt.NDArray[any],
     ):
         w_high = int(0.25 * len(train_data))
-        self.window = trial.suggest_int("w", 20, w_high, 5)
-        self.n_steps = trial.suggest_int("s", 1, 20)
 
-        self.val_split = max(
+        window = trial.suggest_int("w", 20, w_high, 5)
+        n_steps = trial.suggest_int("s", 1, 20)
+
+        val_split = max(
             self.val_split_mem, (self.window + self.n_steps) / len(train_data) + 0.01
         )
 
-        self._init_model()
-        self.fit(train_data)
-        _, res, _ = self.get_scores(test_data)
+        cls = self.__class__(window, n_steps, self.use_gpu, val_split)
+        cls._init_model()
+        cls.fit(train_data)
+        _, res, _ = cls.get_scores(test_data)
 
         return np.sum(res**2)
 
@@ -215,3 +215,11 @@ class DartsModel(Model):
         series = self.transformer.fit_transform(series)
 
         return series.pd_series().to_numpy().astype(np.float32)
+
+    def _get_hyperopt_res(self, params: dict, train_data, test_data):
+        cls = self.__class__(self.window, self.n_steps, self.use_gpu, self.val_split)
+        cls._init_model(**params)
+        cls.fit(train_data)
+        _, res, _ = cls.get_scores(test_data)
+
+        return np.sum(res**2)
