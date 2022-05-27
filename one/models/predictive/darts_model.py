@@ -83,7 +83,10 @@ class DartsModel(Model):
             d.update({"accelerator": "gpu", "gpus": [i for i in range(device_count())]})
 
         d.update({"callbacks": [get_default_early_stopping()]})
-
+        d.update({"enable_progress_bar": False})
+        d.update({"progress_bar_refresh_rate": 0})
+        d.update({"enable_model_summary": False})
+        d.update({"weights_summary": None})
         return d
 
     def hyperopt_model(
@@ -109,7 +112,7 @@ class DartsModel(Model):
         )
 
         study = optuna.create_study()
-        study.optimize(obj, n_trials=n_trials)
+        study.optimize(obj, n_trials=n_trials, n_jobs=8)
 
         self.params = study.best_params
         self._init_model(**self.params)
@@ -127,7 +130,7 @@ class DartsModel(Model):
         )
 
         study = optuna.create_study()
-        study.optimize(obj, n_trials=n_trials)
+        study.optimize(obj, n_trials=n_trials, n_jobs=8)
 
         w = study.best_params.get("w")
         s = study.best_params.get("s")
@@ -151,18 +154,16 @@ class DartsModel(Model):
         window = trial.suggest_int("w", 20, w_high, 5)
         n_steps = trial.suggest_int("s", 1, 20)
 
-        val_split = max(
-            self.val_split_mem, (self.window + self.n_steps) / len(train_data) + 0.01
-        )
+        val_split = max(self.val_split_mem, (window + n_steps) / len(train_data) + 0.01)
 
         cls = self.__class__(window, n_steps, self.use_gpu, val_split)
-        cls._init_model()
         cls.fit(train_data)
         _, res, _ = cls.get_scores(test_data)
 
         return np.sum(res**2)
 
     def fit(self, train_data: npt.NDArray[Any]):
+
         train_data = self._scale_series(train_data)
         tr, val = self._get_train_val_split(train_data, self.val_split)
 
@@ -170,7 +171,7 @@ class DartsModel(Model):
             TimeSeries.from_values(tr),
             val_series=TimeSeries.from_values(val),
             epochs=100,
-            num_loader_workers=4,
+            num_loader_workers=1,
         )
 
     def get_scores(self, test_data: npt.NDArray[Any]) -> Tuple[npt.NDArray[Any]]:

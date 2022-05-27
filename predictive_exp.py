@@ -21,14 +21,14 @@ def run_model(m, data, fdir):
 
     train_data, train_label = data.train
     test_data, test_label = data.test
-    
+
     print("Tuning window and step sizes")
-    m.hyperopt_ws(train_data, test_data, 30)
+    m.hyperopt_ws(train_data, test_data, 8)
 
     model_test_data, model_test_label = data.get_test_with_window(m.window)
 
     print("Tuning model hyperparameters")
-    m.hyperopt_model(train_data, model_test_data, 50)
+    m.hyperopt_model(train_data, model_test_data, 8)
     m.fit(train_data)
 
     print("Generating predictions and scores")
@@ -53,7 +53,7 @@ def main():
             m = model()
             run_model(m, data, fdir)
 
-        for model in DL_Models:
+        for model in DL_MODELS:
             m = model(use_gpu=True, val_split=0.1)
             run_model(m, data, fdir)
 

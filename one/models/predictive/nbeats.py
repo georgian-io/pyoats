@@ -1,10 +1,10 @@
 from typing import Any
 from functools import partial
 
-from darts import models
 import numpy as np
 import numpy.typing as npt
 import optuna
+from darts import models
 
 from one.models.predictive.darts_model import DartsModel
 
