@@ -55,7 +55,7 @@ class SimpleDartsModel(Model):
         )
 
         study = optuna.create_study()
-        study.optimize(obj, n_trials=n_trials)
+        study.optimize(obj, n_trials=n_trials, n_jobs=-1)
 
         self.params = study.best_params
 
@@ -74,7 +74,7 @@ class SimpleDartsModel(Model):
         )
 
         study = optuna.create_study()
-        study.optimize(obj, n_trials=n_trials)
+        study.optimize(obj, n_trials=n_trials, n_jobs=-1)
 
         w = study.best_params.get("w")
         s = study.best_params.get("s")
