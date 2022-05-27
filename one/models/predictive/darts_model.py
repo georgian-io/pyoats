@@ -83,10 +83,7 @@ class DartsModel(Model):
             d.update({"accelerator": "gpu", "gpus": [i for i in range(device_count())]})
 
         d.update({"callbacks": [get_default_early_stopping()]})
-        d.update({"enable_progress_bar": False})
-        d.update({"progress_bar_refresh_rate": 0})
-        d.update({"enable_model_summary": False})
-        d.update({"weights_summary": None})
+        d.update({"progress_bar_refresh_rate": 100})
         return d
 
     def hyperopt_model(
@@ -97,14 +94,6 @@ class DartsModel(Model):
     ):
         # TODO: we can probably merge this with the hyperparam tuning method for window size
 
-        # Set appropriate val_split
-        # TODO: make this a method
-        w = self.window
-        s = self.n_steps
-
-        # self.val_split = max(self.val_split_mem, (w + s) / len(train_data) + 0.01)
-
-        # obj
         obj = partial(
             self._model_objective,
             train_data=train_data,
@@ -112,7 +101,7 @@ class DartsModel(Model):
         )
 
         study = optuna.create_study()
-        study.optimize(obj, n_trials=n_trials, n_jobs=8)
+        study.optimize(obj, n_trials=n_trials, n_jobs=1)
 
         self.params = study.best_params
         self._init_model(**self.params)
@@ -130,7 +119,7 @@ class DartsModel(Model):
         )
 
         study = optuna.create_study()
-        study.optimize(obj, n_trials=n_trials, n_jobs=8)
+        study.optimize(obj, n_trials=n_trials, n_jobs=1)
 
         w = study.best_params.get("w")
         s = study.best_params.get("s")
@@ -171,7 +160,7 @@ class DartsModel(Model):
             TimeSeries.from_values(tr),
             val_series=TimeSeries.from_values(val),
             epochs=100,
-            num_loader_workers=1,
+            num_loader_workers=4,
         )
 
     def get_scores(self, test_data: npt.NDArray[Any]) -> Tuple[npt.NDArray[Any]]:

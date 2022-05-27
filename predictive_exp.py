@@ -48,10 +48,12 @@ def main():
         data_name = file.split(".")[0]
         data = reader(ROOT_DIR + file)
         fdir = f"{SAVE_DIR}{data_name}/"
-
+        
+        """
         for model in SIMPLE_MODELS:
             m = model()
             run_model(m, data, fdir)
+        """
 
         for model in DL_MODELS:
             m = model(use_gpu=True, val_split=0.1)
