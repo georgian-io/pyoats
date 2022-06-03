@@ -44,6 +44,7 @@ class SimpleDartsModel(Model):
         train_data: npt.NDArray[Any],
         test_data: npt.NDArray[Any],
         n_trials: int = 30,
+        n_jobs: int = -1
     ):
         # TODO: we can probably merge this with the hyperparam tuning method for window size
 
@@ -55,7 +56,7 @@ class SimpleDartsModel(Model):
         )
 
         study = optuna.create_study()
-        study.optimize(obj, n_trials=n_trials, n_jobs=-1)
+        study.optimize(obj, n_trials=n_trials, n_jobs=n_jobs)
 
         self.params = study.best_params
 
@@ -66,6 +67,7 @@ class SimpleDartsModel(Model):
         train_data: npt.NDArray[any],
         test_data: npt.NDArray[any],
         n_trials: int = 30,
+        n_jobs: int = -1
     ):
         obj = partial(
             self._ws_objective,
@@ -74,7 +76,7 @@ class SimpleDartsModel(Model):
         )
 
         study = optuna.create_study()
-        study.optimize(obj, n_trials=n_trials, n_jobs=-1)
+        study.optimize(obj, n_trials=n_trials, n_jobs=n_jobs)
 
         w = study.best_params.get("w")
         s = study.best_params.get("s")

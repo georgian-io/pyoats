@@ -13,6 +13,7 @@ class UcrData(Data):
     series: npt.NDArray[Any]
     labels: npt.NDArray[Any]
     train_len: int
+    file_name: str
 
     @property
     def train(self) -> Tuple[npt.NDArray[Any], npt.NDArray[Any]]:
@@ -64,8 +65,9 @@ class UcrDataReader(DataReader):
 
         train_len = self._get_train_len()
         labels = self._get_labels(series)
+        file_name = self.path.split("/")[-1]
 
-        return UcrData(series, labels, train_len)
+        return UcrData(series, labels, train_len, file_name)
 
     def _get_labels(self, series: npt.NDArray[Any]) -> npt.NDArray[Any]:
         start_idx, end_idx = self._get_label_range()
