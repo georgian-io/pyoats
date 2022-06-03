@@ -162,7 +162,7 @@ class DartsModel(Model):
             TimeSeries.from_values(tr),
             val_series=TimeSeries.from_values(val),
             epochs=100,
-            num_loader_workers=4,
+            num_loader_workers=1,
         )
 
     def get_scores(self, test_data: npt.NDArray[Any]) -> Tuple[npt.NDArray[Any]]:
