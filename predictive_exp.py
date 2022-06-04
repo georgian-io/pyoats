@@ -63,7 +63,7 @@ def get_models(m: List[str], choices: dict, if_gpu: bool, split: float) -> list:
         if model in DL_MODELS:
             models.append(model_cls(use_gpu=if_gpu, val_split=split))
         if model in RNN_MODELS:
-            models.append(model_cls(use_gpu=if_gpu, rnn_model=model, val_split=split))
+            models.append(model_cls(use_gpu=if_gpu, rnn_model=model.upper(), val_split=split))
 
     return models
 
