@@ -27,15 +27,15 @@ class TransformerModel(DartsModel):
     ):
         params = {
             "nhead": trial.suggest_int("nhead", 2, 8, 2),
-            "dim_feedforward": trial.suggest_int("dim_feedforward", 256, 1024, 8),
-            "num_encoder_layers": trial.suggest_int("num_encoder_layers", 2, 16, 2),
-            "num_decoder_layers": trial.suggest_int("num_decoder_layers", 2, 16, 2),
-        }
+       }
         
-        embed_dim = {
+        dep_params = {
+            "dim_feedforward": trial.suggest_int("dim_feedforward", 256, 1024, params["nhead"]),
+            "num_encoder_layers": trial.suggest_int("num_encoder_layers", 2, 16, params["nhead"]),
+            "num_decoder_layers": trial.suggest_int("num_decoder_layers", 2, 16, params["nhead"]),
             "d_model": trial.suggest_int("d_model", 32, 256, params["nhead"]),
         }
 
-        params.update(embed_dim)
+        params.update(dep_params)
 
         return self._get_hyperopt_res(params, train_data, test_data)
