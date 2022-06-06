@@ -36,7 +36,27 @@ class DartsModel(Model):
         # TODO: maybe seperate these into another class? fine for now...
         self.transformer = Scaler()
 
+        self.params = None
+
         self._init_model()
+
+    @property
+    def model_name(self):
+        name = type(self).__name__
+        if self.rnn_model:
+            return f"{name}_{self.rnn_model}"
+
+        return name
+
+    def __repr__(self):
+        r = {}
+        r.update({"model_name": self.model_name})
+        r.update({"window": self.window})
+        r.update({"n_steps": self.n_steps})
+        r.update({"val_split": self.val_split})
+        r.update({"model_params": {} if not self.params else self.params})
+
+        return str(r)
 
     def _init_model(self, **kwargs):
         if self.rnn_model:
@@ -45,15 +65,15 @@ class DartsModel(Model):
                 training_length=self.window,
                 pl_trainer_kwargs=self._get_trainer_kwargs(),
                 model=self.rnn_model,
-                **kwargs
+                **kwargs,
             )
             return
-        
+
         self.model = self.model_cls(
             self.window,
             self.n_steps,
             pl_trainer_kwargs=self._get_trainer_kwargs(),
-            **kwargs
+            **kwargs,
         )
 
     def _get_trainer_kwargs(self) -> dict:
@@ -63,7 +83,7 @@ class DartsModel(Model):
             d.update({"accelerator": "gpu", "gpus": [i for i in range(device_count())]})
 
         d.update({"callbacks": [get_default_early_stopping()]})
-
+        d.update({"progress_bar_refresh_rate": 100})
         return d
 
     def hyperopt_model(
@@ -71,19 +91,10 @@ class DartsModel(Model):
         train_data: npt.NDArray[Any],
         test_data: npt.NDArray[Any],
         n_trials: int = 30,
+        n_jobs: int = 1,
     ):
         # TODO: we can probably merge this with the hyperparam tuning method for window size
 
-        # Set appropriate val_split
-        # TODO: make this a method
-        w = self.window
-        s = self.n_steps
-
-        self.val_split = max(self.val_split_mem, (w + s) / len(train_data) + 0.01)
-
-
-
-        # obj
         obj = partial(
             self._model_objective,
             train_data=train_data,
@@ -91,7 +102,7 @@ class DartsModel(Model):
         )
 
         study = optuna.create_study()
-        study.optimize(obj, n_trials=n_trials)
+        study.optimize(obj, n_trials=n_trials, n_jobs=n_jobs)
 
         self.params = study.best_params
         self._init_model(**self.params)
@@ -101,6 +112,7 @@ class DartsModel(Model):
         train_data: npt.NDArray[any],
         test_data: npt.NDArray[any],
         n_trials: int = 30,
+        n_jobs: int = 1,
     ):
         obj = partial(
             self._ws_objective,
@@ -109,12 +121,10 @@ class DartsModel(Model):
         )
 
         study = optuna.create_study()
-        study.optimize(obj, n_trials=n_trials)
+        study.optimize(obj, n_trials=n_trials, n_jobs=n_jobs)
 
         w = study.best_params.get("w")
         s = study.best_params.get("s")
-
-        self.val_split = max(self.val_split, (w + s) / len(train_data) + 0.01)
 
         self.window = w
         self.n_steps = s
@@ -131,20 +141,24 @@ class DartsModel(Model):
         test_data: npt.NDArray[any],
     ):
         w_high = int(0.25 * len(train_data))
-        self.window = trial.suggest_int("w", 20, w_high, 5)
-        self.n_steps = trial.suggest_int("s", 1, 20)
 
-        self.val_split = max(
-            self.val_split_mem, (self.window + self.n_steps) / len(train_data) + 0.01
-        )
+        window = trial.suggest_int("w", 20, w_high, 5)
+        n_steps = trial.suggest_int("s", 1, 20)
 
-        self._init_model()
-        self.fit(train_data)
-        _, res, _ = self.get_scores(test_data)
+        val_split = max(self.val_split_mem, (window + n_steps) / len(train_data) + 0.01)
+        
+        try:
+            m = self.__class__(window, n_steps, self.use_gpu, val_split)
+            m.fit(train_data)
+        except RuntimeError:
+            return 1e4
+
+        _, res, _ = m.get_scores(test_data)
 
         return np.sum(res**2)
 
     def fit(self, train_data: npt.NDArray[Any]):
+
         train_data = self._scale_series(train_data)
         tr, val = self._get_train_val_split(train_data, self.val_split)
 
@@ -152,7 +166,7 @@ class DartsModel(Model):
             TimeSeries.from_values(tr),
             val_series=TimeSeries.from_values(val),
             epochs=100,
-            num_loader_workers=4,
+            num_loader_workers=1,
         )
 
     def get_scores(self, test_data: npt.NDArray[Any]) -> Tuple[npt.NDArray[Any]]:
@@ -197,3 +211,16 @@ class DartsModel(Model):
         series = self.transformer.fit_transform(series)
 
         return series.pd_series().to_numpy().astype(np.float32)
+
+    def _get_hyperopt_res(self, params: dict, train_data, test_data):
+        try:
+            m = self.__class__(self.window, self.n_steps, self.use_gpu, self.val_split)
+            m._init_model(**params)
+            m.fit(train_data)
+
+        except RuntimeError:
+            return 1e4
+
+        _, res, _ = cls.get_scores(test_data)
+
+        return np.sum(res**2)

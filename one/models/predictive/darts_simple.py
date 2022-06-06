@@ -16,7 +16,6 @@ from one.models.base import Model
 
 class SimpleDartsModel(Model):
     def __init__(self, model_cls, window: int, n_steps: int, lags: int):
-
         self.window = window
         self.n_steps = n_steps
         self.lags = lags
@@ -24,12 +23,28 @@ class SimpleDartsModel(Model):
         self.model_cls = model_cls
         self.model = model_cls(self.lags)
         self.transformer = Scaler()
+        self.params = None
+
+    @property
+    def model_name(self):
+        return type(self).__name__
+
+    def __repr__(self):
+        r = {}
+        r.update({"model_name": self.model_name})
+        r.update({"window": self.window})
+        r.update({"n_steps": self.n_steps})
+        r.update({"lags": self.lags})
+        r.update({"model_params": {} if not self.params else self.params})
+
+        return str(r)
 
     def hyperopt_model(
         self,
         train_data: npt.NDArray[Any],
         test_data: npt.NDArray[Any],
         n_trials: int = 30,
+        n_jobs: int = -1
     ):
         # TODO: we can probably merge this with the hyperparam tuning method for window size
 
@@ -41,7 +56,7 @@ class SimpleDartsModel(Model):
         )
 
         study = optuna.create_study()
-        study.optimize(obj, n_trials=n_trials)
+        study.optimize(obj, n_trials=n_trials, n_jobs=n_jobs)
 
         self.params = study.best_params
 
@@ -52,6 +67,7 @@ class SimpleDartsModel(Model):
         train_data: npt.NDArray[any],
         test_data: npt.NDArray[any],
         n_trials: int = 30,
+        n_jobs: int = -1
     ):
         obj = partial(
             self._ws_objective,
@@ -60,7 +76,7 @@ class SimpleDartsModel(Model):
         )
 
         study = optuna.create_study()
-        study.optimize(obj, n_trials=n_trials)
+        study.optimize(obj, n_trials=n_trials, n_jobs=n_jobs)
 
         w = study.best_params.get("w")
         s = study.best_params.get("s")
@@ -79,13 +95,15 @@ class SimpleDartsModel(Model):
         test_data: npt.NDArray[any],
     ):
         w_high = int(0.25 * len(train_data))
-        self.window = trial.suggest_int("w", 20, w_high, 5)
-        self.n_steps = trial.suggest_int("s", 1, 20)
-        self.lags = trial.suggest_int("l", 1, 20 - 1)
 
-        self.model = self.model_cls(self.lags)
-        self.fit(train_data)
-        _, res, _ = self.get_scores(test_data)
+        window = trial.suggest_int("w", 20, w_high, 5)
+        n_steps = trial.suggest_int("s", 1, 20)
+        lags = trial.suggest_int("l", 1, 20 - 1)
+
+        cls = self.__class__(window, n_steps, lags)
+        cls.model = cls.model_cls(lags)
+        cls.fit(train_data)
+        _, res, _ = cls.get_scores(test_data)
 
         return np.sum(res**2)
 

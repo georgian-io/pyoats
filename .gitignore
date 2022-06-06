@@ -61,3 +61,12 @@ pip-wheel-metadata
 
 poetry/core/*
 
+# Logs
+log.txt
+logs
+/logs/*
+
+
+# Experiment Results
+results
+results/*

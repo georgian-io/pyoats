@@ -29,8 +29,9 @@ class LightGBMModel(SimpleDartsModel):
             "min_child_samples": trial.suggest_int("min_child_samples", 5, 100),
         }
 
-        self.model = self.model_cls(self.lags, **params)
-        self.fit(train_data)
-        _, res, _ = self.get_scores(test_data)
+        cls = self.__class__(self.window, self.n_steps, self.lags)
+        cls.model = cls.model_cls(self.lags, **params)
+        cls.fit(train_data)
+        _, res, _ = cls.get_scores(test_data)
 
         return np.sum(res**2)

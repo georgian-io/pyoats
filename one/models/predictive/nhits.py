@@ -26,17 +26,14 @@ class NHiTSModel(DartsModel):
         self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
     ):
         params = {
-            "num_stacks": trial.suggest_int("num_stacks", 1, 16),
-            "num_blocks": trial.suggest_int("num_blocks", 1, 16),
-            "num_layers": trial.suggest_int("num_layers", 1, 32),
+            "num_stacks": trial.suggest_int("num_stacks", 1, 5),
+            "num_blocks": trial.suggest_int("num_blocks", 1, 3),
+            "num_layers": trial.suggest_int("num_layers", 1, 4),
             "dropout": trial.suggest_float("dropout", 0.0, 0.3),
             "batch_size": trial.suggest_int(
                 "batch_size", 1, (len(train_data) - self.window) // self.n_steps // 4
             ),
         }
 
-        self._init_model(**params)
-        self.fit(train_data)
-        _, res, _ = self.get_scores(test_data)
-
-        return np.sum(res**2)
+        # return self._get_hyperopt_res(params, train_data, test_data)
+        return

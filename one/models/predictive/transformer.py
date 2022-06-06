@@ -12,7 +12,11 @@ from one.models.predictive.darts_model import DartsModel
 
 class TransformerModel(DartsModel):
     def __init__(
-        self, window: int, n_steps: int, use_gpu: bool, val_split: float = 0.05
+        self,
+        window: int = 10,
+        n_steps: int = 1,
+        use_gpu: bool = False,
+        val_split: float = 0.05,
     ):
 
         model = models.TransformerModel
@@ -22,18 +26,11 @@ class TransformerModel(DartsModel):
         self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
     ):
         params = {
-            "d_model": trial.suggest_int("d_model", 16, 512, 8),
+            "d_model": trial.suggest_int("d_model", 32, 256, 8),
             "nhead": trial.suggest_int("nhead", 2, 8, 2),
-            "num_encoder_layers": trial.suggest_int("num_encoder_layers", 2, 32, 2),
-            "num_decoder_layers": trial.suggest_int("num_decoder_layers", 2, 32, 2),
-            "dim_feedforward": trial.suggest_int("dim_feedforward", 256, 2048, 8),
-            "batch_size": trial.suggest_int(
-                "batch_size", 1, (len(train_data) - self.window) // self.n_steps // 4
-            ),
+            "num_encoder_layers": trial.suggest_int("num_encoder_layers", 2, 6, 2),
+            "num_decoder_layers": trial.suggest_int("num_decoder_layers", 2, 6, 2),
+            "dim_feedforward": trial.suggest_int("dim_feedforward", 256, 1024, 8),
         }
 
-        self._init_model(**params)
-        self.fit(train_data)
-        _, res, _ = self.get_scores(test_data)
-
-        return np.sum(res**2)
+        return self._get_hyperopt_res(params, train_data, test_data)

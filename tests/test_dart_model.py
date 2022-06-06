@@ -61,11 +61,15 @@ def test_get_trainer_kwargs_gpu(mock_model):
     assert mock_model._get_trainer_kwargs() == exp
 
 def test_hyperopt_model(mock_model):
-    mock_model.hyperopt_model(np.ndarray([]), np.ndarray([]), 1)
+    mock_model.hyperopt_model(np.zeros(10), np.zeros(10), 2)
     mock_model.model_cls.assert_called_with(10, 1, pl_trainer_kwargs={"callbacks": [True]}, **mock_model.params)
 
 
 def test_hyperopt_ws(mock_model):
     mock_model.model_cls.assert_called_with(10, 1, pl_trainer_kwargs={"callbacks": [True]})
+
+def test_fit(mock_model):
+    mock_model.fit(np.zeros(10))
+    mock_model.model.fit.assert_called_once()
 
 

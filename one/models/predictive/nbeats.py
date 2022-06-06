@@ -1,10 +1,10 @@
 from typing import Any
 from functools import partial
 
-from darts import models
 import numpy as np
 import numpy.typing as npt
 import optuna
+from darts import models
 
 from one.models.predictive.darts_model import DartsModel
 
@@ -26,8 +26,8 @@ class NBEATSModel(DartsModel):
         self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
     ):
         params = {
-            "num_blocks": trial.suggest_int("num_blocks", 1, 4),
-            "num_stacks": trial.suggest_int("num_stacks", 2, 64),
+            "num_blocks": trial.suggest_int("num_blocks", 1, 2),
+            "num_stacks": trial.suggest_int("num_stacks", 2, 32),
             "num_layers": trial.suggest_int("num_layers", 1, 16),
             "layer_widths": trial.suggest_int("layer_widths", 128, 512),
             "expansion_coefficient_dim": trial.suggest_int(
@@ -38,9 +38,4 @@ class NBEATSModel(DartsModel):
             ),
         }
 
-
-        self._init_model(**params)
-        self.fit(train_data)
-        _, res, _ = self.get_scores(test_data)
-
-        return np.sum(res**2)
+        return self._get_hyperopt_res(params, train_data, test_data)
