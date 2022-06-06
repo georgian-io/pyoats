@@ -146,10 +146,14 @@ class DartsModel(Model):
         n_steps = trial.suggest_int("s", 1, 20)
 
         val_split = max(self.val_split_mem, (window + n_steps) / len(train_data) + 0.01)
+        
+        try:
+            m = self.__class__(window, n_steps, self.use_gpu, val_split)
+            m.fit(train_data)
+        except RunTimeError:
+            return 1e4
 
-        cls = self.__class__(window, n_steps, self.use_gpu, val_split)
-        cls.fit(train_data)
-        _, res, _ = cls.get_scores(test_data)
+        _, res, _ = m.get_scores(test_data)
 
         return np.sum(res**2)
 
@@ -209,9 +213,14 @@ class DartsModel(Model):
         return series.pd_series().to_numpy().astype(np.float32)
 
     def _get_hyperopt_res(self, params: dict, train_data, test_data):
-        cls = self.__class__(self.window, self.n_steps, self.use_gpu, self.val_split)
-        cls._init_model(**params)
-        cls.fit(train_data)
+        try:
+            m = self.__class__(self.window, self.n_steps, self.use_gpu, self.val_split)
+            m._init_model(**params)
+            m.fit(train_data)
+
+        except RunTimeError:
+            return 1e4
+
         _, res, _ = cls.get_scores(test_data)
 
         return np.sum(res**2)
