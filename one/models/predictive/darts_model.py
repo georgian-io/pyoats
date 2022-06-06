@@ -150,7 +150,7 @@ class DartsModel(Model):
         try:
             m = self.__class__(window, n_steps, self.use_gpu, val_split)
             m.fit(train_data)
-        except RunTimeError:
+        except RuntimeError:
             return 1e4
 
         _, res, _ = m.get_scores(test_data)
@@ -218,7 +218,7 @@ class DartsModel(Model):
             m._init_model(**params)
             m.fit(train_data)
 
-        except RunTimeError:
+        except RuntimeError:
             return 1e4
 
         _, res, _ = cls.get_scores(test_data)
