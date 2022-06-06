@@ -16,6 +16,7 @@ scipy = "^1.8.1"
 plotly = "^5.8.0"
 statsmodels = "^0.13.2"
 optuna = "^2.10.0"
+pyod = "^1.0.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"

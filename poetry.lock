@@ -1657,6 +1657,24 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "pyod"
+version = "1.0.1"
+description = "A Comprehensive and Scalable Python Library for Outlier Detection (Anomaly Detection)"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+joblib = "*"
+matplotlib = "*"
+numba = ">=0.51"
+numpy = ">=1.19"
+scikit_learn = ">=0.20.0"
+scipy = ">=1.5.1"
+six = "*"
+statsmodels = "*"
+
+[[package]]
 name = "pyparsing"
 version = "3.0.9"
 description = "pyparsing module - Classes and methods to define and execute parsing grammars"
@@ -2397,7 +2415,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.11"
-content-hash = "a783356e178652a7e9d1f2c13f27899ac91d4a9a09fc9fdf46b00b1815884cee"
+content-hash = "174c079735a291ae88cbb70a91e5f210d4d4f75d87617d15813456ae5ee8012d"
 
 [metadata.files]
 absl-py = [
@@ -3671,6 +3689,9 @@ pygments = [
 ]
 pymeeus = [
     {file = "PyMeeus-0.5.11.tar.gz", hash = "sha256:bb9d670818d8b0594317b48a7dadea02a0594e5344263bf2054e1a011c8fed55"},
+]
+pyod = [
+    {file = "pyod-1.0.1.tar.gz", hash = "sha256:c1659f7f55eba5bafd25cb28b469084fd5394e241af7eecf655c704cae36f0c7"},
 ]
 pyparsing = [
     {file = "pyparsing-3.0.9-py3-none-any.whl", hash = "sha256:5026bae9a10eeaefb61dab2f09052b9f4307d44aee4eda64b309723d8d206bbc"},
