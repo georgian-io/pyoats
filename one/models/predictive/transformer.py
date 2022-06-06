@@ -26,11 +26,16 @@ class TransformerModel(DartsModel):
         self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
     ):
         params = {
-            "d_model": trial.suggest_int("d_model", 32, 256, 8),
             "nhead": trial.suggest_int("nhead", 2, 8, 2),
-            "num_encoder_layers": trial.suggest_int("num_encoder_layers", 2, 6, 2),
-            "num_decoder_layers": trial.suggest_int("num_decoder_layers", 2, 6, 2),
             "dim_feedforward": trial.suggest_int("dim_feedforward", 256, 1024, 8),
+            "num_encoder_layers": trial.suggest_int("num_encoder_layers", 2, 16, 2),
+            "num_decoder_layers": trial.suggest_int("num_decoder_layers", 2, 16, 2),
         }
+        
+        embed_dim = {
+            "d_model": trial.suggest_int("d_model", 32, 256, params["nhead"]),
+        }
+
+        params.update(embed_dim)
 
         return self._get_hyperopt_res(params, train_data, test_data)

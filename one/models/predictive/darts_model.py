@@ -221,6 +221,6 @@ class DartsModel(Model):
         except RuntimeError:
             return 1e4
 
-        _, res, _ = cls.get_scores(test_data)
+        _, res, _ = m.get_scores(test_data)
 
         return np.sum(res**2)
