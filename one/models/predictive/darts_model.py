@@ -205,7 +205,7 @@ class DartsModel(Model):
         arr_len = len(series)
         split_at = int(arr_len * (1 - pct_val))
 
-        return series[:split_at], series[split_at:]
+        return series[:split_at], series[split_at - self.window :]
 
     def _scale_series(self, series: npt.NDArray[Any]):
         series = TimeSeries.from_values(series)

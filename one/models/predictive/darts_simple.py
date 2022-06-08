@@ -175,7 +175,7 @@ class SimpleDartsModel(Model):
         arr_len = len(series)
         split_at = int(arr_len * (1 - pct_val))
 
-        return series[:split_at], series[split_at:]
+        return series[:split_at], series[split_at - self.window :]
 
     def _get_hyperopt_res(self, params: dict, train_data, test_data):
         try:
