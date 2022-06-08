@@ -34,7 +34,7 @@ class DartsModel(Model):
         self.model_cls = model_cls
 
         # TODO: maybe seperate these into another class? fine for now...
-        self.transformer = Scaler()
+        self.transformer = None
 
         self.params = None
 
@@ -146,7 +146,7 @@ class DartsModel(Model):
         n_steps = trial.suggest_int("s", 1, 20)
 
         val_split = max(self.val_split_mem, (window + n_steps) / len(train_data) + 0.01)
-        
+
         try:
             m = self.__class__(window, n_steps, self.use_gpu, val_split)
             m.fit(train_data)
@@ -208,7 +208,12 @@ class DartsModel(Model):
 
     def _scale_series(self, series: npt.NDArray[Any]):
         series = TimeSeries.from_values(series)
-        series = self.transformer.fit_transform(series)
+
+        if self.transformer is None:
+            self.transformer = Scaler()
+            self.transformer.fit(series)
+
+        series = self.transformer.transform(series)
 
         return series.pd_series().to_numpy().astype(np.float32)
 

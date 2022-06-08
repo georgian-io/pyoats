@@ -22,7 +22,7 @@ class SimpleDartsModel(Model):
 
         self.model_cls = model_cls
         self.model = model_cls(self.lags)
-        self.transformer = Scaler()
+        self.transformer = None
         self.params = None
 
     @property
@@ -44,7 +44,7 @@ class SimpleDartsModel(Model):
         train_data: npt.NDArray[Any],
         test_data: npt.NDArray[Any],
         n_trials: int = 30,
-        n_jobs: int = -1
+        n_jobs: int = -1,
     ):
         # TODO: we can probably merge this with the hyperparam tuning method for window size
 
@@ -67,7 +67,7 @@ class SimpleDartsModel(Model):
         train_data: npt.NDArray[any],
         test_data: npt.NDArray[any],
         n_trials: int = 30,
-        n_jobs: int = -1
+        n_jobs: int = -1,
     ):
         obj = partial(
             self._ws_objective,
@@ -152,6 +152,11 @@ class SimpleDartsModel(Model):
 
     def _scale_series(self, series: npt.NDArray[Any]):
         series = TimeSeries.from_values(series)
-        series = self.transformer.fit_transform(series)
+
+        if self.transformer is None:
+            self.transformer = Scaler()
+            self.transformer.fit(series)
+
+        series = self.transformer.transform(series)
 
         return series.pd_series().to_numpy().astype(np.float32)

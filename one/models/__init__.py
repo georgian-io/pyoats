@@ -1,5 +1,7 @@
-# Predictive Models
+# Baseline Models
+from one.models.baseline.iforest import IsolationForestModel
 
+# Predictive Models
 from one.models.predictive.lightgbm import LightGBMModel
 from one.models.predictive.nbeats import NBEATSModel
 from one.models.predictive.nhits import NHiTSModel
