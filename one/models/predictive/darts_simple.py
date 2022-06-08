@@ -15,10 +15,12 @@ from one.models.base import Model
 
 
 class SimpleDartsModel(Model):
-    def __init__(self, model_cls, window: int, n_steps: int, lags: int):
+    def __init__(self, model_cls, window: int, n_steps: int, lags: int, val_split=0.2):
         self.window = window
         self.n_steps = n_steps
         self.lags = lags
+        self.val_split = val_split
+        self.val_split_mem = val_split
 
         self.model_cls = model_cls
         self.model = model_cls(self.lags)
@@ -44,7 +46,7 @@ class SimpleDartsModel(Model):
         train_data: npt.NDArray[Any],
         test_data: npt.NDArray[Any],
         n_trials: int = 30,
-        n_jobs: int = -1
+        n_jobs: int = -1,
     ):
         # TODO: we can probably merge this with the hyperparam tuning method for window size
 
@@ -67,7 +69,7 @@ class SimpleDartsModel(Model):
         train_data: npt.NDArray[any],
         test_data: npt.NDArray[any],
         n_trials: int = 30,
-        n_jobs: int = -1
+        n_jobs: int = -1,
     ):
         obj = partial(
             self._ws_objective,
@@ -86,6 +88,10 @@ class SimpleDartsModel(Model):
         self.n_steps = s
         self.lags = l
 
+        self.val_split = max(
+            self.val_split_mem, (self.window + self.n_steps) / len(train_data) + 0.01
+        )
+
         self.model = self.model_cls(l)
 
     def _ws_objective(
@@ -100,10 +106,16 @@ class SimpleDartsModel(Model):
         n_steps = trial.suggest_int("s", 1, 20)
         lags = trial.suggest_int("l", 1, 20 - 1)
 
-        cls = self.__class__(window, n_steps, lags)
+        val_split = max(
+            self.val_split_mem, (self.window + self.n_steps) / len(train_data) + 0.01
+        )
+
+        cls = self.__class__(window, n_steps, lags, val_split)
         cls.model = cls.model_cls(lags)
         cls.fit(train_data)
-        _, res, _ = cls.get_scores(test_data)
+
+        tr, val = self._get_train_val_split(train_data, self.val_split)
+        _, res, _ = cls.get_scores(val)
 
         return np.sum(res**2)
 
@@ -112,7 +124,8 @@ class SimpleDartsModel(Model):
             print("Unspecified hyperparameters, please run hyperopt_ws()")
             return
 
-        tr = self._scale_series(train_data)
+        train_data = self._scale_series(train_data)
+        tr, val = self._get_train_val_split(train_data, self.val_split)
 
         self.model.fit(TimeSeries.from_values(tr))
 
@@ -155,3 +168,25 @@ class SimpleDartsModel(Model):
         series = self.transformer.fit_transform(series)
 
         return series.pd_series().to_numpy().astype(np.float32)
+
+    def _get_train_val_split(
+        self, series: npt.NDArray[Any], pct_val: float
+    ) -> Tuple[npt.NDArray[Any], npt.NDArray[Any]]:
+        arr_len = len(series)
+        split_at = int(arr_len * (1 - pct_val))
+
+        return series[:split_at], series[split_at:]
+
+    def _get_hyperopt_res(self, params: dict, train_data, test_data):
+        try:
+            m = self.__class__(
+                self.window, self.n_steps, self.lags, self.val_split, **params
+            )
+            m.fit(train_data)
+
+        except RuntimeError:
+            return 1e4
+
+        _, val = self._get_train_val_split(train_data, self.val_split)
+        _, res, _ = m.get_scores(val)
+        return np.sum(res**2)

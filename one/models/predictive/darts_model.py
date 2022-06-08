@@ -20,7 +20,7 @@ class DartsModel(Model):
         window: int,
         n_steps: int,
         use_gpu: bool,
-        val_split: float = 0.05,
+        val_split: float = 0.2,
         rnn_model: str = None,
     ):
 
@@ -146,14 +146,15 @@ class DartsModel(Model):
         n_steps = trial.suggest_int("s", 1, 20)
 
         val_split = max(self.val_split_mem, (window + n_steps) / len(train_data) + 0.01)
-        
+
         try:
             m = self.__class__(window, n_steps, self.use_gpu, val_split)
             m.fit(train_data)
         except RuntimeError:
             return 1e4
 
-        _, res, _ = m.get_scores(test_data)
+        _, val = self._get_train_val_split(train_data, self.val_split)
+        _, res, _ = m.get_scores(val)
 
         return np.sum(res**2)
 
@@ -221,6 +222,6 @@ class DartsModel(Model):
         except RuntimeError:
             return 1e4
 
-        _, res, _ = m.get_scores(test_data)
-
+        _, val = self._get_train_val_split(train_data, self.val_split)
+        _, res, _ = m.get_scores(val)
         return np.sum(res**2)

@@ -16,7 +16,7 @@ class TransformerModel(DartsModel):
         window: int = 10,
         n_steps: int = 1,
         use_gpu: bool = False,
-        val_split: float = 0.05,
+        val_split: float = 0.2,
     ):
 
         model = models.TransformerModel
@@ -26,16 +26,17 @@ class TransformerModel(DartsModel):
         self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
     ):
         params = {
-            "nhead": trial.suggest_int("nhead", 2, 8, 2),
-       }
-        
+            # "nhead": trial.suggest_int("nhead", 2, 8, 2),
+        }
+
         dep_params = {
-            "dim_feedforward": trial.suggest_int("dim_feedforward", 256, 1024, params["nhead"]),
-            "num_encoder_layers": trial.suggest_int("num_encoder_layers", 2, 16, params["nhead"]),
-            "num_decoder_layers": trial.suggest_int("num_decoder_layers", 2, 16, params["nhead"]),
+            "dim_feedforward": trial.suggest_int("dim_feedforward", 256, 1024),
+            "num_encoder_layers": trial.suggest_int("num_encoder_layers", 2),
+            "num_decoder_layers": trial.suggest_int("num_decoder_layers", 2),
             "d_model": trial.suggest_int("d_model", 32, 256, params["nhead"]),
         }
 
         params.update(dep_params)
 
-        return self._get_hyperopt_res(params, train_data, test_data)
+        # TODO: figure out why this isn't working
+        return

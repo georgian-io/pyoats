@@ -15,7 +15,7 @@ class NBEATSModel(DartsModel):
         window: int = 10,
         n_steps: int = 1,
         use_gpu: bool = False,
-        val_split: float = 0.05,
+        val_split: float = 0.2,
     ):
 
         model = models.NBEATSModel
