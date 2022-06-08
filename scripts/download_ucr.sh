@@ -8,13 +8,14 @@ DATA_PATH="/AnomalyDatasets_2021/UCR_TimeSeriesAnomalyDatasets2021/FilesAreInHer
 
 TARGET_PATH="./data/ucr"
 
-cd ..
+
+mkdir -p "$TARGET_PATH"
 
 # mkdir
 if [ ! -d "$TEMP_PATH" ]
     then
         echo making temp directory...
-        mkdir "$TEMP_NAME"
+        mkdir -p "$TEMP_NAME"
 fi
 
 # download file

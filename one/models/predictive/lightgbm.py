@@ -17,7 +17,7 @@ class LightGBMModel(SimpleDartsModel):
         super().__init__(model_cls, window, n_steps, lags)
 
     def _model_objective(
-        self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
+        self, trial, train_data: npt.NDArray[Any]
     ):
         params = {
             "lambda_l1": trial.suggest_loguniform("lambda_l1", 1e-8, 10.0),
@@ -29,4 +29,4 @@ class LightGBMModel(SimpleDartsModel):
             "min_child_samples": trial.suggest_int("min_child_samples", 5, 100),
         }
 
-        return self._get_hyperopt_res(params, train_data, test_data)
+        return self._get_hyperopt_res(params, train_data)

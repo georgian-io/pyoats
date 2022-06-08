@@ -20,7 +20,7 @@ class RandomForestModel(SimpleDartsModel):
         super().__init__(model, window, n_steps, lags, val_split)
 
     def _model_objective(
-        self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
+        self, trial, train_data: npt.NDArray[Any]
     ):
         params = {
             "n_estimators": trial.suggest_int("n_estimators", 30, 1000),
@@ -31,4 +31,4 @@ class RandomForestModel(SimpleDartsModel):
             # "ccp_alpha": trial.suggest_float("ccp_alpha", 0.0, 2e-2)
         }
 
-        return self._get_hyperopt_res(params, train_data, test_data)
+        return self._get_hyperopt_res(params, train_data)

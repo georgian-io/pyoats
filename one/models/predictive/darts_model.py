@@ -89,7 +89,6 @@ class DartsModel(Model):
     def hyperopt_model(
         self,
         train_data: npt.NDArray[Any],
-        test_data: npt.NDArray[Any],
         n_trials: int = 30,
         n_jobs: int = 1,
     ):
@@ -98,7 +97,6 @@ class DartsModel(Model):
         obj = partial(
             self._model_objective,
             train_data=train_data,
-            test_data=test_data,
         )
 
         study = optuna.create_study()
@@ -110,14 +108,12 @@ class DartsModel(Model):
     def hyperopt_ws(
         self,
         train_data: npt.NDArray[any],
-        test_data: npt.NDArray[any],
         n_trials: int = 30,
         n_jobs: int = 1,
     ):
         obj = partial(
             self._ws_objective,
             train_data=train_data,
-            test_data=test_data,
         )
 
         study = optuna.create_study()
@@ -138,9 +134,8 @@ class DartsModel(Model):
         self,
         trial,
         train_data: npt.NDArray[any],
-        test_data: npt.NDArray[any],
     ):
-        w_high = int(0.25 * len(train_data))
+        w_high = max(int(0.25 * len(train_data)), int(len(train_data) * self.val_split * 0.5))
 
         window = trial.suggest_int("w", 20, w_high, 5)
         n_steps = trial.suggest_int("s", 1, 20)
@@ -213,7 +208,7 @@ class DartsModel(Model):
 
         return series.pd_series().to_numpy().astype(np.float32)
 
-    def _get_hyperopt_res(self, params: dict, train_data, test_data):
+    def _get_hyperopt_res(self, params: dict, train_data):
         try:
             m = self.__class__(self.window, self.n_steps, self.use_gpu, self.val_split)
             m._init_model(**params)

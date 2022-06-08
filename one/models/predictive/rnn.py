@@ -26,7 +26,7 @@ class RNNModel(DartsModel):
         )
 
     def _model_objective(
-        self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
+        self, trial, train_data: npt.NDArray[Any]
     ):
         params = {
             "hidden_dim": trial.suggest_int("hidden_dim", 10, 256),
@@ -37,4 +37,4 @@ class RNNModel(DartsModel):
             ),
         }
 
-        return self._get_hyperopt_res(params, train_data, test_data)
+        return self._get_hyperopt_res(params, train_data)

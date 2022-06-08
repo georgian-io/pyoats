@@ -44,7 +44,6 @@ class SimpleDartsModel(Model):
     def hyperopt_model(
         self,
         train_data: npt.NDArray[Any],
-        test_data: npt.NDArray[Any],
         n_trials: int = 30,
         n_jobs: int = -1,
     ):
@@ -54,7 +53,6 @@ class SimpleDartsModel(Model):
         obj = partial(
             self._model_objective,
             train_data=train_data,
-            test_data=test_data,
         )
 
         study = optuna.create_study()
@@ -67,14 +65,12 @@ class SimpleDartsModel(Model):
     def hyperopt_ws(
         self,
         train_data: npt.NDArray[any],
-        test_data: npt.NDArray[any],
         n_trials: int = 30,
         n_jobs: int = -1,
     ):
         obj = partial(
             self._ws_objective,
             train_data=train_data,
-            test_data=test_data,
         )
 
         study = optuna.create_study()
@@ -98,9 +94,8 @@ class SimpleDartsModel(Model):
         self,
         trial,
         train_data: npt.NDArray[any],
-        test_data: npt.NDArray[any],
     ):
-        w_high = int(0.25 * len(train_data))
+        w_high = max(int(0.25 * len(train_data)), int(len(train_data) * self.val_split * 0.5))
 
         window = trial.suggest_int("w", 20, w_high, 5)
         n_steps = trial.suggest_int("s", 1, 20)
@@ -114,7 +109,7 @@ class SimpleDartsModel(Model):
         cls.model = cls.model_cls(lags)
         cls.fit(train_data)
 
-        tr, val = self._get_train_val_split(train_data, self.val_split)
+        tr, val = cls._get_train_val_split(train_data, val_split)
         _, res, _ = cls.get_scores(val)
 
         return np.sum(res**2)
@@ -131,6 +126,7 @@ class SimpleDartsModel(Model):
 
     def get_scores(self, test_data: npt.NDArray[Any]) -> Tuple[npt.NDArray[Any]]:
         # TODO: if makes sense, have a base class for this and DartsModel...
+
 
         test_data = self._scale_series(test_data)
 
@@ -177,11 +173,16 @@ class SimpleDartsModel(Model):
 
         return series[:split_at], series[split_at - self.window :]
 
-    def _get_hyperopt_res(self, params: dict, train_data, test_data):
+    def _get_hyperopt_res(self, params: dict, train_data):
         try:
             m = self.__class__(
-                self.window, self.n_steps, self.lags, self.val_split, **params
+                self.window, self.n_steps, self.lags, self.val_split
             )
+            m.model = m.model_cls(
+                    self.lags,
+                    **params
+                    )
+
             m.fit(train_data)
 
         except RuntimeError:
