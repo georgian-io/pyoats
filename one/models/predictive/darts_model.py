@@ -151,7 +151,11 @@ class DartsModel(Model):
             return 1e4
 
         _, val = self._get_train_val_split(train_data, self.val_split)
-        _, res, _ = m.get_scores(val)
+
+        try:
+            _, res, _ = m.get_scores(val)
+        except ValueError:
+            return 1e4
 
         return np.sum(res**2)
 

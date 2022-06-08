@@ -112,7 +112,11 @@ class SimpleDartsModel(Model):
         cls.fit(train_data)
 
         tr, val = cls._get_train_val_split(train_data, val_split)
-        _, res, _ = cls.get_scores(val)
+
+        try:
+            _, res, _ = cls.get_scores(val)
+        except ValueError:
+            return 1e4
 
         return np.sum(res**2)
 
