@@ -22,9 +22,7 @@ class NBEATSModel(DartsModel):
 
         super().__init__(model, window, n_steps, use_gpu, val_split)
 
-    def _model_objective(
-        self, trial, train_data: npt.NDArray[Any]
-    ):
+    def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {
             "num_blocks": trial.suggest_int("num_blocks", 1, 2),
             "num_stacks": trial.suggest_int("num_stacks", 2, 32),

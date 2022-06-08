@@ -25,9 +25,7 @@ class RNNModel(DartsModel):
             model_cls, window, n_steps, use_gpu, val_split, rnn_model=rnn_model
         )
 
-    def _model_objective(
-        self, trial, train_data: npt.NDArray[Any]
-    ):
+    def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {
             "hidden_dim": trial.suggest_int("hidden_dim", 10, 256),
             "n_rnn_layers": trial.suggest_int("n_rnn_layers", 1, 64),

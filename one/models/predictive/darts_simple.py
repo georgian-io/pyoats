@@ -95,7 +95,9 @@ class SimpleDartsModel(Model):
         trial,
         train_data: npt.NDArray[any],
     ):
-        w_high = max(int(0.25 * len(train_data)), int(len(train_data) * self.val_split * 0.5))
+        w_high = max(
+            int(0.25 * len(train_data)), int(len(train_data) * self.val_split * 0.5)
+        )
 
         window = trial.suggest_int("w", 20, w_high, 5)
         n_steps = trial.suggest_int("s", 1, 20)
@@ -126,7 +128,6 @@ class SimpleDartsModel(Model):
 
     def get_scores(self, test_data: npt.NDArray[Any]) -> Tuple[npt.NDArray[Any]]:
         # TODO: if makes sense, have a base class for this and DartsModel...
-
 
         test_data = self._scale_series(test_data)
 
@@ -175,13 +176,8 @@ class SimpleDartsModel(Model):
 
     def _get_hyperopt_res(self, params: dict, train_data):
         try:
-            m = self.__class__(
-                self.window, self.n_steps, self.lags, self.val_split
-            )
-            m.model = m.model_cls(
-                    self.lags,
-                    **params
-                    )
+            m = self.__class__(self.window, self.n_steps, self.lags, self.val_split)
+            m.model = m.model_cls(self.lags, **params)
 
             m.fit(train_data)
 

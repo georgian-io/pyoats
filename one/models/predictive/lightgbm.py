@@ -10,15 +10,15 @@ from one.models.predictive.darts_simple import SimpleDartsModel
 
 
 class LightGBMModel(SimpleDartsModel):
-    def __init__(self, window: int = 10, n_steps: int = 1, lags: int = 1):
+    def __init__(
+        self, window: int = 10, n_steps: int = 1, lags: int = 1, val_split: float = 0.2
+    ):
 
         model_cls = models.LightGBMModel
 
-        super().__init__(model_cls, window, n_steps, lags)
+        super().__init__(model_cls, window, n_steps, lags, val_split)
 
-    def _model_objective(
-        self, trial, train_data: npt.NDArray[Any]
-    ):
+    def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {
             "lambda_l1": trial.suggest_loguniform("lambda_l1", 1e-8, 10.0),
             "lambda_l2": trial.suggest_loguniform("lambda_l2", 1e-8, 10.0),

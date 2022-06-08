@@ -22,9 +22,7 @@ class TransformerModel(DartsModel):
         model = models.TransformerModel
         super().__init__(model, window, n_steps, use_gpu, val_split)
 
-    def _model_objective(
-        self, trial, train_data: npt.NDArray[Any]
-    ):
+    def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {
             # "nhead": trial.suggest_int("nhead", 2, 8, 2),
         }

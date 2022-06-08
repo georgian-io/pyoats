@@ -22,9 +22,7 @@ class TFTModel(DartsModel):
 
         super().__init__(model, window, n_steps, use_gpu, val_split)
 
-    def _model_objective(
-        self, trial, train_data: npt.NDArray[Any]
-    ):
+    def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {
             "add_relative_index": trial.suggest_categorical(
                 "add_relative_idex", [True]

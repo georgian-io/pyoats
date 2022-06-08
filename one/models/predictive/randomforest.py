@@ -19,9 +19,7 @@ class RandomForestModel(SimpleDartsModel):
 
         super().__init__(model, window, n_steps, lags, val_split)
 
-    def _model_objective(
-        self, trial, train_data: npt.NDArray[Any]
-    ):
+    def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {
             "n_estimators": trial.suggest_int("n_estimators", 30, 1000),
             "max_features": trial.suggest_categorical(
