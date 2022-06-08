@@ -25,12 +25,12 @@ def run_model(m, data, fdir, n_jobs, n_wl, n_hyp):
     test_data, test_label = data.test
 
     print("Tuning window and step sizes")
-    m.hyperopt_ws(train_data, test_data, n_wl, n_jobs)
+    m.hyperopt_ws(train_data, n_wl, n_jobs)
 
     model_test_data, model_test_label = data.get_test_with_window(m.window)
 
     print("Tuning model hyperparameters")
-    m.hyperopt_model(train_data, model_test_data, n_hyp, n_jobs)
+    m.hyperopt_model(train_data, n_hyp, n_jobs)
     m.fit(train_data)
 
     print("Generating predictions and scores")

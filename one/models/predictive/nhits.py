@@ -15,16 +15,14 @@ class NHiTSModel(DartsModel):
         window: int = 10,
         n_steps: int = 1,
         use_gpu: bool = False,
-        val_split: float = 0.05,
+        val_split: float = 0.2,
     ):
 
         model_cls = models.NHiTS
 
         super().__init__(model_cls, window, n_steps, use_gpu, val_split)
 
-    def _model_objective(
-        self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
-    ):
+    def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {
             "num_stacks": trial.suggest_int("num_stacks", 1, 5),
             "num_blocks": trial.suggest_int("num_blocks", 1, 3),
@@ -35,5 +33,5 @@ class NHiTSModel(DartsModel):
             ),
         }
 
-        # return self._get_hyperopt_res(params, train_data, test_data)
+        # return self._get_hyperopt_res(params, train_data)
         return
