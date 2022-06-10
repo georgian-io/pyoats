@@ -23,6 +23,7 @@ class NHiTSModel(DartsModel):
         super().__init__(model_cls, window, n_steps, use_gpu, val_split)
 
     def _model_objective(self, trial, train_data: npt.NDArray[Any]):
+        """
         params = {
             "num_stacks": trial.suggest_int("num_stacks", 1, 5),
             "num_blocks": trial.suggest_int("num_blocks", 1, 3),
@@ -32,6 +33,7 @@ class NHiTSModel(DartsModel):
                 "batch_size", 1, (len(train_data) - self.window) // self.n_steps // 4
             ),
         }
+        """
 
         # return self._get_hyperopt_res(params, train_data)
-        return
+        return 0

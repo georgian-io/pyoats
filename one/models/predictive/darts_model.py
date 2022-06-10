@@ -135,7 +135,7 @@ class DartsModel(Model):
         trial,
         train_data: npt.NDArray[any],
     ):
-        w_high = max(
+        w_high = min(
             int(0.25 * len(train_data)), int(len(train_data) * self.val_split * 0.5)
         )
 
@@ -151,7 +151,11 @@ class DartsModel(Model):
             return 1e4
 
         _, val = self._get_train_val_split(train_data, self.val_split)
-        _, res, _ = m.get_scores(val)
+
+        try:
+            _, res, _ = m.get_scores(val)
+        except ValueError:
+            return 1e4
 
         return np.sum(res**2)
 

@@ -103,7 +103,7 @@ class SimpleDartsModel(Model):
         n_steps = trial.suggest_int("s", 1, 20)
         lags = trial.suggest_int("l", 1, 20 - 1)
 
-        val_split = max(
+        val_split = min(
             self.val_split_mem, (self.window + self.n_steps) / len(train_data) + 0.01
         )
 
@@ -112,7 +112,11 @@ class SimpleDartsModel(Model):
         cls.fit(train_data)
 
         tr, val = cls._get_train_val_split(train_data, val_split)
-        _, res, _ = cls.get_scores(val)
+
+        try:
+            _, res, _ = cls.get_scores(val)
+        except ValueError:
+            return 1e4
 
         return np.sum(res**2)
 
