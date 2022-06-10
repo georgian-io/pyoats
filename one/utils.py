@@ -1,5 +1,5 @@
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, isdir
 from typing import Any
 
 import numpy as np
@@ -12,6 +12,10 @@ from one.constants import *
 
 def get_files_from_path(path: str):
     return sorted([f for f in listdir(path) if isfile(join(path, f))])
+
+def get_dirs_from_path(path: str):
+    return sorted([f for f in listdir(path) if isdir(join(path, f))])
+
 
 
 def array_safe_eq(a, b) -> bool:

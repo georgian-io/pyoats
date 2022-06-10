@@ -13,6 +13,7 @@ SAVE_DIR = "./results/"
 SIMPLE_MODELS = ["lgbm", "randomforest", "regression"]
 DL_MODELS = ["nbeats", "nhits", "tcn", "tft", "transformer"]
 RNN_MODELS = ["rnn", "lstm", "gru"]
+BASELINE_MODELS = ["iforest"]
 
 FILES = get_files_from_path(ROOT_DIR)
 
@@ -64,6 +65,8 @@ def get_models(m: List[str], choices: dict, if_gpu: bool, split: float) -> list:
             models.append(model_cls(use_gpu=if_gpu, val_split=split))
         if model in RNN_MODELS:
             models.append(model_cls(use_gpu=if_gpu, rnn_model=model.upper(), val_split=split))
+        if model in BASELINE_MODELS:
+            models.append(model_cls())
 
     return models
 
@@ -133,6 +136,7 @@ if __name__ == "__main__":
         "rnn": RNNModel,
         "lstm": RNNModel,
         "gru": RNNModel,
+        "iforest": IsolationForestModel,
     }
 
     parser.add_argument(
@@ -141,7 +145,7 @@ if __name__ == "__main__":
         metavar="M",
         choices=model_choices.keys(),
         nargs="+",
-        help="One of: lgbm, randomforest, regression, nbeats, nhits, tcn, tft, transformer, rnn, lstm, gru",
+        help="One of: lgbm, randomforest, regression, nbeats, nhits, tcn, tft, transformer, rnn, lstm, gru, iforest",
     )
 
     parser.add_argument(
