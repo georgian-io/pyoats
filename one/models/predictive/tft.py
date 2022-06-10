@@ -6,7 +6,7 @@ import numpy as np
 import numpy.typing as npt
 import optuna
 
-from one.models.predictive.darts_model import DartsModel
+from one.models.darts_model import DartsModel
 
 
 class TFTModel(DartsModel):

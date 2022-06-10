@@ -2,7 +2,7 @@ from tods.sk_interface.detection_algorithm.IsolationForest_skinterface import (
     IsolationForestSKI,
 )
 
-from one.models.baseline.tods_model import TODSModel
+from one.models.tods_model import TODSModel
 
 
 class IsolationForestModel(TODSModel):

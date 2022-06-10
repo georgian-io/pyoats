@@ -1,6 +1,6 @@
 from darts import models
 
-from one.models.predictive.darts_simple import SimpleDartsModel
+from one.models.darts_simple import SimpleDartsModel
 
 
 class RegressionModel(SimpleDartsModel):

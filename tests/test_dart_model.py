@@ -3,7 +3,7 @@ from unittest import mock
 import pytest
 import numpy as np
 
-from one.models.predictive.darts_model import DartsModel
+from one.models.darts_model import DartsModel
 
 
 

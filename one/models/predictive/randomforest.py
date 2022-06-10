@@ -7,7 +7,7 @@ import numpy.typing as npt
 import optuna
 
 
-from one.models.predictive.darts_simple import SimpleDartsModel
+from one.models.darts_simple import SimpleDartsModel
 
 
 class RandomForestModel(SimpleDartsModel):
