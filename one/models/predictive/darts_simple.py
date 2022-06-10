@@ -103,7 +103,7 @@ class SimpleDartsModel(Model):
         n_steps = trial.suggest_int("s", 1, 20)
         lags = trial.suggest_int("l", 1, 20 - 1)
 
-        val_split = max(
+        val_split = min(
             self.val_split_mem, (self.window + self.n_steps) / len(train_data) + 0.01
         )
 

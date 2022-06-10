@@ -135,7 +135,7 @@ class DartsModel(Model):
         trial,
         train_data: npt.NDArray[any],
     ):
-        w_high = max(
+        w_high = min(
             int(0.25 * len(train_data)), int(len(train_data) * self.val_split * 0.5)
         )
 

@@ -37,9 +37,6 @@ class TFTModel(DartsModel):
                 "full_attention", [True, False]
             ),
             "dropout": trial.suggest_float("dropout", 0.0, 0.3),
-            "batch_size": trial.suggest_int(
-                "batch_size", 1, (len(train_data) - self.window) // self.n_steps // 4
-            ),
-        }
+       }
 
         return self._get_hyperopt_res(params, train_data)

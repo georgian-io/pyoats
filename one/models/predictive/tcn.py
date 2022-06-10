@@ -31,9 +31,6 @@ class TCNModel(DartsModel):
             "weight_norm": trial.suggest_categorical("weight_norm", [True, False]),
             "dilation_base": trial.suggest_int("dilation_base", 1, 4),
             "dropout": trial.suggest_float("dropout", 0.0, 0.3),
-            "batch_size": trial.suggest_int(
-                "batch_size", 1, len(train_data) - self.window // self.n_steps // 4
-            ),
         }
 
         return self._get_hyperopt_res(params, train_data)
