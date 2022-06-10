@@ -15,16 +15,14 @@ class TCNModel(DartsModel):
         window: int = 10,
         n_steps: int = 1,
         use_gpu: bool = 1,
-        val_split: float = 0.05,
+        val_split: float = 0.2,
     ):
 
         model = models.TCNModel
 
         super().__init__(model, window, n_steps, use_gpu, val_split)
 
-    def _model_objective(
-        self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
-    ):
+    def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {
             "kernel_size": trial.suggest_int(
                 "kernel_size", 2, min(32, self.window - 1)
@@ -33,9 +31,6 @@ class TCNModel(DartsModel):
             "weight_norm": trial.suggest_categorical("weight_norm", [True, False]),
             "dilation_base": trial.suggest_int("dilation_base", 1, 4),
             "dropout": trial.suggest_float("dropout", 0.0, 0.3),
-            "batch_size": trial.suggest_int(
-                "batch_size", 1, len(train_data) - self.window // self.n_steps // 4
-            ),
         }
 
-        return self._get_hyperopt_res(params, train_data, test_data)
+        return self._get_hyperopt_res(params, train_data)

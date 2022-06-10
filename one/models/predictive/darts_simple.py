@@ -15,10 +15,12 @@ from one.models.base import Model
 
 
 class SimpleDartsModel(Model):
-    def __init__(self, model_cls, window: int, n_steps: int, lags: int):
+    def __init__(self, model_cls, window: int, n_steps: int, lags: int, val_split=0.2):
         self.window = window
         self.n_steps = n_steps
         self.lags = lags
+        self.val_split = val_split
+        self.val_split_mem = val_split
 
         self.model_cls = model_cls
         self.model = model_cls(self.lags)
@@ -42,7 +44,6 @@ class SimpleDartsModel(Model):
     def hyperopt_model(
         self,
         train_data: npt.NDArray[Any],
-        test_data: npt.NDArray[Any],
         n_trials: int = 30,
         n_jobs: int = -1,
     ):
@@ -52,7 +53,6 @@ class SimpleDartsModel(Model):
         obj = partial(
             self._model_objective,
             train_data=train_data,
-            test_data=test_data,
         )
 
         study = optuna.create_study()
@@ -65,14 +65,12 @@ class SimpleDartsModel(Model):
     def hyperopt_ws(
         self,
         train_data: npt.NDArray[any],
-        test_data: npt.NDArray[any],
         n_trials: int = 30,
         n_jobs: int = -1,
     ):
         obj = partial(
             self._ws_objective,
             train_data=train_data,
-            test_data=test_data,
         )
 
         study = optuna.create_study()
@@ -86,24 +84,39 @@ class SimpleDartsModel(Model):
         self.n_steps = s
         self.lags = l
 
+        self.val_split = max(
+            self.val_split_mem, (self.window + self.n_steps) / len(train_data) + 0.01
+        )
+
         self.model = self.model_cls(l)
 
     def _ws_objective(
         self,
         trial,
         train_data: npt.NDArray[any],
-        test_data: npt.NDArray[any],
     ):
-        w_high = int(0.25 * len(train_data))
+        w_high = max(
+            int(0.25 * len(train_data)), int(len(train_data) * self.val_split * 0.5)
+        )
 
         window = trial.suggest_int("w", 20, w_high, 5)
         n_steps = trial.suggest_int("s", 1, 20)
         lags = trial.suggest_int("l", 1, 20 - 1)
 
-        cls = self.__class__(window, n_steps, lags)
+        val_split = min(
+            self.val_split_mem, (self.window + self.n_steps) / len(train_data) + 0.01
+        )
+
+        cls = self.__class__(window, n_steps, lags, val_split)
         cls.model = cls.model_cls(lags)
         cls.fit(train_data)
-        _, res, _ = cls.get_scores(test_data)
+
+        tr, val = cls._get_train_val_split(train_data, val_split)
+
+        try:
+            _, res, _ = cls.get_scores(val)
+        except ValueError:
+            return 1e4
 
         return np.sum(res**2)
 
@@ -112,7 +125,8 @@ class SimpleDartsModel(Model):
             print("Unspecified hyperparameters, please run hyperopt_ws()")
             return
 
-        tr = self._scale_series(train_data)
+        train_data = self._scale_series(train_data)
+        tr, val = self._get_train_val_split(train_data, self.val_split)
 
         self.model.fit(TimeSeries.from_values(tr))
 
@@ -160,3 +174,25 @@ class SimpleDartsModel(Model):
         series = self.transformer.transform(series)
 
         return series.pd_series().to_numpy().astype(np.float32)
+
+    def _get_train_val_split(
+        self, series: npt.NDArray[Any], pct_val: float
+    ) -> Tuple[npt.NDArray[Any], npt.NDArray[Any]]:
+        arr_len = len(series)
+        split_at = int(arr_len * (1 - pct_val))
+
+        return series[:split_at], series[split_at - self.window :]
+
+    def _get_hyperopt_res(self, params: dict, train_data):
+        try:
+            m = self.__class__(self.window, self.n_steps, self.lags, self.val_split)
+            m.model = m.model_cls(self.lags, **params)
+
+            m.fit(train_data)
+
+        except RuntimeError:
+            return 1e4
+
+        _, val = self._get_train_val_split(train_data, self.val_split)
+        _, res, _ = m.get_scores(val)
+        return np.sum(res**2)

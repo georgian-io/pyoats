@@ -11,15 +11,15 @@ from one.models.predictive.darts_simple import SimpleDartsModel
 
 
 class RandomForestModel(SimpleDartsModel):
-    def __init__(self, window: int = 10, n_steps: int = 1, lags: int = 1):
+    def __init__(
+        self, window: int = 10, n_steps: int = 1, lags: int = 1, val_split: float = 0.2
+    ):
 
         model = models.RandomForest
 
-        super().__init__(model, window, n_steps, lags)
+        super().__init__(model, window, n_steps, lags, val_split)
 
-    def _model_objective(
-        self, trial, train_data: npt.NDArray[Any], test_data: npt.NDArray[Any]
-    ):
+    def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {
             "n_estimators": trial.suggest_int("n_estimators", 30, 1000),
             "max_features": trial.suggest_categorical(
@@ -29,9 +29,4 @@ class RandomForestModel(SimpleDartsModel):
             # "ccp_alpha": trial.suggest_float("ccp_alpha", 0.0, 2e-2)
         }
 
-        cls = self.__class__(self.window, self.n_steps, self.lags)
-        cls.model = cls.model_cls(self.lags, **params)
-        cls.fit(train_data)
-        _, res, _ = cls.get_scores(test_data)
-
-        return np.sum(res**2)
+        return self._get_hyperopt_res(params, train_data)
