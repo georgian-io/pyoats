@@ -26,7 +26,7 @@ class TODSModel(Model):
         r.update({"model_name": self.model_name})
         r.update({"window": self.window})
         r.update({"n_steps": self.n_steps})
- 
+
         return str(r)
 
     def fit(self, train_data: npt.NDArray[Any]):
@@ -44,7 +44,7 @@ class TODSModel(Model):
 
     def get_classification(self, test_data: npt.NDArray[Any]):
         if test_data.ndim == 1:
-                test_data = np.reshape(test_data, (-1, 1))
+            test_data = np.reshape(test_data, (-1, 1))
         return self.model.predict(test_data)
 
     def hyperopt_ws(self, *args, **kwargs):

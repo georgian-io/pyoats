@@ -3,7 +3,7 @@ import os
 import logging
 import argparse
 
-from one.utils import *
+from one.utils.utils import *
 from one.models import *
 from one.data.ucrdata import UcrDataReader
 

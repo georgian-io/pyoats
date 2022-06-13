@@ -10,7 +10,7 @@ from torch.cuda import device_count
 import optuna
 
 from one.models.base import Model
-from one.utils import get_default_early_stopping
+from one.utils.utils import get_default_early_stopping
 
 
 class DartsModel(Model):
@@ -171,7 +171,7 @@ class DartsModel(Model):
             num_loader_workers=1,
         )
 
-    def get_scores(self, test_data: npt.NDArray[Any]) -> Tuple[npt.NDArray[Any]]:
+    def get_scores(self, test_data: npt.NDArray[np.float32]) -> Tuple[npt.NDArray[np.float32]]:
         test_data = self._scale_series(test_data)
 
         windows = sliding_window_view(test_data, self.window)
