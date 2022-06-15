@@ -167,7 +167,7 @@ class DartsModel(Model):
         self.model.fit(
             TimeSeries.from_values(tr),
             val_series=TimeSeries.from_values(val),
-            epochs=100,
+            epochs=15,
             num_loader_workers=1,
         )
 
