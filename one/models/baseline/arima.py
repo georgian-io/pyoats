@@ -1,3 +1,5 @@
+import numpy as np
+
 from statsmodels.tsa.arima.model import ARIMA
 
 from one.models.base import Model
@@ -19,8 +21,8 @@ class ARIMAModel(Model):
             forecast = fit.forecast(1)
             scores[i] = forecast - data[i]
 
-            fit = fit.append(data[i], refit=False)
+            fit = fit.append([data[i]], refit=False)
 
-        return scores
+        return np.abs(scores)
 
 

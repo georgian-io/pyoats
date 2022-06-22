@@ -10,7 +10,7 @@ from one.models.base import Model
 
 
 class TODSModel(Model):
-    def __init__(self, model_cls, window: int, n_steps: int):
+    def __init__(self, model_cls, window: int = 10, n_steps: int = 1):
         self.window = window
         self.n_steps = n_steps
 
@@ -40,7 +40,7 @@ class TODSModel(Model):
             test_data = np.reshape(test_data, (-1, 1))
 
         # TODO: Either Fix this or the Experiment script!!
-        return self.model.predict_score(test_data), np.zeros(1), np.zeros(1)
+        return self.model.predict_score(test_data)
 
     def get_classification(self, test_data: npt.NDArray[Any]):
         if test_data.ndim == 1:

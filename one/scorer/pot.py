@@ -1,11 +1,11 @@
 import numpy as np
 
 def set_initial_threshold(contamination: float, scores) -> float:
-    return np.percentile(scores, contamination * 100, method="inverted_cdf")
+    return np.percentile(scores, contamination * 100, method="closest_observation")
 
 def get_peak_set(t: float, scores):
     x = scores.copy()
-    x = x[x > t]
+    x = x[x >= t]
     return x - t
 
 def get_gpd_param(peak_set):
@@ -25,7 +25,6 @@ def pot(scores, q, contamination = 0.98):
     n = len(scores)
     sigma, gamma = get_gpd_param(y)
 
-    git q=study.best_params['q'], 
     new_threshold = t + sigma/gamma * ((q*n/n_y)**(-gamma) - 1)
-    return new_threshold`
+    return new_threshold
 

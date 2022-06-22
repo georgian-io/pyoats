@@ -43,13 +43,13 @@ class UnivariateDataGenerator:
     BEHAVIOR_CONFIG = {'freq': 0.04, 'coef': 1.5, "offset": 0.0, 'noise_amp': 0.05}
     def __init__(self, stream_length, train_ratio = 0.2, behavior=sine, behavior_config=BEHAVIOR_CONFIG):
         self.STREAM_LENGTH = stream_length
+        self.train_ratio = train_ratio
         self.split = int(self.STREAM_LENGTH * self.train_ratio)
 
-        self.train_ratio = train_ratio
         self.behavior = behavior
         self.behavior_config = behavior_config if behavior_config is not None else {}
 
-        self.train_data = None
+        self.train = None
         self.data = None
         self.label = None
 
@@ -63,8 +63,8 @@ class UnivariateDataGenerator:
         self.data = self.behavior(**self.behavior_config)
 
 
-        self.train = self.data[:split]
-        self.test = self.data[split:]
+        self.train = self.data[:self.split]
+        self.test = self.data[self.split:]
 
         self.TEST_LENGTH = len(self.test)
 
@@ -87,7 +87,7 @@ class UnivariateDataGenerator:
             self.test[i] = self.test_orig[i] * factor * local_std
             if 0 <= self.test[i] < maximum: self.test[i] = maximum
             if 0 > self.test[i] > minimum: self.test[i] = minimum
-            self.label[i + self.split] = 1
+            self.label[i] = 1
 
     def point_contextual_outliers(self, ratio, factor, radius):
         """
@@ -107,7 +107,7 @@ class UnivariateDataGenerator:
             if self.test[i] > maximum: self.test[i] = maximum * min(0.95, abs(np.random.normal(0, 0.5)))  # previous(0, 1)
             if self.test[i] < minimum: self.test[i] = minimum * min(0.95, abs(np.random.normal(0, 0.5)))
 
-            self.label[i + self.split] = 1
+            self.label[i] = 1
 
     def collective_global_outliers(self, ratio, radius, option='square', coef=3., noise_amp=0.0,
                                     level=5, freq=0.04, offset=0.0, # only used when option=='square'
@@ -137,7 +137,7 @@ class UnivariateDataGenerator:
         for i in position:
             start, end = max(0, i - radius), min(self.TEST_LENGTH, i + radius)
             self.test[start:end] = sub_data[start:end]
-            self.label[start+self.split:end+self.split] = 1
+            self.label[start:end] = 1
 
     def collective_trend_outliers(self, ratio, factor, radius):
         """
@@ -151,9 +151,9 @@ class UnivariateDataGenerator:
         for i in position:
             start, end = max(0, i - radius), min(self.TEST_LENGTH, i + radius)
             slope = np.random.choice([-1, 1]) * factor * np.arange(end - start)
-            self.test[start:end] = self.test_origin[start:end] + slope
+            self.test[start:end] = self.test_orig[start:end] + slope
             self.test[end:] = self.test[end:] + slope[-1]
-            self.label[start+self.split:end+self.split] = 1
+            self.label[start:end] = 1
 
     def collective_seasonal_outliers(self, ratio, factor, radius):
         """
@@ -169,4 +169,4 @@ class UnivariateDataGenerator:
         for i in position:
             start, end = max(0, i - radius), min(self.TEST_LENGTH, i + radius)
             self.test[start:end] = self.behavior(**seasonal_config)[start:end]
-            self.label[start+self.split:end+self.split] = 1
+            self.label[start:end] = 1

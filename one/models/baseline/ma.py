@@ -1,5 +1,5 @@
 import numpy as np
-from numpy.lib.stdide_stricks import sliding_window_view
+from numpy.lib.stride_tricks import sliding_window_view
 
 from one.models.base import Model
 
@@ -10,13 +10,13 @@ class MovingAverageModel(Model):
         self.window = window
         pass
 
-    def fit(self):
+    def fit(self, *args):
         return
 
     def get_scores(self, data):
         E = np.zeros(len(data))
         s_window = sliding_window_view(data, self.window)[:-1]
 
-        E[self.window:] = data[self.window] - np.mean(s_window, axis=1)
+        E[self.window:] = data[self.window:] - np.mean(s_window, axis=1)
 
         return E
