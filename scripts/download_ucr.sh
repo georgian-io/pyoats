@@ -10,13 +10,7 @@ TARGET_PATH="./data/ucr"
 
 
 mkdir -p "$TARGET_PATH"
-
-# mkdir
-if [ ! -d "$TEMP_PATH" ]
-    then
-        echo making temp directory...
-        mkdir -p "$TEMP_NAME"
-fi
+mkdir -p "$TEMP_PATH"
 
 # download file
 echo Downloading .zip file...
