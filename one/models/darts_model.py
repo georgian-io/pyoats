@@ -174,20 +174,25 @@ class DartsModel(Model):
     def get_scores(self, test_data: npt.NDArray[np.float32]) -> Tuple[npt.NDArray[np.float32]]:
         test_data = self._scale_series(test_data)
 
-        windows = sliding_window_view(test_data, self.window)
+        windows = sliding_window_view(test_data, self.window, axis=0)
         windows = windows[:: self.n_steps]
+        multivar = True if len(windows.shape) > 1 else False
 
-        preds = np.array([])
+        preds = np.ndarray(windows.shape[1]) if multivar else np.array([])
 
         seq = []
         for arr in windows.astype(np.float32):
+            if multivar: arr = arr.T
             ts = TimeSeries.from_values(arr)
             seq.append(ts)
 
         scores = self.model.predict(n=self.n_steps, series=seq)
 
         for step in scores:
-            preds = np.append(preds, step.pd_series().to_numpy())
+            if multivar:
+                preds = np.vstack((preds, step.pd_dataframe().to_numpy()))
+            else:
+                preds = np.append(preds, step.pd_dataframe().to_numpy())
 
         tdata_trim = test_data[self.window :]
 
@@ -195,8 +200,11 @@ class DartsModel(Model):
         residual = preds - tdata_trim
         anom = np.absolute(residual)
 
+        if multivar:
+            anom = anom.sum(axis=1)
+
         i_preds = TimeSeries.from_values(preds[: len(tdata_trim)])
-        i_preds = self.transformer.inverse_transform(i_preds).pd_series().to_numpy()
+        i_preds = self.transformer.inverse_transform(i_preds).pd_dataframe().to_numpy()
 
         return anom, residual, i_preds
 
@@ -217,7 +225,7 @@ class DartsModel(Model):
 
         series = self.transformer.transform(series)
 
-        return series.pd_series().to_numpy().astype(np.float32)
+        return series.pd_dataframe().to_numpy().astype(np.float32)
 
     def _get_hyperopt_res(self, params: dict, train_data):
         try:
