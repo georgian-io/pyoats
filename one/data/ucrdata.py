@@ -1,11 +1,11 @@
 from dataclasses import dataclass, astuple
-from typing import Tuple, Any
+from typing import Tuple, Any, Union
 
 import numpy as np
 import numpy.typing as npt
 
 from one.data.base import DataReader, Data
-from one.utils import array_safe_eq
+from one.utils.utils import array_safe_eq
 
 
 @dataclass(eq=False)
@@ -48,7 +48,7 @@ class UcrData(Data):
 
 class UcrDataReader(DataReader):
     def __init__(self):
-        self.path: str = None
+        self.path: Union[str, None] = None
 
     def __call__(self, path: str) -> UcrData:
         self.set_path(path)

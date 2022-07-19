@@ -9,13 +9,14 @@ python = ">=3.8,<3.11"
 pandas = "^1.4.2"
 matplotlib = "^3.5.2"
 darts = "^0.19"
-numpy = "^1.22.3"
+numpy = ">=1.18"
 ipywidgets = "^7.7.0"
 rich = "^12.4.1"
 scipy = "^1.8.1"
 plotly = "^5.8.0"
-statsmodels = "^0.13.2"
+statsmodels = ">=0.11"
 optuna = "^2.10.0"
+suod = "^0.0.8"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
@@ -23,6 +24,7 @@ jupyterlab = "^3.4.2"
 pytest = "^7.1.2"
 seaborn = "^0.11.2"
 pytest-mock = "^3.7.0"
+jupyterlab-vim = "^0.15.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

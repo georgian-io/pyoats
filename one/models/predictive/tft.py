@@ -6,7 +6,7 @@ import numpy as np
 import numpy.typing as npt
 import optuna
 
-from one.models.predictive.darts_model import DartsModel
+from one.models.darts_model import DartsModel
 
 
 class TFTModel(DartsModel):
@@ -37,6 +37,6 @@ class TFTModel(DartsModel):
                 "full_attention", [True, False]
             ),
             "dropout": trial.suggest_float("dropout", 0.0, 0.3),
-       }
+        }
 
         return self._get_hyperopt_res(params, train_data)

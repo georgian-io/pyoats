@@ -10,7 +10,7 @@ from torch.cuda import device_count
 import optuna
 
 from one.models.base import Model
-from one.utils import get_default_early_stopping
+from one.utils.utils import get_default_early_stopping
 
 
 class DartsModel(Model):
@@ -34,7 +34,7 @@ class DartsModel(Model):
         self.model_cls = model_cls
 
         # TODO: maybe seperate these into another class? fine for now...
-        self.transformer = Scaler()
+        self.transformer = None
 
         self.params = None
 
@@ -167,11 +167,11 @@ class DartsModel(Model):
         self.model.fit(
             TimeSeries.from_values(tr),
             val_series=TimeSeries.from_values(val),
-            epochs=100,
+            epochs=15,
             num_loader_workers=1,
         )
 
-    def get_scores(self, test_data: npt.NDArray[Any]) -> Tuple[npt.NDArray[Any]]:
+    def get_scores(self, test_data: npt.NDArray[np.float32]) -> Tuple[npt.NDArray[np.float32]]:
         test_data = self._scale_series(test_data)
 
         windows = sliding_window_view(test_data, self.window)
@@ -210,7 +210,12 @@ class DartsModel(Model):
 
     def _scale_series(self, series: npt.NDArray[Any]):
         series = TimeSeries.from_values(series)
-        series = self.transformer.fit_transform(series)
+
+        if self.transformer is None:
+            self.transformer = Scaler()
+            self.transformer.fit(series)
+
+        series = self.transformer.transform(series)
 
         return series.pd_series().to_numpy().astype(np.float32)
 

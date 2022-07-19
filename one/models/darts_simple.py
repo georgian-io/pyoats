@@ -24,7 +24,7 @@ class SimpleDartsModel(Model):
 
         self.model_cls = model_cls
         self.model = model_cls(self.lags)
-        self.transformer = Scaler()
+        self.transformer = None
         self.params = None
 
     @property
@@ -166,7 +166,12 @@ class SimpleDartsModel(Model):
 
     def _scale_series(self, series: npt.NDArray[Any]):
         series = TimeSeries.from_values(series)
-        series = self.transformer.fit_transform(series)
+
+        if self.transformer is None:
+            self.transformer = Scaler()
+            self.transformer.fit(series)
+
+        series = self.transformer.transform(series)
 
         return series.pd_series().to_numpy().astype(np.float32)
 
