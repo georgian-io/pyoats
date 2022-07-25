@@ -1,5 +1,5 @@
 # Baseline Models
-# from one.models.baseline.iforest import IsolationForestModel
+from one.models.baseline.iforest import IsolationForestModel
 from one.models.baseline.regression import RegressionModel
 from one.models.baseline.arima import ARIMAModel
 from one.models.baseline.ma import MovingAverageModel
