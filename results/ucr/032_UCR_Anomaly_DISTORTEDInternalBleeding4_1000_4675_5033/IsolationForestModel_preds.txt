@@ -1,0 +1,2 @@
+# {'model_name': 'IsolationForestModel', 'window': 10, 'n_steps': 1}
+0.000000000000000000e+00
