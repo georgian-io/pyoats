@@ -1,5 +1,5 @@
 # Baseline Models
-from one.models.baseline.iforest import IsolationForestModel
+# from one.models.baseline.iforest import IsolationForestModel
 from one.models.baseline.regression import RegressionModel
 from one.models.baseline.arima import ARIMAModel
 from one.models.baseline.ma import MovingAverageModel
@@ -14,3 +14,4 @@ from one.models.predictive.rnn import RNNModel
 from one.models.predictive.tcn import TCNModel
 from one.models.predictive.tft import TFTModel
 from one.models.predictive.transformer import TransformerModel
+from one.models.predictive.tranad import TranADModel
