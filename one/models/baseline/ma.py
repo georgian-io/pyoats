@@ -6,17 +6,25 @@ from one.models.base import Model
 
 
 class MovingAverageModel(Model):
+    support_multivariate = False
     def __init__(self, window: int = 10):
         self.window = window
-        pass
 
-    def fit(self, *args):
+    def fit(self, *args, **kwargs):
         return
 
     def get_scores(self, data):
+        # if multivariate
+        if data.ndim > 1 and data.shape[1] > 1:
+            return self._handle_multivariate(data, [self]*data.shape[1])
+
+        if data.ndim > 1 and data.shape[1] == 1:
+            data = data.flatten()
+
         E = np.zeros(len(data))
         s_window = sliding_window_view(data, self.window)[:-1]
 
         E[self.window:] = data[self.window:] - np.mean(s_window, axis=1)
 
         return E
+

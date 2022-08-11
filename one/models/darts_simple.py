@@ -15,7 +15,8 @@ from one.models.base import Model
 
 
 class SimpleDartsModel(Model):
-    def __init__(self, model_cls, window: int, n_steps: int, lags: int, val_split=0.2):
+    support_multivariate = False
+    def __init__(self, model_cls, window: int, n_steps: int, lags: int, val_split=0.2, **kwargs):
         self.window = window
         self.n_steps = n_steps
         self.lags = lags
@@ -120,18 +121,28 @@ class SimpleDartsModel(Model):
 
         return np.sum(res**2)
 
-    def fit(self, train_data: npt.NDArray[Any]):
+    def fit(self, train_data: npt.NDArray[Any], *args, **kwargs):
         if self.model is None:
             print("Unspecified hyperparameters, please run hyperopt_ws()")
             return
 
+        if train_data.ndim > 1 and train_data.shape[1] > 1:
+            self._models = self._pseudo_mv_train(train_data)
+            return
+
         train_data = self._scale_series(train_data)
+
         tr, val = self._get_train_val_split(train_data, self.val_split)
 
         self.model.fit(TimeSeries.from_values(tr))
 
     def get_scores(self, test_data: npt.NDArray[Any]) -> Tuple[npt.NDArray[Any]]:
         # TODO: if makes sense, have a base class for this and DartsModel...
+
+        if test_data.ndim > 1 and test_data.shape[1] > 1:
+            return self._handle_multivariate(test_data, self._models)
+
+
 
         test_data = self._scale_series(test_data)
 
@@ -153,16 +164,21 @@ class SimpleDartsModel(Model):
         tdata_trim = test_data[self.window :]
 
         preds = preds[: len(tdata_trim)]
+
         residual = preds - tdata_trim
+        residual = np.append(np.zeros(self.window), residual)
+
         anom = np.absolute(residual)
 
-        i_preds = TimeSeries.from_values(preds[: len(tdata_trim)])
+        i_preds = TimeSeries.from_values(preds)
         i_preds = self.transformer.inverse_transform(i_preds).pd_series().to_numpy()
+        i_preds = np.append(np.zeros(self.window), i_preds)
 
-        return anom, residual, i_preds
+        self._preds = i_preds
+        self._residual = residual
 
-    def get_classification(self):
-        pass
+        return anom
+
 
     def _scale_series(self, series: npt.NDArray[Any]):
         series = TimeSeries.from_values(series)

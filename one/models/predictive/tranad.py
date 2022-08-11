@@ -59,13 +59,13 @@ class TranAD(nn.Module):
 
 
 class TranADModel(Model):
+    support_multivariate = True
     def __init__(
         self,
         window: int = 100,
         n_steps: int = None,  # Not necessary
         use_gpu: bool = False,
         val_split: float = 0.2,
-        epochs: int = 5,
     ):
 
         # initiate parameters
@@ -74,7 +74,6 @@ class TranADModel(Model):
         self.n_steps = n_steps
         self.use_gpu = use_gpu
         self.val_split = val_split
-        self.epochs = epochs
 
     @property
     def model_name(self):
@@ -91,14 +90,15 @@ class TranADModel(Model):
 
         return
 
-    def fit(self, train_data):
+    def fit(self, train_data, epochs=5):
+        self.epochs = epochs
         train_data = train_data if train_data.ndim > 1 else train_data[:, np.newaxis]
         self._init_model(train_data.shape[-1])
 
         train_data = torch.tensor(train_data)
         trainD = self._convert_to_windows(train_data)
 
-        for e in range(self.epochs):
+        for e in range(epochs):
             self._backprop(trainD)  # returns loss, lr
 
         return
@@ -121,7 +121,11 @@ class TranADModel(Model):
                 z = z[1]
             loss = l(z, elem)[0]
 
-        return loss.detach().numpy()
+        scores = loss.detach().numpy()
+
+        if scores.shape[1] == 1:
+            scores = scores.flatten()
+        return scores
 
     def _convert_to_windows(self, data):
         windows = []
