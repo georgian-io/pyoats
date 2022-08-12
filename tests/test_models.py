@@ -2,7 +2,11 @@ import pytest
 
 from one.models import *
 import numpy as np
+import tensorflow as tf
 
+
+def has_gpu():
+    return tf.test.is_gpu_available()
 
 def get_sin(cycles, resolution):
     length = np.pi * 2 * cycles
@@ -82,10 +86,12 @@ def test_multi_variate(train_mv, test_mv, model):
     assert res.shape == (200, 2)
 
 
+GPU_MODELS = [NBEATSModel, TranADModel]
+@pytest.mark.parametrize("model", GPU_MODELS)
+def test_gpu(train_sv_1d, test_sv_1d, model):
+    if not has_gpu(): return
+    m = model(use_gpu=True)
+    m.fit(train_sv_1d, epochs=1)
+    res = m.get_scores(test_sv_1d)
 
-
-
-  
-
-
-
+    assert res.shape == (200, )

@@ -15,12 +15,11 @@ RUN pip3 install --no-cache-dir -r requirements.txt && \
     stumpy==1.4.0 more-itertools==8.5.0
 
 
-COPY . /home/one
-
 RUN pip3 install --no-cache-dir --no-deps tods==0.0.2
 
 # RUN cd /home/one && git clone https://github.com/datamllab/tods.git && \
 #     cd tods && pip3 install --no-deps -e . && \
 #     cd / && rm requirements.txt
 
+COPY . /home/one
 WORKDIR /home/one
