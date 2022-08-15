@@ -43,7 +43,7 @@ class SPOT:
 
         self.spot_thres = self._spot_initialize(data)
         
-    def step(self, x_t) -> float:
+    def _step(self, x_t) -> float:
         """
         Stepping + Updating SPOT
         """
@@ -67,14 +67,13 @@ class SPOT:
         
         return self.spot_thres
 
-    def step_all(self, X):
+    def get_thres(self, X):
         ret = np.array([])
         for x in X:
-            ret = np.append(ret, self.step(x))
+            ret = np.append(ret, self._step(x))
 
         return ret
     
-        
         
     @property
     def n_peaks(self):
