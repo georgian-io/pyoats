@@ -36,6 +36,7 @@ def train_sv_2d():
 @pytest.fixture
 def test_sv_2d():
     wave = get_sin(4, 200)[:, np.newaxis]
+    wave[99] = 10
     assert wave.ndim == 2
     return wave
 
@@ -54,13 +55,14 @@ def test_mv():
     wave2 = get_sin(8, 200)
 
     wave = np.vstack((wave1, wave2)).T
+    wave[99] = 10, 10
     assert wave.shape == (200, 2)
     return wave
 
 
-
 MODELS = [MovingAverageModel, QuantileModel, RegressionModel, LightGBMModel, 
-          RandomForestModel, ARIMAModel, NBEATSModel, TranADModel]
+          RandomForestModel, ARIMAModel, NBEATSModel, TranADModel, IsolationForestModel,
+          MatrixProfileModel, FluxEVModel]
 @pytest.mark.parametrize("model", MODELS)
 def test_single_variate_1d(train_sv_1d, test_sv_1d, model):
     m = model()

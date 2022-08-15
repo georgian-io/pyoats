@@ -16,11 +16,12 @@ class TFTModel(DartsModel):
         n_steps: int = 1,
         use_gpu: bool = 1,
         val_split: float = 0.2,
+        **kwargs
     ):
 
         model = models.TFTModel
 
-        super().__init__(model, window, n_steps, use_gpu, val_split)
+        super().__init__(model, window, n_steps, use_gpu, val_split, **kwargs)
 
     def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {

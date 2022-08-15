@@ -7,6 +7,7 @@ from numpy.lib.stride_tricks import sliding_window_view
 from darts.timeseries import TimeSeries
 from darts.dataprocessing.transformers import Scaler
 from torch.cuda import device_count
+from scipy.stats import zscore
 import optuna
 
 from one.models.base import Model
@@ -23,6 +24,7 @@ class DartsModel(Model):
         use_gpu: bool,
         val_split: float = 0.2,
         rnn_model: str = None,
+        **kwargs
     ):
 
         self.window = window
@@ -39,7 +41,7 @@ class DartsModel(Model):
 
         self.params = None
 
-        self._init_model()
+        self._init_model(**kwargs)
 
     @property
     def model_name(self):
@@ -160,7 +162,7 @@ class DartsModel(Model):
 
         return np.sum(res**2)
 
-    def fit(self, train_data: npt.NDArray[Any], epochs: int = 15):
+    def fit(self, train_data: npt.NDArray[Any], epochs: int = 15, **kwargs):
 
         train_data = self._scale_series(train_data)
         tr, val = self._get_train_val_split(train_data, self.val_split)
@@ -170,9 +172,10 @@ class DartsModel(Model):
             val_series=TimeSeries.from_values(val),
             epochs=epochs,
             num_loader_workers=1,
+            **kwargs
         )
 
-    def get_scores(self, test_data: npt.NDArray[np.float32]) -> Tuple[npt.NDArray[np.float32]]:
+    def get_scores(self, test_data: npt.NDArray[np.float32], **kwargs) -> Tuple[npt.NDArray[np.float32]]:
         test_data = self._scale_series(test_data)
 
         windows = sliding_window_view(test_data, self.window, axis=0)
@@ -192,7 +195,7 @@ class DartsModel(Model):
             ts = TimeSeries.from_values(arr)
             seq.append(ts)
 
-        scores = self.model.predict(n=self.n_steps, series=seq)
+        scores = self.model.predict(n=self.n_steps, series=seq, **kwargs)
 
         for step in scores:
             if multivar:
@@ -205,6 +208,7 @@ class DartsModel(Model):
         preds = preds[: len(tdata_trim)]
 
         residual = preds - tdata_trim
+        residual = np.abs(zscore(residual))
 
         if multivar:
             residual = np.append(np.zeros((self.window, test_data.shape[1])), 

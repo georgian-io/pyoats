@@ -9,6 +9,7 @@ import numpy.typing as npt
 from numpy.lib.stride_tricks import sliding_window_view
 from darts.timeseries import TimeSeries
 from darts.dataprocessing.transformers import Scaler
+from scipy.stats import zscore
 import optuna
 
 from one.models.base import Model
@@ -166,6 +167,7 @@ class SimpleDartsModel(Model):
         preds = preds[: len(tdata_trim)]
 
         residual = preds - tdata_trim
+        residual = np.abs(zscore(residual))
         residual = np.append(np.zeros(self.window), residual)
 
         anom = np.absolute(residual)

@@ -70,3 +70,6 @@ logs
 # Experiment Results
 # results
 # results/*
+
+# Containers
+.devcontainer
