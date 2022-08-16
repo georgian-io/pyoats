@@ -364,13 +364,12 @@ class FluxEVModel(Model):
 
 
     def get_scores(self, data):
-        if data.ndim > 1 and data.shape[1] == 1:
-            data = data.flatten()
-
         multivar = True if data.ndim > 1 and data.shape[1] > 1 else False
         if multivar:
             return self._handle_multivariate(data, self._models)
 
+        if data.ndim > 1 and data.shape[1] == 1:
+            data = data.flatten()
 
         anoms = np.zeros(len(data))
         for idx, value in enumerate(data):

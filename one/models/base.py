@@ -31,7 +31,6 @@ class Model(Protocol):
             models.append(self.__class__(**self.__dict__))
         
         for idx, series in enumerate(data.T):
-            print(series.shape)
             models[idx].fit(series)
 
         return models

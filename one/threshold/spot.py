@@ -4,8 +4,10 @@ from numpy.lib.stride_tricks import sliding_window_view
 from statsmodels.robust.scale import huber
 from scipy.stats import norm
 
-class SPOT:
-    def __init__(self, q, level, memory=2000, support=2, init_cutoff=0.95, robust=True):
+from one.threshold.base import Threshold
+
+class SPOTThreshold(Threshold):
+    def __init__(self, q=1e-4, level=0.95, memory=2000, support=1, init_cutoff=1, robust=False, **kwargs):
         self.support = support
         self.init_cutoff = init_cutoff
         self.robust = robust
@@ -30,6 +32,8 @@ class SPOT:
         # thresholds
         self.percentile_thres = 0
         self.spot_thres = 0
+
+        self._thresholders = None
    
     @property
     def adjusted_n(self):
@@ -37,7 +41,12 @@ class SPOT:
         
     # TODO: typing
     #       data -> np.NDArray
-    def load_initial(self, data):
+    def fit(self, data):
+        multivar = True if data.ndim > 1 and data.shape[1] > 1 else False
+        if multivar:
+            self._thresholders = self._pseudo_mv_fit(data)
+            return
+
         for x in data:
             self._add_mem(x)
 
@@ -67,9 +76,14 @@ class SPOT:
         
         return self.spot_thres
 
-    def get_thres(self, X):
+    def get_threshold(self, data):
+        multivar = True if data.ndim > 1 and data.shape[1] > 1 else False
+        if multivar:
+            if not self._thresholders: self._thresholders = [self] * data.shape[1]
+            return self._handle_multivariate(data, self._thresholders)
+
         ret = np.array([])
-        for x in X:
+        for x in data:
             ret = np.append(ret, self._step(x))
 
         return ret

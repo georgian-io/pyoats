@@ -1,44 +1,86 @@
+import numpy as np
 
-
-
-
-
-
-class Scorer():
-    def __init__(self):
-        self.stats = {}
-
-    def add_one_result(self, ground_truth, model_results, model_names):
-        stats = {}
-        for idx, m in enumerate(model_results):
-            tp, tn, fp, fn = 0, 0, 0, 0
-            model_name = model_names[idx]
-
-            train_len, test_len = ground_truth[f_name]["train_len"], ground_truth[f_name]["test_len"]
-            anom_start, anom_end = ground_truth[f_name]["anom_start"], ground_truth[f_name]["anom_end"]
-
-            arr = np.loadtxt(f)
-            th = get_anomaly_threshold(1e-3, arr)
-
-            is_anom = arr.copy()
-
-            anom_indices = [i + train_len for i in np.where(arr > th)[0]]
-
-            anom_len = anom_end-anom_start+1
-            match = sum(anom_indices.count(i) for i in range(anom_start-100, anom_end+100+1))
-            if match > 0: tp += anom_len
-            else: fn += anom_len
-            fp += len(anom_indices) - match
-            tn += test_len - tp - fn - fp
-
-            try: stats[model_name]
-            except KeyError: stats[model_name] = {}
-
-            try: stats[model_name]["tp"] += tp
-            except KeyError: stats[model_name]["tp"] = tp
-            try: stats[model_name]["tn"] += tn
-            except KeyError: stats[model_name]["tn"] = tn
-            try: stats[model_name]["fp"] += fp
-            except KeyError: stats[model_name]["fp"] = fp
-            try: stats[model_name]["fn"] += fn
-            except KeyError: stats[model_name]["fn"] = fn
+class Scorer:
+    def __init__(self, delay: int=None):
+        self.tp = 0
+        self.fp = 0
+        self.tn = 0
+        self.fn = 0
+        
+        self.delay = delay
+        
+    def process(self, preds, labels):
+            preds = preds.copy()
+            labels = labels.copy()
+            
+            ground_truth_ones = np.where(labels == 1)[0]
+            pred_ones = np.where(preds == 1)[0]
+            ranges = self._consecutive(ground_truth_ones)
+            
+            tp, fp, tn, fn = 0, 0, 0, 0
+            
+            for idx, r in enumerate(ranges):
+                intersect = np.intersect1d(r, pred_ones, assume_unique=True)
+                # if alert delay more than 100 timesteps, count that as bad!
+                
+                if intersect.size != 0:
+                    cond = intersect[0] < r[0] + self.delay if self.delay is not None else True
+                    if cond:
+                        tp += r.size
+                    else:
+                        fn += r.size
+    
+                    preds[intersect] = 0
+                    pred_ones = np.where(preds == 1)[0]
+                else:
+                    fn += r.size
+                
+            fp += pred_ones.size
+            tn += preds.size - tp - fp - fn
+            
+            self.tp += tp
+            self.fp += fp
+            self.tn += tn
+            self.fn += fn
+            
+            
+    def _consecutive(self, data, stepsize=1):
+        return np.split(data, np.where(np.diff(data) != stepsize)[0]+1)
+    
+    @property
+    def tpr(self):
+        return self.tp/(self.fn+self.tp)
+    
+    @property
+    def fpr(self):
+        return self.fp/(self.tn+self.fp)
+    
+    @property
+    def tnr(self):
+        if self.tn+self.fp == 0: return 0
+        return self.tn/(self.tn+self.fp)
+        
+    @property
+    def fnr(self):
+        if self.fn+self.tp == 0: return 0
+        return self.fn/(self.fn+self.tp)
+        
+    @property
+    def precision(self):
+        if self.tp+self.fp == 0: return 0
+        return self.tp/(self.tp+self.fp)
+    
+    @property
+    def recall(self):
+        if self.tp+self.fn == 0: return 0
+        return self.tp/(self.tp+self.fn)
+    
+    @property
+    def f1(self):
+        if self.recall + self.precision == 0: return 0
+        return (2*self.precision*self.recall)/(self.precision+self.recall)
+    
+    
+    def __str__(self):
+        return f"{scorer.tp}, {scorer.fp}, {scorer.tn}, {scorer.fn}, {scorer.tpr}, {scorer.fpr}, {scorer.tnr}, {scorer.fnr}, {scorer.precision}, {scorer.recall}, {scorer.f1}"
+    

@@ -27,7 +27,6 @@ class PyODModel(Model):
         r = {}
         r.update({"model_name": self.model_name})
         r.update({"window": self.window})
-        r.update({"n_steps": self.n_steps})
 
         return str(r)
 

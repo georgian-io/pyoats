@@ -1,8 +1,9 @@
 import numpy as np
 
+from one.threshold.base import Threshold
 
 
-class POT:
+class POTThreshold(Threshold):
     @classmethod
     def _set_initial_threshold(cls, contamination: float, scores) -> float:
         return np.quantile(scores, contamination)
@@ -14,8 +15,8 @@ class POT:
 
         if len(x) == 0:
             t *= 0.95
-            t = 0 if threshold < 1e-3 else threshold
-            return get_peak_set(t, scores)
+            t = 0 if t < 1e-3 else t
+            return cls._get_peak_set(t, scores)
 
         return x - t
 
@@ -32,12 +33,28 @@ class POT:
 
         return sigma, gamma
 
-    def get_thres(self, scores, q, contamination = 0.98):
-        t = cls._set_initial_threshold(contamination, scores)
-        y = cls._get_peak_set(t, scores)
+    def __init__(self, **kwargs):
+        self._thresholders = None
+
+
+    def fit(self, data):
+        multivar = True if data.ndim > 1 and data.shape[1] > 1 else False
+        if multivar:
+            self._thresholders = self._pseudo_mv_fit(data)
+            return
+        return
+
+    def get_threshold(self, data, q=1e-4, contamination = 0.95):
+        multivar = True if data.ndim > 1 and data.shape[1] > 1 else False
+        if multivar:
+            if not self._thresholders: self._thresholders = self._pseudo_mv_fit(data)
+            return self._handle_multivariate(data, self._thresholders, q=q, contamination=contamination)
+ 
+        t = self._set_initial_threshold(contamination, data)
+        y = self._get_peak_set(t, data)
         n_y = len(y)
-        n = len(scores)
-        sigma, gamma = cls.get_gpd_param(y)
+        n = len(data)
+        sigma, gamma = self._get_gpd_param(y)
 
         new_threshold = t + sigma/gamma * ((q*n/n_y)**(-gamma) - 1)
-        return new_threshold
+        return np.tile(new_threshold, len(data))
