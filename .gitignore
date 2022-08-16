@@ -71,5 +71,3 @@ logs
 # results
 # results/*
 
-# Containers
-.devcontainer
