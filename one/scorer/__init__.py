@@ -1,1 +1,2 @@
-from one.scorer.scorer import Scorer
+from one.scorer.supervised_scorer import SupervisedScorer
+from one.scorer.qualitative_metrics import QualitativeMetrics

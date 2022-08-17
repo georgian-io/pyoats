@@ -1,6 +1,8 @@
 import numpy as np
 
-class Scorer:
+from one.scorer.base import Scorer
+
+class SupervisedScorer(Scorer):
     def __init__(self, delay: int=None):
         self.tp = 0
         self.fp = 0
@@ -82,5 +84,5 @@ class Scorer:
     
     
     def __str__(self):
-        return f"{scorer.tp}, {scorer.fp}, {scorer.tn}, {scorer.fn}, {scorer.tpr}, {scorer.fpr}, {scorer.tnr}, {scorer.fnr}, {scorer.precision}, {scorer.recall}, {scorer.f1}"
+        return f"{self.tp}, {self.fp}, {self.tn}, {self.fn}, {self.tpr}, {self.fpr}, {self.tnr}, {self.fnr}, {self.precision}, {self.recall}, {self.f1}"
     

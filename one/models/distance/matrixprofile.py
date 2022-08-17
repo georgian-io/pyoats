@@ -18,7 +18,7 @@ class MatrixProfileModel(Model):
         # univariate in 2-D matrix
         if data.ndim > 1 and data.shape[1] == 1:
             data = data.flatten()
-
+        
         if multivar:
             model = mstump
             data = data.T
