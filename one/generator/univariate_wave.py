@@ -1,6 +1,8 @@
+"""
+
+"""
 import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
+from one.generator.base import Generator
 
 def series_segmentation(data, stepsize=1):
     return np.split(data, np.where(np.diff(data) != stepsize)[0] + 1)
@@ -39,7 +41,7 @@ def collective_global_synthetic(length, base, coef=1.5, noise_amp=0.005):
     return value
 
 
-class UnivariateDataGenerator:
+class UnivariateWaveGenerator(Generator):
     BEHAVIOR_CONFIG = {'freq': 0.04, 'coef': 1.5, "offset": 0.0, 'noise_amp': 0.05}
     def __init__(self, stream_length, train_ratio = 0.2, behavior=sine, behavior_config=BEHAVIOR_CONFIG):
         self.STREAM_LENGTH = stream_length
@@ -56,9 +58,9 @@ class UnivariateDataGenerator:
         self.data_origin = None
         self.timestamp = np.arange(self.STREAM_LENGTH)
 
-        self.generate_timeseries()
+        self._generate_timeseries()
 
-    def generate_timeseries(self):
+    def _generate_timeseries(self):
         self.behavior_config['length'] = self.STREAM_LENGTH
         self.data = self.behavior(**self.behavior_config)
 
@@ -81,7 +83,6 @@ class UnivariateDataGenerator:
         """
         position = (np.random.rand(round(self.TEST_LENGTH * ratio)) * self.TEST_LENGTH).astype(int)
         maximum, minimum = max(self.test), min(self.test)
-        print(maximum, minimum)
         for i in position:
             local_std = self.test_orig[max(0, i - radius):min(i + radius, self.TEST_LENGTH)].std()
             self.test[i] = self.test_orig[i] * factor * local_std
@@ -100,7 +101,6 @@ class UnivariateDataGenerator:
         """
         position = (np.random.rand(round(self.TEST_LENGTH * ratio)) * self.TEST_LENGTH).astype(int)
         maximum, minimum = max(self.test), min(self.test)
-        print(maximum, minimum)
         for i in position:
             local_std = self.test[max(0, i - radius):min(i + radius, self.TEST_LENGTH)].std()
             self.test[i] = self.test[i] * factor * local_std
@@ -109,7 +109,7 @@ class UnivariateDataGenerator:
 
             self.label[i] = 1
 
-    def collective_global_outliers(self, ratio, radius, option='square', coef=3., noise_amp=0.0,
+    def collective_shapelet_outliers(self, ratio, radius, option='square', coef=3., noise_amp=0.0,
                                     level=5, freq=0.04, offset=0.0, # only used when option=='square'
                                     base=[0.,]): # only used when option=='other'
         """
@@ -170,3 +170,7 @@ class UnivariateDataGenerator:
             start, end = max(0, i - radius), min(self.TEST_LENGTH, i + radius)
             self.test[start:end] = self.behavior(**seasonal_config)[start:end]
             self.label[start:end] = 1
+
+
+    def get_dataset(self):
+        return self.train, self.test, self.label

@@ -1,3 +1,14 @@
+"""
+Tuli, Shreshth and Casale, Giuliano and Jennings, Nicholas R
+"TranAD: Deep Transformer Networks for Anomaly Detection in Multivariate Time Series Data"
+
+Implementation from: https://github.com/imperial-qore/TranAD
+"""
+
+
+
+from typing import Any
+
 import numpy as np
 import numpy.typing as npt
 import torch
@@ -8,7 +19,9 @@ from importlib_metadata import version
 from one.models.base import Model
 from torch.nn import TransformerDecoder, TransformerEncoder
 from torch.utils.data import DataLoader, Dataset, TensorDataset
-from utils.dlutils import *
+from one.utils.dlutils import *
+from darts.timeseries import TimeSeries
+from darts.dataprocessing.transformers import Scaler
 
 
 # Proposed Model + Self Conditioning + Adversarial + MAML (TKDE 21)
@@ -55,23 +68,21 @@ class TranAD(nn.Module):
 
 
 class TranADModel(Model):
+    support_multivariate = True
     def __init__(
         self,
-        model_cls=TranAD,
         window: int = 100,
         n_steps: int = None,  # Not necessary
         use_gpu: bool = False,
         val_split: float = 0.2,
-        epochs: int = 5,
     ):
 
         # initiate parameters
-        self.model_cls = model_cls
-        self.window = model_cls
+        self.model_cls = TranAD
+        self.window = window
         self.n_steps = n_steps
         self.use_gpu = use_gpu
         self.val_split = val_split
-        self.epochs = epochs
 
     @property
     def model_name(self):
@@ -79,7 +90,7 @@ class TranADModel(Model):
 
     def _init_model(self, data_dims: int):
         self.model = self.model_cls(
-            data_dims,
+            data_dims
         ).double()
         self.optimizer = torch.optim.AdamW(
             self.model.parameters(), lr=self.model.lr, weight_decay=1e-5
@@ -88,17 +99,23 @@ class TranADModel(Model):
 
         return
 
-    def fit(self, train_data):
-        self._init_model(train_data.shape[1])
+    def fit(self, train_data, epochs=5):
+        self.epochs = epochs
+        train_data = train_data if train_data.ndim > 1 else train_data[:, np.newaxis]
+        self._init_model(train_data.shape[-1])
+
+        train_data = torch.tensor(train_data)
         trainD = self._convert_to_windows(train_data)
 
-        for e in range(self.epochs):
+        for e in range(epochs):
             self._backprop(trainD)  # returns loss, lr
 
         return
 
     def get_scores(self, test_data):
-        feats = test_data.shape[0]
+        test_data = test_data if test_data.ndim > 1 else test_data[:, np.newaxis]
+        test_data = torch.tensor(test_data)
+        feats = test_data.shape[-1]
         data_len = len(test_data)
         test_data = self._convert_to_windows(test_data)
         dataloader = self._get_dataloader(test_data, data_len)
@@ -107,13 +124,17 @@ class TranADModel(Model):
 
         for d, _ in dataloader:
             window = d.permute(1, 0, 2)
-            elem = window[-1, :, :].view(1, l, feats)
+            elem = window[-1, :, :].view(1, data_len, feats)
             z = self.model(window, elem)
             if isinstance(z, tuple):
                 z = z[1]
             loss = l(z, elem)[0]
 
-        return loss.detach().numpy(), z.detach().numpy()[0]
+        scores = loss.detach().numpy()
+
+        if scores.shape[1] == 1:
+            scores = scores.flatten()
+        return scores
 
     def _convert_to_windows(self, data):
         windows = []
@@ -123,19 +144,19 @@ class TranADModel(Model):
             else:
                 w = torch.cat([data[0].repeat(self.window - i, 1), data[0:i]])
             windows.append(w)
-        return torch.stack(windows)
+        windows = torch.stack(windows)
+        return windows
 
     def _get_dataloader(self, data, bs):
         data_x = torch.DoubleTensor(data)
         dataset = TensorDataset(data_x, data_x)
 
-        bs = self.model.batch
         return DataLoader(dataset, batch_size=bs)
 
     def _backprop(self, data):
-        dataloader = self._get_dataloader(self, data, self.model.bs)
+        dataloader = self._get_dataloader(data, self.model.batch)
 
-        feats = data.shape[1]
+        feats = data.shape[-1]
         l = nn.MSELoss(reduction="none")
         n = self.epochs + 1
 
@@ -163,3 +184,15 @@ class TranADModel(Model):
         self.scheduler.step()
 
         return np.mean(l1s), self.optimizer.param_groups[0]["lr"]
+
+
+    def _scale_series(self, series: npt.NDArray[Any]):
+        series = TimeSeries.from_values(series)
+
+        if self.transformer is None:
+            self.transformer = Scaler()
+            self.transformer.fit(series)
+
+        series = self.transformer.transform(series)
+
+        return series.pd_dataframe().to_numpy().astype(np.float32)

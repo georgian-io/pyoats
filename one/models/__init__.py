@@ -1,10 +1,3 @@
-# Baseline Models
-from one.models.baseline.iforest import IsolationForestModel
-from one.models.baseline.regression import RegressionModel
-from one.models.baseline.arima import ARIMAModel
-from one.models.baseline.ma import MovingAverageModel
-from one.models.baseline.quantile import QuantileModel
-
 # Predictive Models
 from one.models.predictive.lightgbm import LightGBMModel
 from one.models.predictive.nbeats import NBEATSModel
@@ -14,3 +7,18 @@ from one.models.predictive.rnn import RNNModel
 from one.models.predictive.tcn import TCNModel
 from one.models.predictive.tft import TFTModel
 from one.models.predictive.transformer import TransformerModel
+from one.models.predictive.ma import MovingAverageModel
+from one.models.predictive.arima import ARIMAModel
+from one.models.predictive.regression import RegressionModel
+from one.models.predictive.fluxev import FluxEVModel
+
+# Reconstruction
+from one.models.reconstruction.tranad import TranADModel
+from one.models.reconstruction.vae import VAEModel
+
+# Distance-Based
+from one.models.distance.iforest import IsolationForestModel
+from one.models.distance.matrixprofile import MatrixProfileModel
+
+# Rule-Based
+from one.models.rule_based.quantile import QuantileModel

@@ -1,14 +1,15 @@
 #!/bin/sh
 
-DOWNLOAD_LINK="https://www.cs.ucr.edu/~eamonn/time_series_data_2018/UCR_TimeSeriesAnomalyDatasets2021.zip"
+DOWNLOAD_LINK="https://s3-us-west-2.amazonaws.com/telemanom/data.zip"
 TEMP_NAME="temp"
 TEMP_PATH="./$TEMP_NAME"
 TEMP_FPATH="$TEMP_PATH/dataset.zip"
-DATA_PATH="/AnomalyDatasets_2021/UCR_TimeSeriesAnomalyDatasets2021/FilesAreInHere/UCR_Anomaly_FullData"
+DATA_PATH="/data"
 
-TARGET_PATH="./data/ucr"
+TARGET_PATH="./data/nasa"
 
 
+# mkdir
 mkdir -p "$TARGET_PATH"
 mkdir -p "$TEMP_PATH"
 
@@ -23,9 +24,11 @@ unzip -q "$TEMP_FPATH" -d "$TEMP_PATH"
 # copy data
 echo Copying data...
 cp -a "$TEMP_PATH$DATA_PATH/." "$TARGET_PATH"
+svn export --force https://github.com/khundman/telemanom/trunk/labeled_anomalies.csv $TARGET_PATH
 
 # clean up
 echo Cleaning up...
 rm -r $TEMP_PATH
+rm -r "$TARGET_PATH/2018-05-19_15.00.10"
 
 

@@ -12,7 +12,7 @@ from one.models.darts_simple import SimpleDartsModel
 
 class RandomForestModel(SimpleDartsModel):
     def __init__(
-        self, window: int = 10, n_steps: int = 1, lags: int = 1, val_split: float = 0.2
+        self, window: int = 10, n_steps: int = 1, lags: int = 1, val_split: float = 0.2, **kwargs
     ):
 
         model = models.RandomForest

@@ -1,8 +1,9 @@
+.git
+
 # exlcude temp folder
 temp
 
 # exclude data files
-/data
 data/ucr/*
 
 # Jupyter
@@ -71,4 +72,3 @@ logs
 # Experiment Results
 # results
 # results/*
-

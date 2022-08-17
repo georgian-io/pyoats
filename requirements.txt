@@ -1,0 +1,12 @@
+optuna==2.10.0
+darts==0.20
+pytest==7.1.2
+tensorboard==2.8.0
+pandas==1.4.3
+statsmodels==0.13.2
+scipy==1.9.0
+pyod==1.0.4
+stumpy==1.11.1
+pytest==7.1.2
+jenkspy==0.2.2
+statsforecast==0.7.1
