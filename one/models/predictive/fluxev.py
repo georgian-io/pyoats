@@ -1,3 +1,9 @@
+"""
+Li, Jia and Di, Shimin and Shen, Yanyan and Chen, Lei
+"FluxEV: A Fast and Effective Unsupervised Framework for Time-Series Anomaly Detection"
+https://doi.org/10.1145/3437963.3441823
+"""
+
 import time
 
 from one.models.base import Model

@@ -1,3 +1,12 @@
+"""
+Tuli, Shreshth and Casale, Giuliano and Jennings, Nicholas R
+"TranAD: Deep Transformer Networks for Anomaly Detection in Multivariate Time Series Data"
+
+Implementation from: https://github.com/imperial-qore/TranAD
+"""
+
+
+
 from typing import Any
 
 import numpy as np

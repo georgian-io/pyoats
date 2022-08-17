@@ -1,2 +1,1 @@
-
-from one.preprocessor.sr import SpectralResidual
+from one.preprocessor.spectral_residual import SpectralResidual

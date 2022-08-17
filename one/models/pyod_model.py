@@ -1,3 +1,6 @@
+"""
+Implementation from: https://github.com/yzhao062/pyod
+"""
 from typing import Any
 
 import numpy as np
@@ -6,7 +9,6 @@ from darts.timeseries import TimeSeries
 from darts.dataprocessing.transformers import Scaler
 from scipy.stats import zscore
 from numpy.lib.stride_tricks import sliding_window_view
-import optuna
 
 from one.models.base import Model
 

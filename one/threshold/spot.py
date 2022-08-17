@@ -1,3 +1,14 @@
+"""
+Li, Jia and Di, Shimin and Shen, Yanyan and Chen, Lei
+"FluxEV: A Fast and Effective Unsupervised Framework for Time-Series Anomaly Detection"
+https://doi.org/10.1145/3437963.3441823
+
+Siffer, Alban and Fouque, Pierre-Alain and Termier, Alexandre and Largouet, Christine
+"Anomaly Detection in Streams with Extreme Value Theory"
+https://doi.org/10.1145/3097983.3098144
+"""
+
+
 import time
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
