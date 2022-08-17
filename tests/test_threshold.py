@@ -4,7 +4,7 @@ from one.threshold import *
 import numpy as np
 
 
-THRES = [QuantileThreshold, POTThreshold, SPOTThreshold]
+THRES = [QuantileThreshold, POTThreshold, SPOTThreshold, JenksThreshold]
 @pytest.mark.threshold
 @pytest.mark.parametrize("thres", THRES)
 def test_threshold_univariate_1d(test_sv_1d, thres):
