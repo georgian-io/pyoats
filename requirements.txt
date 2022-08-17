@@ -9,5 +9,4 @@ pyod==1.0.4
 stumpy==1.11.1
 pytest==7.1.2
 jenkspy==0.2.2
-
-
+statsforecast==0.7.1
