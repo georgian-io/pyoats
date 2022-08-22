@@ -6,6 +6,6 @@ setup(name='one-ts',
       description='Outlier Number Extraction for TimeSeries',
       author='Benjamin Ye',
       author_email='benjamin.ye@georgian.io',
-      packages=['one-ts'],
+      packages=['one'],
      )
 
