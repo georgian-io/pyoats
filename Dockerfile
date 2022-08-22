@@ -22,4 +22,6 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 RUN cd / && rm requirements.txt
 
 COPY . /home/one
-WORKDIR /home/one
+RUN cd /home/one && pip install -e .
+
+WORKDIR /home
