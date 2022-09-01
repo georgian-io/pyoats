@@ -38,7 +38,7 @@ def test_model_multi_variate(train_mv, test_mv, model):
     assert res.shape == (200, 2)
 
 
-GPU_MODELS = [NBEATSModel, TranADModel]
+GPU_MODELS = [NBEATSModel, TranADModel, MatrixProfileModel]
 @pytest.mark.models
 @pytest.mark.gpu
 @pytest.mark.parametrize("model", GPU_MODELS)

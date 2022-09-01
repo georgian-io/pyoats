@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1
 # FROM ufoym/deepo:all-jupyter-py38
-FROM nvidia/cuda:11.2.1-cudnn8-runtime-ubuntu20.04
+FROM nvidia/cuda:11.2.1-cudnn8-devel-ubuntu20.04
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-    apt-get install -y --no-install-recommends git python3.8 python3 python3-pip nvidia-cuda-toolkit
+    apt-get install -y --no-install-recommends git python3.8 python3 python3-pip
 
 
 COPY ./requirements.txt ./requirements.txt
