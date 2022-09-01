@@ -178,7 +178,7 @@ class DartsModel(Model):
             **kwargs
         )
 
-    def get_scores(self, test_data: npt.NDArray[np.float32], **kwargs) -> Tuple[npt.NDArray[np.float32]]:
+    def get_scores(self, test_data: npt.NDArray[np.float32], normalize=False, **kwargs) -> Tuple[npt.NDArray[np.float32]]:
         test_data = self._scale_series(test_data)
 
         windows = sliding_window_view(test_data, self.window, axis=0)
@@ -211,8 +211,12 @@ class DartsModel(Model):
         preds = preds[: len(tdata_trim)]
 
         residual = preds - tdata_trim
-        residual = np.abs(zscore(residual))
-
+        
+        if normalize:
+            residual = zscore(residual)
+        
+        residual = np.abs(residual)
+        
         if multivar:
             residual = np.append(np.zeros((self.window, test_data.shape[1])), 
                                  residual,

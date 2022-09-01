@@ -9,7 +9,7 @@ def has_gpu():
 
 MODELS = [MovingAverageModel, QuantileModel, RegressionModel, LightGBMModel, 
           RandomForestModel, ARIMAModel, NBEATSModel, TranADModel, IsolationForestModel,
-          MatrixProfileModel, FluxEVModel]
+          MatrixProfileModel, FluxEVModel, VAEModel]
 @pytest.mark.models
 @pytest.mark.parametrize("model", MODELS)
 def test_model_univariate_1d(train_sv_1d, test_sv_1d, model):

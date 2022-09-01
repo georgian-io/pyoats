@@ -18,7 +18,7 @@ class NHiTSModel(DartsModel):
         val_split: float = 0.2,
     ):
 
-        model_cls = models.NHiTS
+        model_cls = models.NHiTSModel
 
         super().__init__(model_cls, window, n_steps, use_gpu, val_split)
 
