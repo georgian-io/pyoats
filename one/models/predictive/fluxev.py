@@ -11,10 +11,10 @@ import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
 from sklearn.neighbors import KernelDensity
 from sklearn.model_selection import GridSearchCV
-from scipy.stats import norm
+from scipy.stats import norm, genpareto
 
 class FluxEV2000:
-    def __init__(self, window, q, level, alpha=0.7, method="all", p=None, memory=2000, bw_reset_every=2000, support=1, init_cutoff=1, **kwargs):
+    def __init__(self, window, q, level, alpha=0.7, method="all", p=None, memory=2000, bw_reset_every=2000, support=0, init_cutoff=1, mle=False, **kwargs):
         if method.lower() not in ["all", "above", "below"]:
             raise ValueError(f"method parameter expexts ['all', 'above', 'below'] but passed in {method}")        
         self.bw_reset_every = bw_reset_every
@@ -68,6 +68,9 @@ class FluxEV2000:
         
         # timer
         self.perf_counter = 0
+
+        # Use MLE Estimation (more stable)
+        self.mle = mle
         
     
     @property
@@ -159,7 +162,7 @@ class FluxEV2000:
             self.spot_thres = SPOTMoM.calc_spot_threshold(self.percentile_thres, sigma, gamma, self.n, self.Y.size, self.q)
             """
             
-            sigma, gamma = SPOTMoM.get_gpd_params(self.Y)
+            sigma, gamma = SPOTMoM.get_gpd_params(self.Y, mle=self.mle)
             self.spot_thres = max(SPOTMoM.calc_spot_threshold(self.percentile_thres, sigma, gamma, self.adjusted_n, self.Y.size, self.q), 
                                   SPOTMoM.calc_half_normal_threshold(self.percentile_thres, self.Y.std(ddof=1), self.q, support=self.support))
         
@@ -207,7 +210,7 @@ class FluxEV2000:
         for y, i in zip(Y, I):
             self._add_peak(y, i)
         
-        sigma, gamma = SPOTMoM.get_gpd_params(Y)
+        sigma, gamma = SPOTMoM.get_gpd_params(Y, mle=self.mle)
     
         n_y = len(Y)
         n = len(S)
@@ -317,8 +320,12 @@ class SPOTMoM:
         return sigma, gamma
 
     @classmethod
-    def get_gpd_params(cls, peaks, robust=False):
+    def get_gpd_params(cls, peaks, robust=False, mle=False):
         y = peaks.copy()
+
+        if mle:
+            mu, sigma, gamma = genpareto.fit(y)
+            return sigma, gamma
         
         if robust:
             huber.maxiter = 100

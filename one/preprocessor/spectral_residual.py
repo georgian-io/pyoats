@@ -91,7 +91,7 @@ class SpectralResidual(Preprocessor):
         :param values:
         :param type:
         :return:
-        """
+        """        
         multivar = True if values.ndim > 1 and values.shape[1] > 1 else False
         if multivar: return self._handle_multivariate(values, [self]*values.shape[1])
 

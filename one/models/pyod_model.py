@@ -16,9 +16,10 @@ from one.models.base import Model
 class PyODModel(Model):
     def __init__(self, model_cls, window: int = 10, **kwargs):
         self.window = window
+        self.params = kwargs
 
         self.model_cls = model_cls
-        self.model = model_cls(**kwargs)
+        self.model = model_cls(**self.params)
         self.scaler = None
 
     @property
@@ -33,16 +34,23 @@ class PyODModel(Model):
         return str(r)
 
     def fit(self, train_data: npt.NDArray[Any], **kwargs):
+        if "epochs" in kwargs and hasattr(self, "IS_DL") and self.IS_DL:
+            self.params["epochs"] = kwargs["epochs"]
+            self.model = self.model_cls(**self.params)
+
         windows = self._get_window(train_data)
         self.model.fit(windows)
 
-    def get_scores(self, test_data: npt.NDArray[Any]):
+    def get_scores(self, test_data: npt.NDArray[Any], normalize=False):
         # Multivar
         multivar = True if test_data.ndim > 1 and test_data.shape[1] > 1 else False
 
         windows = self._get_window(test_data)
         scores = self.model.decision_function(windows)
-        scores = np.abs(zscore(scores))
+        
+        if normalize:
+            scores = zscore(scores)
+        scores = np.abs(scores)
 
         scores = np.append(np.zeros(self.window-1), scores)
         if multivar: scores = np.tile(scores, (test_data.shape[1], 1)).T

@@ -10,6 +10,7 @@ https://doi.org/10.1145/3097983.3098144
 
 
 import numpy as np
+from scipy.stats import genpareto
 
 from one.threshold.base import Threshold
 
@@ -33,15 +34,7 @@ class POTThreshold(Threshold):
 
     @classmethod
     def _get_gpd_param(cls, peak_set):
-        y = peak_set.copy()
-        mu = y.mean()
-        var_y = y.var(ddof=1)
-
-        if var_y == 0: return 0, 1
-
-        sigma = mu/2 * (1 + mu ** 2 / var_y)
-        gamma = 1/2 * (1 - mu ** 2 / var_y)
-
+        mu, sigma, gamma = genpareto.fit(peak_set)
         return sigma, gamma
 
     def __init__(self, **kwargs):

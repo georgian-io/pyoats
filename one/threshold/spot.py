@@ -13,12 +13,13 @@ import time
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
 from statsmodels.robust.scale import huber
+from scipy.stats import genpareto
 from scipy.stats import norm
 
 from one.threshold.base import Threshold
 
 class SPOTThreshold(Threshold):
-    def __init__(self, q=1e-4, level=0.95, memory=2000, support=1, init_cutoff=1, robust=False, **kwargs):
+    def __init__(self, q=1e-4, level=0.95, memory=2000, support=0, init_cutoff=1, robust=False, estimator="MoM", **kwargs):
         self.support = support
         self.init_cutoff = init_cutoff
         self.robust = robust
@@ -44,6 +45,8 @@ class SPOTThreshold(Threshold):
         self.percentile_thres = 0
         self.spot_thres = 0
 
+        self.estimator = estimator
+
         self._thresholders = None
    
     @property
@@ -68,7 +71,7 @@ class SPOTThreshold(Threshold):
         Stepping + Updating SPOT
         """
         self._add_mem(x_t)
-        new_p_thres = SPOTMoM.get_tail_threshold(self.X, self.level)
+        new_p_thres = GPDThreshold.get_tail_threshold(self.X, self.level)
         self.spot_thres += new_p_thres - self.percentile_thres
         self.percentile_thres = new_p_thres
 
@@ -81,9 +84,9 @@ class SPOTThreshold(Threshold):
             y_i = self.X[-1] - self.percentile_thres            
             self._add_peak(y_i)
             
-            sigma, gamma = SPOTMoM.get_gpd_params(self.Y, robust=self.robust)
-            self.spot_thres = max(SPOTMoM.calc_spot_threshold(self.percentile_thres, sigma, gamma, self.adjusted_n, self.Y.size, self.q), 
-                                  SPOTMoM.calc_half_normal_threshold(self.percentile_thres, self.Y.std(ddof=1), self.q, support=self.support))
+            sigma, gamma = GPDThreshold.get_gpd_params(self.Y, robust=self.robust, estimator=self.estimator)
+            self.spot_thres = max(GPDThreshold.calc_spot_threshold(self.percentile_thres, sigma, gamma, self.adjusted_n, self.Y.size, self.q), 
+                                  GPDThreshold.calc_half_normal_threshold(self.percentile_thres, self.Y.std(ddof=1), self.q, support=self.support))
         
         return self.spot_thres
 
@@ -106,12 +109,12 @@ class SPOTThreshold(Threshold):
         
 
     def _spot_initialize(self, S):
-        self.percentile_thres = SPOTMoM.get_tail_threshold(S, self.level)
+        self.percentile_thres = GPDThreshold.get_tail_threshold(S, self.level)
 
-        Y = SPOTMoM.get_peaks(S, self.percentile_thres)
+        Y = GPDThreshold.get_peaks(S, self.percentile_thres)
         
         if self.init_cutoff < 1:
-            cutoff = SPOTMoM.get_tail_threshold(Y, self.init_cutoff)
+            cutoff = GPDThreshold.get_tail_threshold(Y, self.init_cutoff)
             Y = Y[Y<cutoff]
 
 
@@ -119,13 +122,13 @@ class SPOTThreshold(Threshold):
             self._add_peak(y)
         
                     
-        sigma, gamma = SPOTMoM.get_gpd_params(Y, robust=self.robust)
+        sigma, gamma = GPDThreshold.get_gpd_params(Y, robust=self.robust, estimator=self.estimator)
     
         n_y = len(Y)
         n = len(S)
                 
-        spot_thres = max(SPOTMoM.calc_spot_threshold(self.percentile_thres, sigma, gamma, n, n_y, self.q), 
-                        SPOTMoM.calc_half_normal_threshold(self.percentile_thres, Y.std(ddof=1), self.q, support=self.support))
+        spot_thres = max(GPDThreshold.calc_spot_threshold(self.percentile_thres, sigma, gamma, n, n_y, self.q), 
+                        GPDThreshold.calc_half_normal_threshold(self.percentile_thres, Y.std(ddof=1), self.q, support=self.support))
 
         return spot_thres
     
@@ -152,7 +155,7 @@ class SPOTThreshold(Threshold):
 
 
 # SPOT based on MoM-Estimation Helper Class
-class SPOTMoM:
+class GPDThreshold:
     @classmethod
     def get_tail_threshold(cls, data, level) -> float:
         return np.quantile(data, level)
@@ -172,19 +175,22 @@ class SPOTMoM:
     
     @classmethod
     def get_gpd_params_mv(cls, mean, var):
-        if var == 0:
-            return 1, 1
-        
-        sigma = mean/2 * (1 + mean ** 2 / var)
-        gamma = 1/2 * (1 - (mean ** 2 / var))
+        if estimator == "MoM":
+            if var == 0:
+                return 1, 1
+            
+            sigma = mean/2 * (1 + mean ** 2 / var)
+            gamma = 1/2 * (1 - (mean ** 2 / var))
 
         return sigma, gamma
 
     @classmethod
-    def get_gpd_params(cls, peaks, robust=False):
+    def get_gpd_params(cls, peaks, robust=False, estimator="MoM"):
         y = peaks.copy()
-
-
+        if estimator != "MoM": 
+            mu, sigma, gamma = genpareto.fit(y)
+            return sigma, gamma
+ 
         if robust:
             try:
                 huber.maxiter = 1000
@@ -196,6 +202,8 @@ class SPOTMoM:
        
         sigma = mu/2 * (1 + mu ** 2 / var_y)
         gamma = 1/2 * (1 - (mu ** 2 / var_y))
+
+
         
         return sigma, gamma
     
