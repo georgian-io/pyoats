@@ -4,11 +4,25 @@ import numpy as np
 
 
 class Preprocessor(Protocol):
-    def fit(self, *args, **kwargs):
+    """ Base class for Preprocessors.
+
+    Preprocessors are any function that transforms timeseries T to T'.
+
+    Preprocessor object must take a `fit()` method as well as `transform()`.
+    If no fitting is required, concrete classes can simply return.
+
+    Shape of returned array must be:
+        Univariate: (t, ) & (t, 1) --> (t, )
+        Multivariate: (t, n) --> (t, n)
+
+    Validity of return shape can be tested by adding concrete class in `/test/test_preprocessor.py`
+    """
+    def fit(self, data, *args, **kwargs):
         raise NotImplementedError
 
-    def transform(self, *args, **kwargs):
+    def transform(self, data, *args, **kwargs):
         raise NotImplementedError
+
 
     def _handle_multivariate(self, data, processors):
         scores = []

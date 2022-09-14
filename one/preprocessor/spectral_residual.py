@@ -1,11 +1,19 @@
 """
-Hansheng Ren, Bixiong Xu, Yujing Wang, Chao Yi, Congrui Huang, Xiaoyu Kou, Tony Xing, Mao Yang, Jie Tong, Qi Zhang.
-"Time-Series Anomaly Detection Service at Microsoft." arXiv preprint arXiv:1906.03821 (2019).
+Copyright (c) 2019 Takahiro Yoshinaga
 
-Implementation from: https://github.com/y-bar/ml-based-anomaly-detection
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 """
 
 import numpy as np
+from numpy.typing import ArrayLike, NDArray
 from scipy import stats
 
 from one.preprocessor.base import Preprocessor
@@ -15,9 +23,13 @@ def series_filter(values, kernel_size=3):
     """
     Filter a time series. Practically, calculated mean value inside kernel size.
     As math formula, see https://docs.opencv.org/2.4/modules/imgproc/doc/filtering.html.
-    :param values:
-    :param kernel_size:
-    :return: The list of filtered average
+
+    Args:
+        values:
+        kernel_size:
+
+    Returns:
+        The list of filtered average
     """
     filter_values = np.cumsum(values, dtype=float)
 
@@ -60,6 +72,14 @@ def marge_series(values, extend_num=5, forward=5):
 
 
 class SpectralResidual(Preprocessor):
+    """ Generates a saliency map via spectral residual.
+
+    Inspired from:
+        Hansheng Ren, Bixiong Xu, Yujing Wang, Chao Yi, Congrui Huang, Xiaoyu Kou, Tony Xing, Mao Yang, Jie Tong, Qi Zhang.
+        "Time-Series Anomaly Detection Service at Microsoft." arXiv preprint arXiv:1906.03821 (2019).
+
+    Implementation: https://github.com/y-bar/ml-based-anomaly-detection
+    """
     def __init__(self, amp_window_size=16, series_window_size=16, score_window_size=32):
         self.amp_window_size = amp_window_size
         self.series_window_size = series_window_size
@@ -67,10 +87,14 @@ class SpectralResidual(Preprocessor):
 
     def _transform_silency_map(self, values):
         """
-        Transform a time-series into spectral residual, which is method in computer vision.
+        Transform a time-series into spectral residual, a method adopted from computer vision.
         For example, See https://github.com/uoip/SpectralResidualSaliency.
-        :param values: a list or numpy array of float values.
-        :return: silency map and spectral residual
+
+        Args:
+            values: a list or numpy array of float values.
+
+        Returns:
+            Silency map and spectral residual
         """
 
         freq = np.fft.fft(values)
@@ -90,12 +114,15 @@ class SpectralResidual(Preprocessor):
         spectral_residual = np.sqrt(silency_map.real**2 + silency_map.imag**2)
         return spectral_residual
 
-    def transform(self, values, type="avg"):
+    def transform(self, values:ArrayLike, type:str ="avg") -> NDArray:
         """
-        Generate anomaly score by spectral residual.
-        :param values:
-        :param type:
-        :return:
+        Transform series using Spectral Residual
+        Args:
+            values: timeseries
+            type: filter type in `["avg", "abs", "chisq"]`
+
+        Returns:
+
         """
         multivar = True if values.ndim > 1 and values.shape[1] > 1 else False
         if multivar:
@@ -118,5 +145,5 @@ class SpectralResidual(Preprocessor):
             raise ValueError("No type!")
         return score
 
-    def fit(self, *arg, **kwargs):
+    def fit(self, *arg, **kwargs) -> None:
         return
