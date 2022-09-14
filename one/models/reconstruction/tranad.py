@@ -6,7 +6,6 @@ Implementation from: https://github.com/imperial-qore/TranAD
 """
 
 
-
 from typing import Any
 
 import numpy as np
@@ -69,6 +68,7 @@ class TranAD(nn.Module):
 
 class TranADModel(Model):
     support_multivariate = True
+
     def __init__(
         self,
         window: int = 100,
@@ -89,9 +89,7 @@ class TranADModel(Model):
         return type(self).__name__
 
     def _init_model(self, data_dims: int):
-        self.model = self.model_cls(
-            data_dims
-        ).double()
+        self.model = self.model_cls(data_dims).double()
         self.optimizer = torch.optim.AdamW(
             self.model.parameters(), lr=self.model.lr, weight_decay=1e-5
         )
@@ -184,7 +182,6 @@ class TranADModel(Model):
         self.scheduler.step()
 
         return np.mean(l1s), self.optimizer.param_groups[0]["lr"]
-
 
     def _scale_series(self, series: npt.NDArray[Any]):
         series = TimeSeries.from_values(series)

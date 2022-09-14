@@ -7,6 +7,7 @@ from one.models.base import Model
 
 class ARIMAModel(Model):
     support_multivariate = False
+
     def __init__(self, p=1, d=1, q=1, **kwargs):
         self.order = (p, d, q)
 
@@ -32,5 +33,3 @@ class ARIMAModel(Model):
             fitted = fitted.append([data[i]], refit=False)
 
         return np.abs(scores)
-
-

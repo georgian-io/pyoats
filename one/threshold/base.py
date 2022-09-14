@@ -13,7 +13,6 @@ class Threshold(Protocol):
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
         return self.get_threshold(*args, **kwargs)
 
-
     def _handle_multivariate(self, data, thresholders, **kwargs):
         scores = []
         for idx, series in enumerate(data.T):
@@ -25,7 +24,7 @@ class Threshold(Protocol):
         thresholders = []
         for _ in range(data.shape[1]):
             thresholders.append(self.__class__(**self.__dict__))
-        
+
         for idx, series in enumerate(data.T):
             thresholders[idx].fit(series, **kwargs)
 

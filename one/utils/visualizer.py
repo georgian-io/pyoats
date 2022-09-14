@@ -4,7 +4,7 @@ from one.utils import graph_data
 
 class Visualizer():
     def __init__(self, series, labels, train_len):
-        self.p = graph_data(series, labels, train_len)A
+        self.p = graph_data(series, labels, train_len)
         self.ax1, self.ax2 = self.p.get_axes()
 
         self.idx = 0

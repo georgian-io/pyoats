@@ -47,16 +47,16 @@ class PyODModel(Model):
 
         windows = self._get_window(test_data)
         scores = self.model.decision_function(windows)
-        
+
         if normalize:
             scores = zscore(scores)
         scores = np.abs(scores)
 
-        scores = np.append(np.zeros(self.window-1), scores)
-        if multivar: scores = np.tile(scores, (test_data.shape[1], 1)).T
+        scores = np.append(np.zeros(self.window - 1), scores)
+        if multivar:
+            scores = np.tile(scores, (test_data.shape[1], 1)).T
 
         return scores
-        
 
     def _get_window(self, data):
         # Univariate in 2-D
@@ -66,7 +66,6 @@ class PyODModel(Model):
 
         # Multivar
         multivar = True if data.ndim > 1 and data.shape[1] > 1 else False
-
 
         windows = sliding_window_view(data, self.window, axis=0)
 

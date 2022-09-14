@@ -21,7 +21,7 @@ class Preprocessor(Protocol):
         processors = []
         for _ in range(data.shape[1]):
             processors.append(self.__class__(**self.__dict__))
-        
+
         for idx, series in enumerate(data.T):
             processors[idx].fit(series)
 

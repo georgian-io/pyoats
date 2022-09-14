@@ -3,7 +3,6 @@ from stumpy import stump, mstump, gpu_stump
 import numpy as np
 
 
-
 class MatrixProfileModel(Model):
     def __init__(self, window: int = 10, use_gpu: bool = False):
         self.window = window
@@ -18,7 +17,7 @@ class MatrixProfileModel(Model):
         # univariate in 2-D matrix
         if data.ndim > 1 and data.shape[1] == 1:
             data = data.flatten()
-        
+
         if multivar:
             model = mstump
             data = data.T
@@ -30,17 +29,14 @@ class MatrixProfileModel(Model):
             model = stump
             get_scores = lambda arr: arr[:, 0]
 
-
-
         scores = model(data, self.window)
         scores = get_scores(scores)
 
         if multivar:
-             scores = np.append(np.zeros((self.window-1, data.T.shape[1])), 
-                                 scores,
-                                 axis=0)
+            scores = np.append(
+                np.zeros((self.window - 1, data.T.shape[1])), scores, axis=0
+            )
         else:
-            scores = np.append(np.zeros(self.window-1), scores)
+            scores = np.append(np.zeros(self.window - 1), scores)
 
         return scores
-

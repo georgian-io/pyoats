@@ -5,9 +5,9 @@ from scipy.stats import zscore
 from one.models.base import Model
 
 
-
 class MovingAverageModel(Model):
     support_multivariate = False
+
     def __init__(self, window: int = 10):
         self.window = window
 
@@ -17,7 +17,7 @@ class MovingAverageModel(Model):
     def get_scores(self, data, normalize=False):
         # if multivariate
         if data.ndim > 1 and data.shape[1] > 1:
-            return self._handle_multivariate(data, [self]*data.shape[1])
+            return self._handle_multivariate(data, [self] * data.shape[1])
 
         if data.ndim > 1 and data.shape[1] == 1:
             data = data.flatten()
@@ -25,9 +25,9 @@ class MovingAverageModel(Model):
         E = np.zeros(len(data))
         s_window = sliding_window_view(data, self.window)[:-1]
 
-        E[self.window:] = data[self.window:] - np.mean(s_window, axis=1)
-        
-        if normalize: E = zscore(E)
+        E[self.window :] = data[self.window :] - np.mean(s_window, axis=1)
+
+        if normalize:
+            E = zscore(E)
 
         return np.abs(E)
-

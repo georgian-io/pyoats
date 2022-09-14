@@ -19,6 +19,7 @@ from one.utils.utils import get_default_early_stopping
 
 class DartsModel(Model):
     support_multivariate = True
+
     def __init__(
         self,
         model_cls,
@@ -27,7 +28,7 @@ class DartsModel(Model):
         use_gpu: bool,
         val_split: float = 0.2,
         rnn_model: str = None,
-        **kwargs
+        **kwargs,
     ):
 
         self.window = window
@@ -175,10 +176,12 @@ class DartsModel(Model):
             val_series=TimeSeries.from_values(val),
             epochs=epochs,
             num_loader_workers=1,
-            **kwargs
+            **kwargs,
         )
 
-    def get_scores(self, test_data: npt.NDArray[np.float32], normalize=False, **kwargs) -> Tuple[npt.NDArray[np.float32]]:
+    def get_scores(
+        self, test_data: npt.NDArray[np.float32], normalize=False, **kwargs
+    ) -> Tuple[npt.NDArray[np.float32]]:
         test_data = self._scale_series(test_data)
 
         windows = sliding_window_view(test_data, self.window, axis=0)
@@ -192,8 +195,10 @@ class DartsModel(Model):
 
         seq = []
         for arr in windows.astype(np.float32):
-            if multivar: arr = arr.T
-            else: arr = arr.flatten()
+            if multivar:
+                arr = arr.T
+            else:
+                arr = arr.flatten()
 
             ts = TimeSeries.from_values(arr)
             seq.append(ts)
@@ -211,16 +216,16 @@ class DartsModel(Model):
         preds = preds[: len(tdata_trim)]
 
         residual = preds - tdata_trim
-        
+
         if normalize:
             residual = zscore(residual)
-        
+
         residual = np.abs(residual)
-        
+
         if multivar:
-            residual = np.append(np.zeros((self.window, test_data.shape[1])), 
-                                 residual,
-                                 axis=0)
+            residual = np.append(
+                np.zeros((self.window, test_data.shape[1])), residual, axis=0
+            )
         else:
             residual = np.append(np.zeros(self.window), residual)
 

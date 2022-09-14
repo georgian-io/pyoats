@@ -21,7 +21,10 @@ from one.models.base import Model
 
 class SimpleDartsModel(Model):
     support_multivariate = False
-    def __init__(self, model_cls, window: int, n_steps: int, lags: int, val_split=0.2, **kwargs):
+
+    def __init__(
+        self, model_cls, window: int, n_steps: int, lags: int, val_split=0.2, **kwargs
+    ):
         self.window = window
         self.n_steps = n_steps
         self.lags = lags
@@ -147,8 +150,6 @@ class SimpleDartsModel(Model):
         if test_data.ndim > 1 and test_data.shape[1] > 1:
             return self._handle_multivariate(test_data, self._models)
 
-
-
         test_data = self._scale_series(test_data)
 
         windows = sliding_window_view(test_data, self.window)
@@ -184,7 +185,6 @@ class SimpleDartsModel(Model):
         self._residual = residual
 
         return anom
-
 
     def _scale_series(self, series: npt.NDArray[Any]):
         series = TimeSeries.from_values(series)

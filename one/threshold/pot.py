@@ -40,7 +40,6 @@ class POTThreshold(Threshold):
     def __init__(self, **kwargs):
         self._thresholders = None
 
-
     def fit(self, data):
         multivar = True if data.ndim > 1 and data.shape[1] > 1 else False
         if multivar:
@@ -48,17 +47,20 @@ class POTThreshold(Threshold):
             return
         return
 
-    def get_threshold(self, data, q=1e-4, contamination = 0.95):
+    def get_threshold(self, data, q=1e-4, contamination=0.95):
         multivar = True if data.ndim > 1 and data.shape[1] > 1 else False
         if multivar:
-            if not self._thresholders: self._thresholders = self._pseudo_mv_fit(data)
-            return self._handle_multivariate(data, self._thresholders, q=q, contamination=contamination)
- 
+            if not self._thresholders:
+                self._thresholders = self._pseudo_mv_fit(data)
+            return self._handle_multivariate(
+                data, self._thresholders, q=q, contamination=contamination
+            )
+
         t = self._set_initial_threshold(contamination, data)
         y = self._get_peak_set(t, data)
         n_y = len(y)
         n = len(data)
         sigma, gamma = self._get_gpd_param(y)
 
-        new_threshold = t + sigma/gamma * ((q*n/n_y)**(-gamma) - 1)
+        new_threshold = t + sigma / gamma * ((q * n / n_y) ** (-gamma) - 1)
         return np.tile(new_threshold, len(data))

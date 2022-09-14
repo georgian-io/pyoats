@@ -29,7 +29,7 @@ class Model(Protocol):
         models = []
         for _ in range(data.shape[1]):
             models.append(self.__class__(**self.__dict__))
-        
+
         for idx, series in enumerate(data.T):
             models[idx].fit(series)
 
