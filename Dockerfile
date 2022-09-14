@@ -12,7 +12,10 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 RUN cd / && rm requirements.txt
 
 COPY . /home/one
-WORKDIR /home/one
 
 RUN export TF_FORCE_GPU_ALLOW_GROWTH=true && \
     export CUDA_HOME=/usr/local/cuda/
+
+RUN cd /home/one && pip install -e .
+
+WORKDIR /home
