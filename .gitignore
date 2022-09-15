@@ -71,3 +71,8 @@ logs
 # results
 # results/*
 
+
+# Sphinx Docs
+/docs/source/*.rst
+!/docs/source/index.rst
+/docs/build/

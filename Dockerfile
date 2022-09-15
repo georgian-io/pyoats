@@ -18,4 +18,4 @@ RUN export TF_FORCE_GPU_ALLOW_GROWTH=true && \
 
 RUN cd /home/one && pip install -e .
 
-WORKDIR /home
+# WORKDIR /home
