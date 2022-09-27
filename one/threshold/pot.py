@@ -45,8 +45,7 @@ class POTThreshold(Threshold):
         return
 
     def get_threshold(self, data, q:float=1e-4, tail_level:float=0.95):
-        """_summary_
-
+        """
         Args:
             data (np.ndarray): array of data/anomaly scores
             q (float, optional): q level such that `P(threshold) < q`. Defaults to 1e-4.

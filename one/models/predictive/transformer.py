@@ -11,6 +11,13 @@ from one.models.darts_model import DartsModel
 
 
 class TransformerModel(DartsModel):
+    """Transformer Model
+
+    Using Transformer as a predictor. Anomalies scores are deviations from predictions.
+    
+    Reference: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.transformer_model.html
+    """
+ 
     def __init__(
         self,
         window: int = 10,
@@ -18,6 +25,16 @@ class TransformerModel(DartsModel):
         use_gpu: bool = False,
         val_split: float = 0.2,
     ):
+        """
+        initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.transformer_model.html
+        
+        Args:
+            window (int, optional): rolling window size to feed into the predictor. Defaults to 10.
+            n_steps (int, optional): number of steps to predict forward. Defaults to 1.
+            use_gpu (bool, optional): whether to use GPU. Defaults to False.
+            val_split (float, optional): proportion of data points reserved for validation. Defaults to 0.2.
+        """
+
 
         model = models.TransformerModel
         super().__init__(model, window, n_steps, use_gpu, val_split)

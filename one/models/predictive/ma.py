@@ -6,9 +6,16 @@ from one.models.base import Model
 
 
 class MovingAverageModel(Model):
-    support_multivariate = False
+    """Moving Average Model
+
+    Using the average of past `window` values as a predictor for current. Anomalies scores are deviations from predictions.
+    """
 
     def __init__(self, window: int = 10):
+        """
+        Args:
+            window (int, optional): size of the rolling window used to past moving average. Defaults to 10.
+        """
         self.window = window
 
     def fit(self, *args, **kwargs):

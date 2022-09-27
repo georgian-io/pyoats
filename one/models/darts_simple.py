@@ -34,7 +34,7 @@ class SimpleDartsModel(Model):
         self.model_cls = model_cls
         self.model = model_cls(self.lags)
         self.transformer = None
-        self.params = None
+        self.params = kwargs
 
     @property
     def model_name(self):

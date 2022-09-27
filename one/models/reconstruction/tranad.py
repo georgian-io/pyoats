@@ -1,9 +1,4 @@
-"""
-Tuli, Shreshth and Casale, Giuliano and Jennings, Nicholas R
-"TranAD: Deep Transformer Networks for Anomaly Detection in Multivariate Time Series Data"
 
-Implementation from: https://github.com/imperial-qore/TranAD
-"""
 
 
 from typing import Any
@@ -67,20 +62,29 @@ class TranAD(nn.Module):
 
 
 class TranADModel(Model):
-    support_multivariate = True
+    """ TranAD Model 
+    
+    Tuli, Shreshth and Casale, Giuliano and Jennings, Nicholas R
+    "TranAD: Deep Transformer Networks for Anomaly Detection in Multivariate Time Series Data"
+
+    Implementation from reference: https://github.com/imperial-qore/TranAD
+    """
 
     def __init__(
         self,
         window: int = 100,
-        n_steps: int = None,  # Not necessary
         use_gpu: bool = False,
         val_split: float = 0.2,
     ):
-
+        """
+        Args:
+            window (int, optional): rolling window size to feed into the predictor. Defaults to 10.
+            use_gpu (bool, optional): whether to use GPU. Defaults to False.
+            val_split (float, optional): proportion of data points reserved for validation. Defaults to 0.2.
+        """
         # initiate parameters
         self.model_cls = TranAD
         self.window = window
-        self.n_steps = n_steps
         self.use_gpu = use_gpu
         self.val_split = val_split
 

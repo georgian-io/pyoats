@@ -6,9 +6,26 @@ from one.models.base import Model
 
 
 class ARIMAModel(Model):
-    support_multivariate = False
-
+    """ Autoregressive Intergrated Moving Average Model
+    
+    Implemented using statsmodels package. Multivariate scoring enabled by fitting and predicting each feature column.
+    """
     def __init__(self, p=1, d=1, q=1, **kwargs):
+        """
+        Common parameters:
+            - ARIMA(1,0,0) = first-order autoregressive model
+            - ARIMA(0,1,0) = random walk
+            - ARIMA(1,1,0) = differenced first-order autoregressive model
+            - ARIMA(0,1,1) without constant = simple exponential smoothing
+            - ARIMA(0,1,1) with constant = simple exponential smoothing with growth
+            - ARIMA(0,2,1) or (0,2,2) without constant = linear exponential smoothing
+            - ARIMA(1,1,2) with constant = damped-trend linear exponential smoothing`
+
+        Args:
+            p (int, optional): _description_. Defaults to 1.
+            d (int, optional): _description_. Defaults to 1.
+            q (int, optional): _description_. Defaults to 1.
+        """
         self.order = (p, d, q)
 
     def fit(self, train, *args, **kwargs):

@@ -4,6 +4,24 @@ import numpy as np
 
 
 class Model(Protocol):
+    """ Base class for Models
+
+    Preprocessors are any function that transforms timeseries T to T'.
+
+    Model object must take a `fit()` method as well as `get_scores()`.
+    If no fitting is required, concrete classes can simply return when `fit()` is called.
+
+    Shape of returned array must be:
+        Univariate: (t, ) & (t, 1) --> (t, )
+        Multivariate: (t, n) --> (t, n)
+
+    Validity of return shape can be tested by adding concrete class in `/test/test_scorer.py`
+    
+    Example:
+        pproc = SpectralResidual()
+        transformed_train = pproc.transform(train)
+
+    """
     def fit(self):
         raise NotImplementedError
 

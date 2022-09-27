@@ -11,6 +11,12 @@ from one.models.darts_simple import SimpleDartsModel
 
 
 class RandomForestModel(SimpleDartsModel):
+    """Random Forest Model
+    
+    Using random forest regression as a predictor. Anomalies scores are deviations from predictions.
+
+    Reference: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.random_forest.html
+    """
     def __init__(
         self,
         window: int = 10,
@@ -19,10 +25,19 @@ class RandomForestModel(SimpleDartsModel):
         val_split: float = 0.2,
         **kwargs
     ):
+        """
+        initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.random_forest.html
+        
+        Args:
+            window (int, optional): rolling window size to feed into the predictor. Defaults to 10.
+            n_steps (int, optional): number of steps to predict forward. Defaults to 1.
+            lags (int, optional): number of lags. Defaults to 1.
+            val_split (float, optional): proportion of data points reserved for validation; only used if using auto-tuning (not tested). Defaults to 0.
+        """
 
         model = models.RandomForest
 
-        super().__init__(model, window, n_steps, lags, val_split)
+        super().__init__(model, window, n_steps, lags, val_split, **kwargs)
 
     def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {
