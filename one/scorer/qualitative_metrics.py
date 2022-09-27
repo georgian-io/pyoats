@@ -5,7 +5,22 @@ from one.scorer.base import Scorer
 
 
 class QualitativeMetrics(Scorer):
+    """ Unsupervised qualitative metrics used to access the quality of the anomaly detection algorithm
+
+        
+    Attributes: 
+        pct_anom: percentage of predicted anomalies, should be low (as anomalies are rare)
+        avg_anom_dist_from_mean: distance of predicted anomalies to the mean of original data, should be high; useful for series with a lot of global point anomalies
+        avg_cycles_delta_between_anom: average time between anomalies, should be high, as anomalies should be occuring far apart (for point anomalies)
+        max_range_non_anom: the tightness of data from predicted non-anomalies, similar to the idea of `avg_anom_dist_from_mean`; should be low
+        diff_mean_trend: The trend (gradient) of predicted anomalies vs the trend of surrounding points, should be high 
+        diff_mid_avg: The value of predicted anomalies vs the average of surrounding values, should be high
+    """
     def __init__(self, window=10):
+        """
+        Args:
+            window (int, optional): Window sized used to compute `diff_mean_trend` and `diff_mid_avg`. Defaults to 10.
+        """
         self.data = np.array([])
         self.preds = np.array([])
 

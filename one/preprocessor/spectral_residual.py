@@ -19,7 +19,7 @@ from scipy import stats
 from one.preprocessor.base import Preprocessor
 
 
-def series_filter(values, kernel_size=3):
+def _series_filter(values, kernel_size=3):
     """
     Filter a time series. Practically, calculated mean value inside kernel size.
     As math formula, see https://docs.opencv.org/2.4/modules/imgproc/doc/filtering.html.
@@ -44,7 +44,7 @@ def series_filter(values, kernel_size=3):
     return filter_values
 
 
-def extrapolate_next(values):
+def _extrapolate_next(values):
     """
     Extrapolates the next value by sum up the slope of the last value with previous values.
     :param values: a list or numpy array of time-series
@@ -59,9 +59,9 @@ def extrapolate_next(values):
     return next_values
 
 
-def marge_series(values, extend_num=5, forward=5):
+def _merge_series(values, extend_num=5, forward=5):
 
-    next_value = extrapolate_next(values)[forward]
+    next_value = _extrapolate_next(values)[forward]
     extension = [next_value] * extend_num
 
     if isinstance(values, list):
@@ -100,7 +100,7 @@ class SpectralResidual(Preprocessor):
         freq = np.fft.fft(values)
         mag = np.sqrt(freq.real**2 + freq.imag**2)
         spectral_residual = np.exp(
-            np.log(mag) - series_filter(np.log(mag), self.amp_window_size)
+            np.log(mag) - _series_filter(np.log(mag), self.amp_window_size)
         )
 
         freq.real = freq.real * spectral_residual / mag
@@ -128,16 +128,16 @@ class SpectralResidual(Preprocessor):
         if multivar:
             return self._handle_multivariate(values, [self] * values.shape[1])
 
-        extended_series = marge_series(
+        extended_series = _merge_series(
             values, self.series_window_size, self.series_window_size
         )
         mag = self._transform_spectral_residual(extended_series)[: len(values)]
 
         if type == "avg":
-            ave_filter = series_filter(mag, self.score_window_size)
+            ave_filter = _series_filter(mag, self.score_window_size)
             score = (mag - ave_filter) / ave_filter
         elif type == "abs":
-            ave_filter = series_filter(mag, self.score_window_size)
+            ave_filter = _series_filter(mag, self.score_window_size)
             score = np.abs(mag - ave_filter) / ave_filter
         elif type == "chisq":
             score = stats.chi2.cdf((mag - np.mean(mag)) ** 2 / np.var(mag), df=1)

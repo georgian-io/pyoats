@@ -4,7 +4,22 @@ from one.scorer.base import Scorer
 
 
 class SupervisedScorer(Scorer):
+    """Scorer for traditional supervised metrics; only useful if actual anomalies are known
+
+    Attributes
+        tpr: true positive rate
+        fpr: false positive rate
+        tnr: true negative rate
+        fnr: false negative rate
+        f1: F1 score
+        precision: precision
+        recall: recall
+    """
     def __init__(self, delay: int = None):
+        """
+        Args:
+            delay (int, optional): For pattern anomalies, how much tolerance to give for prediction; e.g. delay of 10 means only those predictions in the first 10 time steps of a pattern anomalies are counted as success. None if no delay needed. Defaults to None.
+        """
         self.tp = 0
         self.fp = 0
         self.tn = 0

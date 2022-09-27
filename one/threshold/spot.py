@@ -1,14 +1,3 @@
-"""
-Li, Jia and Di, Shimin and Shen, Yanyan and Chen, Lei
-"FluxEV: A Fast and Effective Unsupervised Framework for Time-Series Anomaly Detection"
-https://doi.org/10.1145/3437963.3441823
-
-Siffer, Alban and Fouque, Pierre-Alain and Termier, Alexandre and Largouet, Christine
-"Anomaly Detection in Streams with Extreme Value Theory"
-https://doi.org/10.1145/3097983.3098144
-"""
-
-
 import time
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
@@ -20,17 +9,38 @@ from one.threshold.base import Threshold
 
 
 class SPOTThreshold(Threshold):
+    """ Streaming version of POT
+    Fit the tails of the data with Generalized Pareto Distribution (GPD).
+    Find the threshold where `P(thres) < q`.
+    Usual values for q is 1e-3 to 1e-6.
+    
+    `fit()` is required to compute the initial threshold for the first `n` points.
+    
+    Siffer, Alban and Fouque, Pierre-Alain and Termier, Alexandre and Largouet, Christine
+    "Anomaly Detection in Streams with Extreme Value Theory"
+    https://doi.org/10.1145/3097983.3098144
+    """
     def __init__(
         self,
-        q=1e-4,
-        level=0.95,
-        memory=2000,
-        support=0,
-        init_cutoff=1,
-        robust=False,
-        estimator="MoM",
+        q:float=1e-4,
+        level:float=0.95,
+        memory:int=2000,
+        support:float=0,
+        init_cutoff: float=1,
+        robust:bool=False,
+        estimator:str="MoM",
         **kwargs
     ):
+        """
+        Args:
+            q (float, optional): q level such that `P(threshold) < q`. Defaults to 1e-4.
+            level (float, optional): threshold to fit tail distribution. Defaults to 0.95.
+            memory (int, optional): how many data points for the tails. Defaults to 2000.
+            support (float, optional): used for method of moments estimation to prevent a bad fit (MoM is fast but unreliable); threshold is computed as the maximum of `GPD` and `support * HalfNormal`. Defaults to 0.
+            init_cutoff (float, optional): used for method of moments estimation to prevent a bad fit (MoM is not robust against outliers); only bottom `init_cutoff` deciles are used to fit the GPD distribution. Defaults to 1.
+            robust (bool, optional): (experimental) using robust estimates of `mean` and `variance` to fit GPD using MoM. Defaults to False.
+            estimator (str, optional): estimator used to fit GPD distribution; accepts 'MoM' or 'MLE'. Defaults to "MoM".
+        """
         self.support = support
         self.init_cutoff = init_cutoff
         self.robust = robust
