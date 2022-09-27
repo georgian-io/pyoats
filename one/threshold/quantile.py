@@ -8,9 +8,6 @@ class QuantileThreshold(Threshold):
     Beware that user is guaranteed to have outlier predictions with this method!
     
     `fit()` not necessary.
-
-    Args:
-        Threshold (_type_): _description_
     """
     def fit(self, *args, **kwargs):
         return
@@ -22,7 +19,7 @@ class QuantileThreshold(Threshold):
             percentile (float, optional): decile level used for threshold. Defaults to 0.95.
 
         Returns:
-            _type_: _description_
+            np.ndarray: array of thresholds
         """
         multivar = True if data.ndim > 1 and data.shape[1] > 1 else False
         if multivar:
