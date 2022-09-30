@@ -5,7 +5,7 @@ import numpy as np
 
 class Threshold(Protocol):
     """Base class for thresholders
-    
+
     Preprocessor object must take a `fit()` method as well as `get_threshold()`.
     If no fitting is required, concrete classes can simply return when `fit()` is called.
 
@@ -13,6 +13,7 @@ class Threshold(Protocol):
         Univariate: (t, ) & (t, 1) --> (t, )
         Multivariate: (t, n) --> (t, n)
     """
+
     def fit(self):
         raise NotImplementedError
 

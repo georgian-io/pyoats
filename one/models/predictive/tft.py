@@ -13,9 +13,10 @@ class TFTModel(DartsModel):
     """TFT Model (Temporal Fusion Transformer)
 
     Using TFT as a predictor. Anomalies scores are deviations from predictions.
-    
+
     Reference: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.tft_model.html
-    """ 
+    """
+
     def __init__(
         self,
         window: int = 10,
@@ -26,14 +27,13 @@ class TFTModel(DartsModel):
     ):
         """
         initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.tft_model.html
-        
+
         Args:
             window (int, optional): rolling window size to feed into the predictor. Defaults to 10.
             n_steps (int, optional): number of steps to predict forward. Defaults to 1.
             use_gpu (bool, optional): whether to use GPU. Defaults to False.
             val_split (float, optional): proportion of data points reserved for validation. Defaults to 0.2.
         """
-
 
         model = models.TFTModel
 

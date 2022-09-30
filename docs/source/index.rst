@@ -6,9 +6,24 @@
 Welcome to tanom-detect's documentation!
 ========================================
 
+.. include:: README.rst
+
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :hidden:
+
+   Home<README>
+
+.. toctree::
+   :hidden:
+
+   User Guide<userguide>
+
+
+.. toctree::
+   :hidden:
+
+   API Reference<generated_api/one>
+
 
 
 

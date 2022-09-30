@@ -1,7 +1,3 @@
-"""
-
-"""
-
 import time
 
 from one.models.base import Model
@@ -13,7 +9,7 @@ from scipy.stats import norm, genpareto
 
 
 class FluxEV2000:
-   def __init__(
+    def __init__(
         self,
         window,
         q,
@@ -381,16 +377,17 @@ class SPOTMoM:
     def calc_half_normal_threshold(cls, initial_threshold, std_dev, q, support=1):
         return initial_threshold + std_dev * norm.ppf(((1 - q) + 1) / 2) * support
 
+
 class FluxEVModel(Model):
     """FluxEV
-    
+
     Implementation from the paper with QoL improvements for production.
-        
+
     Li, Jia and Di, Shimin and Shen, Yanyan and Chen, Lei
     "FluxEV: A Fast and Effective Unsupervised Framework for Time-Series Anomaly Detection"
     https://doi.org/10.1145/3437963.3441823
     """
- 
+
     def __init__(
         self, window: int = 10, window_smoothing=None, q=1e-4, level=0.95, **kwargs
     ):
@@ -405,7 +402,7 @@ class FluxEVModel(Model):
             support (float, optional): used for method of moments estimation to prevent a bad fit (MoM is fast but unreliable); threshold is computed as the maximum of `GPD` and `support * HalfNormal`. Defaults to 0.
             init_cutoff (float, optional): used for method of moments estimation to prevent a bad fit (MoM is not robust against outliers); only bottom `init_cutoff` deciles are used to fit the GPD distribution. Defaults to 1.
             mle (bool, optional): whether to use MLE for GPD parameter estimation; setting True will result in a slow down in performance. Default to False.
- 
+
         """
         self.window = window
         self.window_smoothing = window if window_smoothing is None else window_smoothing

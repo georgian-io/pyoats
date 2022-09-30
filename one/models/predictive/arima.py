@@ -6,10 +6,11 @@ from one.models.base import Model
 
 
 class ARIMAModel(Model):
-    """ Autoregressive Intergrated Moving Average Model
-    
+    """Autoregressive Intergrated Moving Average Model
+
     Implemented using statsmodels package. Multivariate scoring enabled by fitting and predicting each feature column.
     """
+
     def __init__(self, p=1, d=1, q=1, **kwargs):
         """
         Common parameters:

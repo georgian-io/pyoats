@@ -4,16 +4,16 @@ from one.models.pyod_model import PyODModel
 
 class VAEModel(PyODModel):
     """VAE Model (Variational Auto-encover)
-    
+
     Using reconstruction error of the trained encoder-decoder network as anomaly scores.
 
     Reference: https://pyod.readthedocs.io/en/latest/_modules/pyod/models/vae.html
     """
- 
+
     def __init__(self, window=10, **kwargs):
         """
         initialization also accepts any parameters used by: https://pyod.readthedocs.io/en/latest/_modules/pyod/models/vae.html
-        
+
         Args:
             window (int, optional): _description_. Defaults to 10.
         """

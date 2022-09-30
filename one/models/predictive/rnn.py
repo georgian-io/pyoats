@@ -13,9 +13,10 @@ class RNNModel(DartsModel):
     """Recurrent Neural Network Model
 
     Using RNN as a predictor. Anomalies scores are deviations from predictions.
-    
+
     Reference: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.rnn_model.html
     """
+
     def __init__(
         self,
         window: int = 10,
@@ -27,7 +28,7 @@ class RNNModel(DartsModel):
     ):
         """
         initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.rnn_model.html
-        
+
         Args:
             window (int, optional): rolling window size to feed into the predictor. Defaults to 10.
             n_steps (int, optional): number of steps to predict forward. Defaults to 1.
@@ -36,11 +37,16 @@ class RNNModel(DartsModel):
             rnn_model (str, optional): `RNN` (vanilla RNN), `LSTM`, or `GRU`. Defaults to `RNN`.
         """
 
-
         model_cls = models.RNNModel
 
         super().__init__(
-            model_cls, window, n_steps, use_gpu, val_split, rnn_model=rnn_model, **kwargs
+            model_cls,
+            window,
+            n_steps,
+            use_gpu,
+            val_split,
+            rnn_model=rnn_model,
+            **kwargs
         )
 
     def _model_objective(self, trial, train_data: npt.NDArray[Any]):

@@ -1,8 +1,7 @@
 from one.utils import graph_data
 
 
-
-class Visualizer():
+class Visualizer:
     def __init__(self, series, labels, train_len):
         self.p = graph_data(series, labels, train_len)
         self.ax1, self.ax2 = self.p.get_axes()
@@ -11,7 +10,7 @@ class Visualizer():
 
     def add_result(self, anoms: list, model_name: str):
         xmin = 0.125
-        ymin = 0.1 - (1+self.idx) * 0.05
+        ymin = 0.1 - (1 + self.idx) * 0.05
         dx = 0.775
         dy = 0.05
 

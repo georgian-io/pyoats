@@ -15,6 +15,7 @@ class SupervisedScorer(Scorer):
         precision: precision
         recall: recall
     """
+
     def __init__(self, delay: int = None):
         """
         Args:

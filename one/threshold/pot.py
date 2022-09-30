@@ -8,11 +8,12 @@ class POTThreshold(Threshold):
     """Fit the tails of the data with Generalized Pareto Distribution (GPD).
     Find the threshold where `P(thres) < q`.
     Usual values for q is 1e-3 to 1e-6.
-    
+
     Siffer, Alban and Fouque, Pierre-Alain and Termier, Alexandre and Largouet, Christine
     "Anomaly Detection in Streams with Extreme Value Theory"
     https://doi.org/10.1145/3097983.3098144
     """
+
     @classmethod
     def _set_initial_threshold(cls, contamination: float, scores) -> float:
         return np.quantile(scores, contamination)
@@ -44,7 +45,7 @@ class POTThreshold(Threshold):
             return
         return
 
-    def get_threshold(self, data, q:float=1e-4, tail_level:float=0.95):
+    def get_threshold(self, data, q: float = 1e-4, tail_level: float = 0.95):
         """
         Args:
             data (np.ndarray): array of data/anomaly scores

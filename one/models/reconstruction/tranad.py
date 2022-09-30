@@ -1,6 +1,3 @@
-
-
-
 from typing import Any
 
 import numpy as np
@@ -62,8 +59,8 @@ class TranAD(nn.Module):
 
 
 class TranADModel(Model):
-    """ TranAD Model 
-    
+    """TranAD Model
+
     Tuli, Shreshth and Casale, Giuliano and Jennings, Nicholas R
     "TranAD: Deep Transformer Networks for Anomaly Detection in Multivariate Time Series Data"
 

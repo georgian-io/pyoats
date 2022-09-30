@@ -4,7 +4,7 @@ import numpy as np
 
 
 class Preprocessor(Protocol):
-    """ Base class for Preprocessors.
+    """Base class for Preprocessors.
 
     Preprocessors are any function that transforms timeseries T to T'.
 
@@ -16,17 +16,17 @@ class Preprocessor(Protocol):
         Multivariate: (t, n) --> (t, n)
 
     Validity of return shape can be tested by adding concrete class in `/test/test_preprocessor.py`
-    
+
     Example:
         pproc = SpectralResidual()
         transformed_train = pproc.transform(train)
     """
+
     def fit(self, data, *args, **kwargs):
         raise NotImplementedError
 
     def transform(self, data, *args, **kwargs):
         raise NotImplementedError
-
 
     def _handle_multivariate(self, data, processors):
         scores = []

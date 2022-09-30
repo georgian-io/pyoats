@@ -5,9 +5,10 @@ from one.threshold.base import Threshold
 
 
 class JenksThreshold(Threshold):
-    """ Getting threshold using 1-D clustering (Jenks Natural Breaks).
+    """Getting threshold using 1-D clustering (Jenks Natural Breaks).
     No need to call `fit()`.
     """
+
     def fit(self, *args, **kwargs):
         return
 

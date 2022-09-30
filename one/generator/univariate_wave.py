@@ -55,25 +55,26 @@ def collective_global_synthetic(length, base, coef=1.5, noise_amp=0.005):
 class UnivariateWaveGenerator(Generator):
     """Generates a univariate signal and append anomalies as desired.
 
-    
+
     Attributes:
         train: numpy array of generated train data
         test: numpy array of generated test data
         label: numpy array of labels
-        
+
     Example:
         generator = UnivariateWaveGenerator(1000)
         generator.point_global_outliers(0.05, 2, 50)
-        train, test, label = generator.get_dataset()        
+        train, test, label = generator.get_dataset()
     """
+
     BEHAVIOR_CONFIG = {"freq": 0.04, "coef": 1.5, "offset": 0.0, "noise_amp": 0.05}
 
     def __init__(
         self,
-        stream_length:int,
-        train_ratio:float=0.2,
+        stream_length: int,
+        train_ratio: float = 0.2,
         behavior=sine,
-        behavior_config:dict=BEHAVIOR_CONFIG,
+        behavior_config: dict = BEHAVIOR_CONFIG,
     ):
         """
         Args:
@@ -112,7 +113,7 @@ class UnivariateWaveGenerator(Generator):
 
     def point_global_outliers(self, ratio, factor, radius):
         """Add point global outliers to original data
-        
+
         Args:
             ratio: what ratio outliers will be added
             factor: the larger, the outliers are farther from inliers
@@ -135,7 +136,7 @@ class UnivariateWaveGenerator(Generator):
 
     def point_contextual_outliers(self, ratio, factor, radius):
         """Add point contextual outliers to original data
-        
+
         Args:
             ratio: what ratio outliers will be added
             factor: the larger, the outliers are farther from inliers
@@ -175,7 +176,7 @@ class UnivariateWaveGenerator(Generator):
         ],
     ):  # only used when option=='other'
         """Add collective global outliers to original data
-        
+
         Args:
             ratio: what ratio outliers will be added
             radius: the radius of collective outliers range
@@ -213,7 +214,7 @@ class UnivariateWaveGenerator(Generator):
 
     def collective_trend_outliers(self, ratio, factor, radius):
         """Add collective trend outliers to original data
-        
+
         Args:
             ratio: what ratio outliers will be added
             factor: how dramatic will the trend be
@@ -232,7 +233,7 @@ class UnivariateWaveGenerator(Generator):
 
     def collective_seasonal_outliers(self, ratio, factor, radius):
         """Add collective seasonal outliers to original data
-        
+
         Args:
             ratio: what ratio outliers will be added
             factor: how many times will frequency multiple

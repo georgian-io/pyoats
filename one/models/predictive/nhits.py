@@ -11,13 +11,13 @@ from one.models.darts_model import DartsModel
 
 class NHiTSModel(DartsModel):
     """N-HiTS Model (Similar to N-BEATS but faster)
-    
+
     Using N-HiTS as a predictor. Anomalies scores are deviations from predictions.
-    
+
     Reference: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nhits.html
     """
+
     def __init__(
-        
         self,
         window: int = 10,
         n_steps: int = 1,
@@ -27,7 +27,7 @@ class NHiTSModel(DartsModel):
     ):
         """
         initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nhits.html
-        
+
         Args:
             window (int, optional): rolling window size to feed into the predictor. Defaults to 10.
             n_steps (int, optional): number of steps to predict forward. Defaults to 1.

@@ -10,23 +10,24 @@ from one.models.darts_simple import SimpleDartsModel
 
 
 class LightGBMModel(SimpleDartsModel):
-    """ LightGBM Model
-    
+    """LightGBM Model
+
     Using regression via gradient boosted trees as a predictor. Anomalies scores are deviations from predictions.
-    
+
     Reference: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.gradient_boosted_model.html
     """
+
     def __init__(
         self,
         window: int = 10,
         n_steps: int = 1,
         lags: int = 1,
-        val_split: float = 0.,
+        val_split: float = 0.0,
         **kwargs
     ):
         """
         initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.gradient_boosted_model.html
-        
+
         Args:
             window (int, optional): rolling window size to feed into the predictor. Defaults to 10.
             n_steps (int, optional): number of steps to predict forward. Defaults to 1.

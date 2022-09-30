@@ -6,8 +6,8 @@ from one.models.base import Model
 
 class QuantileModel(Model):
     """Quantile Model
-    
-    Rule-based model where we label timestep as anomalous if current observation is larger than past `window` onbservations at `quantile`. 
+
+    Rule-based model where we label timestep as anomalous if current observation is larger than past `window` onbservations at `quantile`.
     """
 
     def __init__(self, window: int = 10, quantile: float = 0.98):

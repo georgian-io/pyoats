@@ -6,13 +6,14 @@ from one.threshold.base import Threshold
 class QuantileThreshold(Threshold):
     """Simple threshold method where top `q` deciles of anomaly scores are labeled as anomalies.
     Beware that user is guaranteed to have outlier predictions with this method!
-    
+
     `fit()` not necessary.
     """
+
     def fit(self, *args, **kwargs):
         return
 
-    def get_threshold(self, data, percentile:float=0.95):
+    def get_threshold(self, data, percentile: float = 0.95):
         """
         Args:
             data (np.ndarray): array of anomaly scores

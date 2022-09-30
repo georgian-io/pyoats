@@ -72,7 +72,7 @@ def _merge_series(values, extend_num=5, forward=5):
 
 
 class SpectralResidual(Preprocessor):
-    """ Generates a saliency map via spectral residual.
+    """Generates a saliency map via spectral residual.
 
     Inspired from:
         Hansheng Ren, Bixiong Xu, Yujing Wang, Chao Yi, Congrui Huang, Xiaoyu Kou, Tony Xing, Mao Yang, Jie Tong, Qi Zhang.
@@ -80,6 +80,7 @@ class SpectralResidual(Preprocessor):
 
     Implementation: https://github.com/y-bar/ml-based-anomaly-detection
     """
+
     def __init__(self, amp_window_size=16, series_window_size=16, score_window_size=32):
         self.amp_window_size = amp_window_size
         self.series_window_size = series_window_size
@@ -114,7 +115,7 @@ class SpectralResidual(Preprocessor):
         spectral_residual = np.sqrt(silency_map.real**2 + silency_map.imag**2)
         return spectral_residual
 
-    def transform(self, values:ArrayLike, type:str ="avg") -> NDArray:
+    def transform(self, values: ArrayLike, type: str = "avg") -> NDArray:
         """
         Transform series using Spectral Residual
         Args:

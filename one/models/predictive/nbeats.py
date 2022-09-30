@@ -13,9 +13,10 @@ class NBEATSModel(DartsModel):
     """N-BEATS Model (Neural Basis Expansion Analysis Time Series Forecasting)
 
     Using N-BEATS as a predictor. Anomalies scores are deviations from predictions.
-    
+
     Reference: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nbeats.html
     """
+
     def __init__(
         self,
         window: int = 10,
@@ -26,7 +27,7 @@ class NBEATSModel(DartsModel):
     ):
         """
         initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nbeats.html
-        
+
         Args:
             window (int, optional): rolling window size to feed into the predictor. Defaults to 10.
             n_steps (int, optional): number of steps to predict forward. Defaults to 1.

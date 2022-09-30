@@ -9,26 +9,27 @@ from one.threshold.base import Threshold
 
 
 class SPOTThreshold(Threshold):
-    """ Streaming version of POT
+    """Streaming version of POT
     Fit the tails of the data with Generalized Pareto Distribution (GPD).
     Find the threshold where `P(thres) < q`.
     Usual values for q is 1e-3 to 1e-6.
-    
+
     `fit()` is required to compute the initial threshold for the first `n` points.
-    
+
     Siffer, Alban and Fouque, Pierre-Alain and Termier, Alexandre and Largouet, Christine
     "Anomaly Detection in Streams with Extreme Value Theory"
     https://doi.org/10.1145/3097983.3098144
     """
+
     def __init__(
         self,
-        q:float=1e-4,
-        level:float=0.95,
-        memory:int=2000,
-        support:float=0,
-        init_cutoff: float=1,
-        robust:bool=False,
-        estimator:str="MoM",
+        q: float = 1e-4,
+        level: float = 0.95,
+        memory: int = 2000,
+        support: float = 0,
+        init_cutoff: float = 1,
+        robust: bool = False,
+        estimator: str = "MoM",
         **kwargs
     ):
         """
