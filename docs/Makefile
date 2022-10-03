@@ -50,7 +50,7 @@ generate-userguide:
 
 generate-api:
 	@echo "[Makefile] generating API using sphinx-apidoc..."
-	@sphinx-apidoc -e -f --templatedir templates -o "$(SOURCEDIR)/generated_api" ../one 
+	@sphinx-apidoc -e -f --templatedir templates -o "$(SOURCEDIR)/generated_api" ../oats
 
 html:
 	# Note: this target has to be called "html" because its name is given as an argument to Sphinx

@@ -1,6 +1,6 @@
 import pytest
 
-from one.generator import UnivariateWaveGenerator
+from oats.generator import UnivariateWaveGenerator
 
 @pytest.mark.generator
 def test_univar_wave_generator():

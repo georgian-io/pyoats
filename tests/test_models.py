@@ -1,6 +1,6 @@
 import pytest
 
-from one.models import *
+from oats.models import *
 import tensorflow as tf
 
 
