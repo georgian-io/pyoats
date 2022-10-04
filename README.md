@@ -109,8 +109,9 @@ Current
 ## Getting Started
 <br />
 <div align="center">
-    <img src="static/example-sine_wave.png" alt="Usage Example" width="auto" height="80">
+    <img src="static/example-sine_wave.png" alt="Usage Example" width="600" height="auto">
   </a>
+  </div>
 
 
 ### Prerequisites
@@ -253,6 +254,7 @@ Distributed under the Apache 2.0 License. See `LICENSE` for more information.
   <a href="https://www.georgian.io">
     <img src="https://s34372.pcdn.co/wp-content/uploads/2022/03/Georgian_Blue.png" alt="Logo" width="auto" height="80">
   </a>
+  </div>
 
 
 |<!-- -->|<!-- -->|<!-- -->|
