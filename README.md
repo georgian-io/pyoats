@@ -95,6 +95,7 @@ Current
 * [![Poetry][Python-Poetry.org]][Poetry-url]
 * [![Python][Python.org]][Python-url]
 * [![Pytorch][Pytorch.org]][Torch-url]
+* [![PytorchLightning][PytorchLightning.ai]][Lightning-url]
 * [![TensorFlow][TensorFlow.org]][TF-url]
 * [![Numpy][Numpy.org]][Numpy-url]
 * [![Darts][Darts]][Darts-url]
@@ -106,14 +107,22 @@ Current
 
 <!-- GETTING STARTED -->
 ## Getting Started
+<br />
+<div align="center">
+    <img src="static/example-sine_wave.png" alt="Usage Example" width="auto" height="80">
+  </a>
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
+[![Python][Python.org]][Python-url] >= 3.8
 
-This is an example of how to list things you need to use the software and how to install them.
-*  [![Python][Python.org]][Python-url] >= 3.8
+For Docker Install:
+ [![Docker][Docker.com]][Docker-url]
+
+For Local Install:
+ [![Poetry][Python-Poetry.org]][Poetry-url]
+
+
 
 ### Installation
 #### PyPI
@@ -124,16 +133,21 @@ This is an example of how to list things you need to use the software and how to
   
 #### Docker
 1. Clone the repo
-   ```sh
-   git clone https://github.com/georgian-io/oats.git && cd oats 
-   ```
+	```sh
+	git clone https://github.com/georgian-io/oats.git && cd oats 
+	```
  2. Build image
-   ```sh
-   docker build -t one . 
-   ```
-
-
- 4. Run container
+	```sh
+	docker build -t oats . 
+	```
+3. Run Container
+	```sh 
+	# CPU Only
+	docker run -it oats
+	
+	# with GPU
+	docker run -it --gpus all oats
+	```
   
 #### Local
 1. Clone the repo
@@ -152,8 +166,22 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### Getting Anomaly Score
+```python 
+from oats.models import NHiTSModel
 
+model = NHiTSModel(window=20, use_gpu=True)
+model.fit(train)
+scores = model.get_scores(test)
+```
+### Getting Threshold
+```python 
+from oats.threshold import QuantileThreshold
+
+t = QuantileThreshold()
+threshold = t.get_threshold(scores, 0.99)
+anom = scores > threshold
+```
 _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -164,12 +192,14 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 _For more details about the individual models, please refer to the [Documentation](https://example.com)_
 
-Model | Type | Multivariate Support | DL Dependency | Paper | Reference Model
---- | --- | --- | --- | --- | --- 
-`N-BEATS` | Predictive | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://github.com/Nixtla/statsforecast) | [Darts-NBEATS](https://github.com/Nixtla/statsforecast)
-`N-BEATS` | Predictive | ⚠️ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://github.com/Nixtla/statsforecast) | [Darts-NBEATS](https://github.com/Nixtla/statsforecast)
+Model | Type | Multivariate Support* | Needs Fitting | Framework Dependency | Paper | Reference Model
+--- | :---: | :---: | :---: | :---: | :---: |  :---: 
+`N-BEATS` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://github.com/Nixtla/statsforecast) | [Darts-NBEATS](https://github.com/Nixtla/statsforecast)
+`N-BEATS` | Predictive | ⚠️ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://github.com/Nixtla/statsforecast) | [Darts-NBEATS](https://github.com/Nixtla/statsforecast)
 
 
+
+**\*** For models with ⚠️, detection is done separately along each variable. This implicitly assumes independence of covariates, which means that **the resultant anomaly scores do not take into account of inter-variable dependency structures.**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -238,8 +268,10 @@ Project Link: [https://github.com/georgian-io/oats](https://github.com/georgian-
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
-Colleagues from Georgian:
-* [Angeline Yosodara](mailto:angeline@georgian.io)
+I would like to thank my colleagues from Georgian for all the help and advice provided along the way. For their constant support, and for their endless wisdom.
+
+
+* [Angeline Yasodhara](mailto:angeline@georgian.io)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -277,6 +309,13 @@ Colleagues from Georgian:
 [Darts-url]: https://github.com/unit8co/darts
 [PyOD]: https://img.shields.io/badge/Repo-PyOD-000000?style=for-the-badge&logo=github&logoColor=white
 [PyOD-url]: https://github.com/yzhao062/pyod
+
+[Docker.com]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
+[Docker-url]: https://docker.com
+
+[PyTorchLightning.ai]: https://img.shields.io/badge/lightning-792EE5?style=for-the-badge&logo=pytorchlightning&logoColor=white
+[Lightning-url]: https://www.pytorchlightning.ai/
+
 
 
 [LinkedIn]: https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white
