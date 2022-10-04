@@ -40,11 +40,11 @@
     <a href="https://github.com/georgian-io/oats"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/georgian/oats">View Demo</a>
+    <a href="https://github.com/georgian-io/oats">View Demo</a>
     ·
-    <a href="https://github.com/georgian/oats/issues">Report Bug</a>
+    <a href="https://github.com/georgian-io/oats/issues">Report Bug</a>
     ·
-    <a href="https://github.com/georgian/oats/issues">Request Feature</a>
+    <a href="https://github.com/georgian-io/oats/issues">Request Feature</a>
   </p>
 </div>
 
@@ -250,11 +250,11 @@ Colleagues from Georgian:
 [contributors-shield]: https://img.shields.io/github/contributors/georgian-io/oats.svg?style=for-the-badge
 [contributors-url]: https://github.com/georgian-io/oats/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/georgian-io/contributors.svg?style=for-the-badge
-[forks-url]: https://github.com/georgian/oats/network/members
-[stars-shield]: https://img.shields.io/github/stars/georgian/oats.svg?style=for-the-badge
-[stars-url]: https://github.com/georgian/oats/stargazers
-[issues-shield]: https://img.shields.io/github/issues/georgian/oats.svg?style=for-the-badge
-[issues-url]: https://github.com/georgian/oats/issues
+[forks-url]: https://github.com/georgian-io/oats/network/members
+[stars-shield]: https://img.shields.io/github/stars/georgian-io/oats.svg?style=for-the-badge
+[stars-url]: https://github.com/georgian-io/oats/stargazers
+[issues-shield]: https://img.shields.io/github/issues/georgian-io/oats.svg?style=for-the-badge
+[issues-url]: https://github.com/georgian-io/oats/issues
 [license-shield]: https://img.shields.io/github/license/georgian-io/oats.svg?style=for-the-badge
 [license-url]: https://github.com/georgian-io/oats/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
