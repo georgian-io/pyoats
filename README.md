@@ -19,7 +19,6 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 [![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![Apache 2.0 License][license-shield]][license-url]
@@ -81,10 +80,11 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-Current
-* Implementation of anomaly detection models for 
-* Novel, SOTA models
-* Modular design for 
+Adapting existing outlier detection & prediction methods into a **time series outlier detection** system is not a simple task. Good news: **OATS** has done the heavy lifting for you! 
+
+We present a straight-forward interface for popular, state-of-the-art detection methods to assist you in your experiments. In addition to the models, we also present different options when it comes to selecting a final threshold for predictions.
+
+**OATS** seamlessly supports both univariate and multivariate time series regardless of the model choice and guarantees the same output shape, enabling a modular approach to time series anoamly detection.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -200,7 +200,7 @@ Model | Type | Multivariate Support* | Needs Fitting | Framework Dependency | Pa
 
 
 
-**\*** For models with ⚠️, detection is done separately along each variable. This implicitly assumes independence of covariates, which means that **the resultant anomaly scores do not take into account of inter-variable dependency structures.**
+**\*** For models with ⚠️, sore calculation is done separately along each column. This implicitly assumes independence of covariates, which means that **the resultant anomaly scores do not take into account of inter-variable dependency structures.**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -211,8 +211,8 @@ Model | Type | Multivariate Support* | Needs Fitting | Framework Dependency | Pa
 ## Roadmap
 
 - [ ] Automatic hyper-parameter tuning
-- [ ] Better documentation 
-- [ ] More preprocessors for timeseries
+- [ ] More examples 
+- [ ] More preprocessors
 
 See the [open issues](https://github.com/georgian-io/oats/issues) for a full list of proposed features (and known issues).
 
@@ -226,6 +226,7 @@ See the [open issues](https://github.com/georgian-io/oats/issues) for a full lis
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+
 Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
@@ -270,11 +271,19 @@ Project Link: [https://github.com/georgian-io/oats](https://github.com/georgian-
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
-I would like to thank my colleagues from Georgian for all the help and advice provided along the way. For their constant support, and for their endless wisdom.
-
-
+I would like to thank my colleagues from Georgian for all the help and advice provided along the way.
 * [Angeline Yasodhara](mailto:angeline@georgian.io)
+* [Akshay Budhkar](mailto:akshay@georgian.io)
+* [Pari Sobhani](mailto:parinaz@georgian.io)
 
+
+I'd also like to extend my gratitude to all the contributors at [Darts][Darts-url] (for time series predictions) and [PyOD][PyOD-url] (for general outlier detection), whose projects have enabled a straight-forward extension into the domain of time series anomaly detection.
+
+Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https://cs.rice.edu/~xh37/index.html), whose wonderful [TODS][Darts-url] package served as a major inspiration and starting point for this project. Please check them out especially if you're looking for AutoML support.
+
+[![Darts][Darts]][Darts-url] [![PyOD][PyOD]][PyOD-url] [![TODS][TODS]][TODS-url]
+
+ 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -311,6 +320,8 @@ I would like to thank my colleagues from Georgian for all the help and advice pr
 [Darts-url]: https://github.com/unit8co/darts
 [PyOD]: https://img.shields.io/badge/Repo-PyOD-000000?style=for-the-badge&logo=github&logoColor=white
 [PyOD-url]: https://github.com/yzhao062/pyod
+[TODS]: https://img.shields.io/badge/Repo-TODS-29B48C?style=for-the-badge&logo=github&logoColor=white
+[Tods-url]: https://github.com/datamllab/tods
 
 [Docker.com]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
 [Docker-url]: https://docker.com
