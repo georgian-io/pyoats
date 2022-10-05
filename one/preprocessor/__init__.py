@@ -1,1 +1,0 @@
-from one.preprocessor.spectral_residual import SpectralResidual

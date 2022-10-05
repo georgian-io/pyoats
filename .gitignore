@@ -71,3 +71,9 @@ logs
 # results
 # results/*
 
+
+# Sphinx Docs
+/docs/source/generated_api/
+/docs/source/userguide/
+/docs/source/README.rst
+/docs/build/

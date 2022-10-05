@@ -3,9 +3,9 @@ import os
 import logging
 import argparse
 
-from one.utils.utils import *
-from one.models import *
-from one.data.ucrdata import UcrDataReader
+from oats._utils.utils import *
+from oats.models import *
+from oats._data.ucrdata import UcrDataReader
 
 ROOT_DIR = "./data/ucr/"
 SAVE_DIR = "./results/"

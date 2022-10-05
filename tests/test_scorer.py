@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 
-from one.scorer import *
+from oats.scorer import *
 
 @pytest.fixture
 def labels():

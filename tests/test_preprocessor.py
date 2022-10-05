@@ -1,6 +1,6 @@
 import pytest
 
-from one.preprocessor import *
+from oats.preprocessor import *
 import numpy as np
 import tensorflow as tf
 

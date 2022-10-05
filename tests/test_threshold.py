@@ -1,6 +1,6 @@
 import pytest
 
-from one.threshold import *
+from oats.threshold import *
 import numpy as np
 
 
