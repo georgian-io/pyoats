@@ -30,7 +30,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/georgian-io/oats">
-    <img src="static/oats.png" alt="Logo" width="auto" height="80">
+    <img src="https://github.com/georgian-io/oats/raw/main/static/oats.png" alt="Logo" width="auto" height="80">
   </a>
 
 <h3 align="center"> OATS</h3>
@@ -109,7 +109,7 @@ We present a straight-forward interface for popular, state-of-the-art detection 
 ## Getting Started
 <br />
 <div align="center">
-    <img src="static/example-sine_wave.png" alt="Usage Example" width="600" height="auto">
+    <img src="https://github.com/georgian-io/oats/raw/main/static/example-sine_wave.png" alt="Usage Example" width="600" height="auto">
   </a>
   </div>
 
