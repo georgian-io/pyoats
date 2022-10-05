@@ -315,7 +315,10 @@ Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https
 [issues-url]: https://github.com/georgian-io/oats/issues
 [license-shield]: https://img.shields.io/github/license/georgian-io/oats.svg?style=for-the-badge
 [license-url]: https://github.com/georgian-io/oats/blob/master/LICENSE
-[product-screenshot]: images/screenshot.png
+[last_commit-shield]: https://img.shields.io/github/last-commit/georgian-io/oats.svg?style=for-the-badge
+[last_commit-url]: https://github.com/georgian-io/oats/commits/
+
+https://img.shields.io/github/last-commit/georgian-io/oats.svg?style=for-the-badge
 
 
 <!-- Deps Links -->
