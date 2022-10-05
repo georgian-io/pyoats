@@ -123,7 +123,7 @@ For Local Install:
 
 ### Installation
 #### PyPI
-1. Install package via pip
+1. Install package via `pip`
    ```sh
    pip install oats
    ```
@@ -288,7 +288,7 @@ I would like to thank my colleagues from Georgian for all the help and advice pr
 * [Angeline Yasodhara](mailto:angeline@georgian.io)
 * [Akshay Budhkar](mailto:akshay@georgian.io)
 * [Borna Almasi](mailto:borna@georgian.io)
-* [Pari Sobhani](mailto:parinaz@georgian.io)
+* [Parinaz Sobhani](mailto:parinaz@georgian.io)
 * [Rodrigo Ceballos Lentini](mailto:rodrigo@georgian.io)
 
 I'd also like to extend my gratitude to all the contributors at [Darts][Darts-url] (for time series predictions) and [PyOD][PyOD-url] (for general outlier detection), whose projects have enabled a straight-forward extension into the domain of time series anomaly detection.
