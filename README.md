@@ -22,6 +22,8 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![Apache 2.0 License][license-shield]][license-url]
+[![Last Commit][last_commit-shield]][last_commit-url]
+
 
 
 <!-- PROJECT LOGO -->
@@ -93,7 +95,9 @@ We present a straight-forward interface for popular, state-of-the-art detection 
 
 ### Built With
 [![Python][Python.org]][Python-url] [![Poetry][Python-Poetry.org]][Poetry-url]
+
 [![Pytorch][Pytorch.org]][Torch-url]  [![PytorchLightning][PytorchLightning.ai]][Lightning-url] [![TensorFlow][TensorFlow.org]][TF-url] [![Numpy][Numpy.org]][Numpy-url]
+
 [![Darts][Darts]][Darts-url] [![PyOD][PyOD]][PyOD-url]
 
 
