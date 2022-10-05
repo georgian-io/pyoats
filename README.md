@@ -306,7 +306,7 @@ Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/georgian-io/oats.svg?style=for-the-badge
 [contributors-url]: https://github.com/georgian-io/oats/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/georgian-io/contributors.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/georgian-io/oats.svg?style=for-the-badge
 [forks-url]: https://github.com/georgian-io/oats/network/members
 [stars-shield]: https://img.shields.io/github/stars/georgian-io/oats.svg?style=for-the-badge
 [stars-url]: https://github.com/georgian-io/oats/stargazers
