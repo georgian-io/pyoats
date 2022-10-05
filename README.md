@@ -287,8 +287,9 @@ Project Link: [https://github.com/georgian-io/oats](https://github.com/georgian-
 I would like to thank my colleagues from Georgian for all the help and advice provided along the way.
 * [Angeline Yasodhara](mailto:angeline@georgian.io)
 * [Akshay Budhkar](mailto:akshay@georgian.io)
+* [Borna Almasi](mailto:borna@georgian.io)
 * [Pari Sobhani](mailto:parinaz@georgian.io)
-
+* [Rodrigo Ceballos Lentini](mailto:rodrigo@georgian.io)
 
 I'd also like to extend my gratitude to all the contributors at [Darts][Darts-url] (for time series predictions) and [PyOD][PyOD-url] (for general outlier detection), whose projects have enabled a straight-forward extension into the domain of time series anomaly detection.
 
