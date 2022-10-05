@@ -298,7 +298,7 @@ I would like to thank my colleagues from Georgian for all the help and advice pr
 
 I'd also like to extend my gratitude to all the contributors at [`Darts`][Darts-url] (for time series predictions) and [`PyOD`][PyOD-url] (for general outlier detection), whose projects have enabled a straight-forward extension into the domain of time series anomaly detection.
 
-Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https://cs.rice.edu/~xh37/index.html), whose wonderful [`TODS`][Darts-url] package served as a major inspiration for this project. Please check them out especially if you're looking for AutoML support.
+Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https://cs.rice.edu/~xh37/index.html), whose wonderful [`TODS`][TODS-url] package served as a major inspiration for this project. Please check them out especially if you're looking for AutoML support.
 
 [![Darts][Darts]][Darts-url] [![PyOD][PyOD]][PyOD-url] [![TODS][TODS]][TODS-url]
 
@@ -341,7 +341,7 @@ https://img.shields.io/github/last-commit/georgian-io/oats.svg?style=for-the-bad
 [PyOD]: https://img.shields.io/badge/Repo-PyOD-000000?style=for-the-badge&logo=github&logoColor=white
 [PyOD-url]: https://github.com/yzhao062/pyod
 [TODS]: https://img.shields.io/badge/Repo-TODS-29B48C?style=for-the-badge&logo=github&logoColor=white
-[Tods-url]: https://github.com/datamllab/tods
+[TODS-url]: https://github.com/datamllab/tods
 [Docker.com]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
 [Docker-url]: https://docker.com
 [PyTorchLightning.ai]: https://img.shields.io/badge/lightning-792EE5?style=for-the-badge&logo=pytorchlightning&logoColor=white
