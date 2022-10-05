@@ -313,7 +313,7 @@ Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https
 [issues-shield]: https://img.shields.io/github/issues/georgian-io/oats.svg?style=for-the-badge
 [issues-url]: https://github.com/georgian-io/oats/issues
 [license-shield]: https://img.shields.io/github/license/georgian-io/oats.svg?style=for-the-badge
-[license-url]: https://github.com/georgian-io/oats/blob/master/LICENSE
+[license-url]: https://github.com/georgian-io/oats/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://ca.linkedin.com/company/georgian
 [product-screenshot]: images/screenshot.png
