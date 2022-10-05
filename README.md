@@ -92,14 +92,10 @@ We present a straight-forward interface for popular, state-of-the-art detection 
 
 
 ### Built With
-* [![Poetry][Python-Poetry.org]][Poetry-url]
-* [![Python][Python.org]][Python-url]
-* [![Pytorch][Pytorch.org]][Torch-url]
-* [![PytorchLightning][PytorchLightning.ai]][Lightning-url]
-* [![TensorFlow][TensorFlow.org]][TF-url]
-* [![Numpy][Numpy.org]][Numpy-url]
-* [![Darts][Darts]][Darts-url]
-* [![PyOD][PyOD]][PyOD-url]
+[![Python][Python.org]][Python-url] [![Poetry][Python-Poetry.org]][Poetry-url]
+[![Pytorch][Pytorch.org]][Torch-url]  [![PytorchLightning][PytorchLightning.ai]][Lightning-url] [![TensorFlow][TensorFlow.org]][TF-url] [![Numpy][Numpy.org]][Numpy-url]
+[![Darts][Darts]][Darts-url] [![PyOD][PyOD]][PyOD-url]
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -193,14 +189,31 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 _For more details about the individual models, please refer to the [Documentation](https://example.com)_
 
-Model | Type | Multivariate Support* | Needs Fitting | Framework Dependency | Paper | Reference Model
+Model | Type | Multivariate Support* | Requires Fitting | DL Framework Dependency | Paper | Reference Model
 --- | :---: | :---: | :---: | :---: | :---: |  :---: 
-`N-BEATS` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://github.com/Nixtla/statsforecast) | [Darts-NBEATS](https://github.com/Nixtla/statsforecast)
-`N-BEATS` | Predictive | ⚠️ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://github.com/Nixtla/statsforecast) | [Darts-NBEATS](https://github.com/Nixtla/statsforecast)
+`ARIMA` | Predictive | ⚠️ | ✅ |  | | [darts.ARIMA](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.arima.html)
+`FluxEV` | Predictive | ⚠️ | ✅ |  | [📝](https://dl.acm.org/doi/10.1145/3437963.3441823) | 
+`LightGBM` | Predictive | ⚠️ | ✅ |  |  | [darts.LightGBM](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.gradient_boosted_model.html)
+`Moving Average` | Predictive | ⚠️ | ✅ |  |  | 
+`N-BEATS` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://openreview.net/forum?id=r1ecqn4YwB) | [darts.NBEATS](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nbeats.html)
+`N-HiTS` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/2201.12886) | [darts.NHiTS](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nhits.html)
+`RandomForest` | Predictive | ⚠️ | ✅ | | | [darts.RandomForest](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.random_forest.html)
+`Regression` | Predictive | ⚠️ | ✅ | | | [darts.Regression](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.regression_model.html)
+`RNN` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | | [darts.RNN](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.rnn_model.html)
+`Temporal Convolution Network` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/1803.01271) | [darts.TCN](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.tcn_model.html)
+`Temporal Fusion Transformers` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/1912.09363) | [darts.TFT](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.tft_model.html)
+`Transformer` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/1706.03762) | [darts.Transformer](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.transformer_model.html)
+`Isolation Forest` | Distance-Based | ✅ | ✅ | || [pyod.IForest](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.iforest)
+`Matrix Profile` | Distance-Based | ✅ |  | | [📝](https://www.cs.ucr.edu/~eamonn/MatrixProfile.html) | [stumpy](https://github.com/TDAmeritrade/stumpy)
+`TranAD` | Reconstruction-Based | ✅ | ✅ | [![TensorFlow][TensorFlow.org]][Torch-url] | [📝](https://arxiv.org/abs/2201.07284) | [tranad](https://github.com/imperial-qore/TranAD)
+`Variational Autoencoder` | Reconstruction-Based | ✅ | ✅ | [![TensorFlow][TensorFlow.org]][Torch-url] |   [📝](https://arxiv.org/abs/1312.6114) | [pyod.VAE](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.vae)
+`Quantile` | Rule-Based | ⚠️ |  |  || 
 
 
 
-**\*** For models with ⚠️, sore calculation is done separately along each column. This implicitly assumes independence of covariates, which means that **the resultant anomaly scores do not take into account of inter-variable dependency structures.**
+
+
+**\*** For models with ⚠️, score calculation is done separately along each column. This implicitly assumes independence of covariates, which means that **the resultant anomaly scores do not take into account of inter-variable dependency structures.**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -279,7 +292,7 @@ I would like to thank my colleagues from Georgian for all the help and advice pr
 
 I'd also like to extend my gratitude to all the contributors at [Darts][Darts-url] (for time series predictions) and [PyOD][PyOD-url] (for general outlier detection), whose projects have enabled a straight-forward extension into the domain of time series anomaly detection.
 
-Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https://cs.rice.edu/~xh37/index.html), whose wonderful [TODS][Darts-url] package served as a major inspiration and starting point for this project. Please check them out especially if you're looking for AutoML support.
+Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https://cs.rice.edu/~xh37/index.html), whose wonderful [TODS][Darts-url] package served as a major inspiration for this project. Please check them out especially if you're looking for AutoML support.
 
 [![Darts][Darts]][Darts-url] [![PyOD][PyOD]][PyOD-url] [![TODS][TODS]][TODS-url]
 
