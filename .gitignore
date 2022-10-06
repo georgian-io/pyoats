@@ -74,6 +74,5 @@ logs
 
 # Sphinx Docs
 /docs/source/generated_api/
-/docs/source/userguide/
-/docs/source/README.rst
+/docs/source/README.md
 /docs/build/

@@ -22,13 +22,15 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![Apache 2.0 License][license-shield]][license-url]
+[![Last Commit][last_commit-shield]][last_commit-url]
+
 
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/georgian-io/oats">
-    <img src="static/oats.png" alt="Logo" width="auto" height="80">
+    <img src="https://github.com/georgian-io/pyoats/raw/main/static/oats.png" alt="Logo" width="auto" height="80">
   </a>
 
 <h3 align="center"> OATS</h3>
@@ -36,14 +38,14 @@
   <p align="center">
     Quick and Easy Outlier Detection for Time Series 
     <br />
-    <a href="https://github.com/georgian-io/oats"><strong>Explore the docs »</strong></a>
+    <a href="https://georgian-io.github.io/pyoats-docs/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/georgian-io/oats">View Demo</a>
     ·
-    <a href="https://github.com/georgian-io/oats/issues">Report Bug</a>
+    <a href="https://github.com/georgian-io/pyoats/issues">Report Bug</a>
     ·
-    <a href="https://github.com/georgian-io/oats/issues">Request Feature</a>
+    <a href="https://github.com/georgian-io/pyoats/issues">Request Feature</a>
   </p>
 </div>
 
@@ -93,7 +95,9 @@ We present a straight-forward interface for popular, state-of-the-art detection 
 
 ### Built With
 [![Python][Python.org]][Python-url] [![Poetry][Python-Poetry.org]][Poetry-url]
+
 [![Pytorch][Pytorch.org]][Torch-url]  [![PytorchLightning][PytorchLightning.ai]][Lightning-url] [![TensorFlow][TensorFlow.org]][TF-url] [![Numpy][Numpy.org]][Numpy-url]
+
 [![Darts][Darts]][Darts-url] [![PyOD][PyOD]][PyOD-url]
 
 
@@ -105,7 +109,7 @@ We present a straight-forward interface for popular, state-of-the-art detection 
 ## Getting Started
 <br />
 <div align="center">
-    <img src="static/example-sine_wave.png" alt="Usage Example" width="600" height="auto">
+    <img src="https://github.com/georgian-io/pyoats/raw/main/static/example-sine_wave.png" alt="Usage Example" width="600" height="auto">
   </a>
   </div>
 
@@ -120,41 +124,42 @@ For Local Install:
  [![Poetry][Python-Poetry.org]][Poetry-url]
 
 
-
 ### Installation
 #### PyPI
 1. Install package via pip
    ```sh
-   pip install oats
+   pip install pyoats
    ```
   
 #### Docker
 1. Clone the repo
-	```sh
-	git clone https://github.com/georgian-io/oats.git && cd oats 
-	```
- 2. Build image
-	```sh
-	docker build -t oats . 
-	```
+    ```sh
+    git clone https://github.com/georgian-io/pyoats.git && cd pyoats 
+    ```
+2. Build image
+    ```sh
+    docker build -t pyoats . 
+    ```
 3. Run Container
-	```sh 
-	# CPU Only
-	docker run -it oats
-	
-	# with GPU
-	docker run -it --gpus all oats
-	```
-  
+    ```sh 
+    # CPU Only
+    docker run -it pyoats
+    
+    # with GPU
+    docker run -it --gpus all pyoats
+    ```
+    
 #### Local
 1. Clone the repo
-   ```sh
-   git clone https://github.com/georgian-io/oats.git && cd oats 
-   ```
-  1. Install via Poetry
-	   ```sh 
-	   poetry install
-	   ```
+    ```sh
+    git clone https://github.com/georgian-io/pyoats.git && cd pyoats 
+    ```
+2. Install via Poetry
+    ```sh 
+    poetry install
+    ```
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -179,7 +184,7 @@ t = QuantileThreshold()
 threshold = t.get_threshold(scores, 0.99)
 anom = scores > threshold
 ```
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation](https://georgian-io.github.io/pyoats-docs/)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -187,26 +192,26 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 ## Models
 
 
-_For more details about the individual models, please refer to the [Documentation](https://example.com)_
+_For more details about the individual models, please refer to the [Documentation](https://georgian-io.github.io/pyoats-docs/)_
 
 Model | Type | Multivariate Support* | Requires Fitting | DL Framework Dependency | Paper | Reference Model
 --- | :---: | :---: | :---: | :---: | :---: |  :---: 
-`ARIMA` | Predictive | ⚠️ | ✅ |  | | [darts.ARIMA](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.arima.html)
+`ARIMA` | Predictive | ⚠️ | ✅ |  | | [`darts.ARIMA`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.arima.html)
 `FluxEV` | Predictive | ⚠️ | ✅ |  | [📝](https://dl.acm.org/doi/10.1145/3437963.3441823) | 
-`LightGBM` | Predictive | ⚠️ | ✅ |  |  | [darts.LightGBM](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.gradient_boosted_model.html)
+`LightGBM` | Predictive | ⚠️ | ✅ |  |  | [`darts.LightGBM`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.gradient_boosted_model.html)
 `Moving Average` | Predictive | ⚠️ | ✅ |  |  | 
-`N-BEATS` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://openreview.net/forum?id=r1ecqn4YwB) | [darts.NBEATS](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nbeats.html)
-`N-HiTS` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/2201.12886) | [darts.NHiTS](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nhits.html)
-`RandomForest` | Predictive | ⚠️ | ✅ | | | [darts.RandomForest](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.random_forest.html)
-`Regression` | Predictive | ⚠️ | ✅ | | | [darts.Regression](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.regression_model.html)
-`RNN` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | | [darts.RNN](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.rnn_model.html)
-`Temporal Convolution Network` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/1803.01271) | [darts.TCN](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.tcn_model.html)
-`Temporal Fusion Transformers` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/1912.09363) | [darts.TFT](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.tft_model.html)
-`Transformer` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/1706.03762) | [darts.Transformer](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.transformer_model.html)
-`Isolation Forest` | Distance-Based | ✅ | ✅ | || [pyod.IForest](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.iforest)
-`Matrix Profile` | Distance-Based | ✅ |  | | [📝](https://www.cs.ucr.edu/~eamonn/MatrixProfile.html) | [stumpy](https://github.com/TDAmeritrade/stumpy)
-`TranAD` | Reconstruction-Based | ✅ | ✅ | [![TensorFlow][TensorFlow.org]][Torch-url] | [📝](https://arxiv.org/abs/2201.07284) | [tranad](https://github.com/imperial-qore/TranAD)
-`Variational Autoencoder` | Reconstruction-Based | ✅ | ✅ | [![TensorFlow][TensorFlow.org]][Torch-url] |   [📝](https://arxiv.org/abs/1312.6114) | [pyod.VAE](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.vae)
+`N-BEATS` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://openreview.net/forum?id=r1ecqn4YwB) | [`darts.NBEATS`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nbeats.html)
+`N-HiTS` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/2201.12886) | [`darts.NHiTS`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nhits.html)
+`RandomForest` | Predictive | ⚠️ | ✅ | | | [`darts.RandomForest`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.random_forest.html)
+`Regression` | Predictive | ⚠️ | ✅ | | | [`darts.Regression`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.regression_model.html)
+`RNN` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | | [`darts.RNN`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.rnn_model.html)
+`Temporal Convolution Network` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/1803.01271) | [`darts.TCN`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.tcn_model.html)
+`Temporal Fusion Transformers` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/1912.09363) | [`darts.TFT`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.tft_model.html)
+`Transformer` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/1706.03762) | [`darts.Transformer`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.transformer_model.html)
+`Isolation Forest` | Distance-Based | ✅ | ✅ | || [`pyod.IForest`](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.iforest)
+`Matrix Profile` | Distance-Based | ✅ |  | | [📝](https://www.cs.ucr.edu/~eamonn/MatrixProfile.html) | [`stumpy`](https://github.com/TDAmeritrade/stumpy)
+`TranAD` | Reconstruction-Based | ✅ | ✅ | [![TensorFlow][TensorFlow.org]][Torch-url] | [📝](https://arxiv.org/abs/2201.07284) | [`tranad`](https://github.com/imperial-qore/TranAD)
+`Variational Autoencoder` | Reconstruction-Based | ✅ | ✅ | [![TensorFlow][TensorFlow.org]][Torch-url] |   [📝](https://arxiv.org/abs/1312.6114) | [`pyod.VAE`](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.vae)
 `Quantile` | Rule-Based | ⚠️ |  |  || 
 
 
@@ -226,8 +231,9 @@ Model | Type | Multivariate Support* | Requires Fitting | DL Framework Dependenc
 - [ ] Automatic hyper-parameter tuning
 - [ ] More examples 
 - [ ] More preprocessors
+- [ ] More models from `pyod`
 
-See the [open issues](https://github.com/georgian-io/oats/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/georgian-io/pyoats/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -271,9 +277,9 @@ Distributed under the Apache 2.0 License. See `LICENSE` for more information.
   </div>
 
 
-|<!-- -->|<!-- -->|<!-- -->|
-|---|---|---|
-| __Benjamin Ye__ |  [![LinkedIn][LinkedIn]][BenLinkedIn-url] |  [![eMail][eMail]][BenEmail-url] 
+|<!-- -->|<!-- -->|<!-- -->|<!-- -->|
+|---|---|---|---|
+| __Benjamin Ye__ | [![Github][BenGithub]][BenLinkedIn-url] | [![LinkedIn][BenLinkedIn]][BenLinkedIn-url] |  [![eMail][eMail]][BenEmail-url] 
 
 
 Project Link: [https://github.com/georgian-io/oats](https://github.com/georgian-io/oats)
@@ -288,12 +294,12 @@ I would like to thank my colleagues from Georgian for all the help and advice pr
 * [Angeline Yasodhara](mailto:angeline@georgian.io)
 * [Akshay Budhkar](mailto:akshay@georgian.io)
 * [Borna Almasi](mailto:borna@georgian.io)
-* [Pari Sobhani](mailto:parinaz@georgian.io)
+* [Parinaz Sobhani](mailto:parinaz@georgian.io)
 * [Rodrigo Ceballos Lentini](mailto:rodrigo@georgian.io)
 
-I'd also like to extend my gratitude to all the contributors at [Darts][Darts-url] (for time series predictions) and [PyOD][PyOD-url] (for general outlier detection), whose projects have enabled a straight-forward extension into the domain of time series anomaly detection.
+I'd also like to extend my gratitude to all the contributors at [`Darts`][Darts-url] (for time series predictions) and [`PyOD`][PyOD-url] (for general outlier detection), whose projects have enabled a straight-forward extension into the domain of time series anomaly detection.
 
-Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https://cs.rice.edu/~xh37/index.html), whose wonderful [TODS][Darts-url] package served as a major inspiration for this project. Please check them out especially if you're looking for AutoML support.
+Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https://cs.rice.edu/~xh37/index.html), whose wonderful [`TODS`][TODS-url] package served as a major inspiration for this project. Please check them out especially if you're looking for AutoML support.
 
 [![Darts][Darts]][Darts-url] [![PyOD][PyOD]][PyOD-url] [![TODS][TODS]][TODS-url]
 
@@ -305,18 +311,18 @@ Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/georgian-io/oats.svg?style=for-the-badge
-[contributors-url]: https://github.com/georgian-io/oats/graphs/contributors
+[contributors-url]: https://github.com/georgian-io/pyoats/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/georgian-io/contributors.svg?style=for-the-badge
-[forks-url]: https://github.com/georgian-io/oats/network/members
+[forks-url]: https://github.com/georgian-io/pyoats/network/members
 [stars-shield]: https://img.shields.io/github/stars/georgian-io/oats.svg?style=for-the-badge
-[stars-url]: https://github.com/georgian-io/oats/stargazers
+[stars-url]: https://github.com/georgian-io/pyoats/stargazers
 [issues-shield]: https://img.shields.io/github/issues/georgian-io/oats.svg?style=for-the-badge
-[issues-url]: https://github.com/georgian-io/oats/issues
+[issues-url]: https://github.com/georgian-io/pyoats/issues
 [license-shield]: https://img.shields.io/github/license/georgian-io/oats.svg?style=for-the-badge
-[license-url]: https://github.com/georgian-io/oats/blob/master/LICENSE
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://ca.linkedin.com/company/georgian
-[product-screenshot]: images/screenshot.png
+[license-url]: https://github.com/georgian-io/pyoats/blob/master/LICENSE
+[last_commit-shield]: https://img.shields.io/github/last-commit/georgian-io/oats.svg?style=for-the-badge
+[last_commit-url]: https://github.com/georgian-io/pyoats/commits/
+
 
 
 <!-- Deps Links -->
@@ -335,19 +341,19 @@ Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https
 [PyOD]: https://img.shields.io/badge/Repo-PyOD-000000?style=for-the-badge&logo=github&logoColor=white
 [PyOD-url]: https://github.com/yzhao062/pyod
 [TODS]: https://img.shields.io/badge/Repo-TODS-29B48C?style=for-the-badge&logo=github&logoColor=white
-[Tods-url]: https://github.com/datamllab/tods
-
+[TODS-url]: https://github.com/datamllab/tods
 [Docker.com]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
 [Docker-url]: https://docker.com
-
 [PyTorchLightning.ai]: https://img.shields.io/badge/lightning-792EE5?style=for-the-badge&logo=pytorchlightning&logoColor=white
 [Lightning-url]: https://www.pytorchlightning.ai/
 
 
 
-[LinkedIn]: https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white
+[BenLinkedIn]: https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white
 [BenLinkedIn-url]: https://www.linkedin.com/in/benjaminye/
-
 
 [eMail]: https://img.shields.io/badge/EMail-EA4335?style=for-the-badge&logo=gmail&logoColor=white
 [BenEmail-url]: mailto:benjamin.ye@georgian.io
+
+[BenGithub]: https://img.shields.io/badge/Profile-14334A?style=for-the-badge&logo=github&logoColor=white
+[BenGithub-url]: https://www.linkedin.com/in/benjaminye/

@@ -1,9 +1,11 @@
-.. include:: README.rst
+.. include:: README.md
+   :parser: myst
 
 .. toctree::
    :hidden:
 
    Home<README>
+
 
 .. toctree::
    :hidden:
