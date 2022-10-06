@@ -20,8 +20,8 @@ class POTThreshold(Threshold):
     """
 
     @classmethod
-    def _set_initial_threshold(cls, contamination: float, scores) -> float:
-        return np.quantile(scores, contamination)
+    def _set_initial_threshold(cls, tail_level: float, scores) -> float:
+        return np.quantile(scores, tail_level)
 
     @classmethod
     def _get_peak_set(cls, t: float, scores):
@@ -65,7 +65,7 @@ class POTThreshold(Threshold):
             if not self._thresholders:
                 self._thresholders = self._pseudo_mv_fit(data)
             return self._handle_multivariate(
-                data, self._thresholders, q=q, contamination=tail_level
+                data, self._thresholders, q=q, tail_level=tail_level
             )
 
         t = self._set_initial_threshold(tail_level, data)

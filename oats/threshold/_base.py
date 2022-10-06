@@ -26,6 +26,7 @@ class Threshold(Protocol):
     def _handle_multivariate(self, data, thresholders, **kwargs):
         scores = []
         for idx, series in enumerate(data.T):
+            print(series.shape, len(series.shape))
             scores.append(thresholders[idx].get_threshold(series, **kwargs))
 
         return np.array(scores).T
@@ -33,7 +34,8 @@ class Threshold(Protocol):
     def _pseudo_mv_fit(self, data, **kwargs):
         thresholders = []
         for _ in range(data.shape[1]):
-            thresholders.append(self.__class__(**self.__dict__))
+            params = self.__dict__
+            thresholders.append(self.__class__(**params))
 
         for idx, series in enumerate(data.T):
             thresholders[idx].fit(series, **kwargs)
