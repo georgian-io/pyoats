@@ -5,6 +5,9 @@ description = "Quick and Easy Time Series Outlier Detection"
 authors = ["Benjamin Ye <benjamin.ye@georgian.io>"]
 license = "Apache-2.0"
 readme = "README.md"
+packages = [
+    { include = "oats" }
+]
 
 [tool.poetry.dependencies]
 python = ">=3.8, <3.11"
