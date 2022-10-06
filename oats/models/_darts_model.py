@@ -90,7 +90,6 @@ class DartsModel(Model):
             d.update({"accelerator": "gpu", "gpus": [i for i in range(device_count())]})
 
         d.update({"callbacks": [get_default_early_stopping()]})
-        d.update({"progress_bar_refresh_rate": 100})
         return d
 
     def hyperopt_model(

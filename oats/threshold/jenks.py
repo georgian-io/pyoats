@@ -31,5 +31,5 @@ class JenksThreshold(Threshold):
             return self._handle_multivariate(
                 data, [self] * data.shape[1], n_partitions=n_partitions
             )
-        thres = jenkspy.jenks_breaks(data, nb_class=n_partitions)[-2]
+        thres = jenkspy.jenks_breaks(data.flatten(), nb_class=n_partitions)[-2]
         return np.tile(thres, len(data))

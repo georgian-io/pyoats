@@ -19,10 +19,8 @@ help:
 clean:
 	@echo "[Makefile] cleaning..."
 	@rm -rf "./$(BUILDDIR)"
-	@rm -rf "./$(SOURCEDIR)/examples"
+	# @rm -rf "./$(SOURCEDIR)/examples"
 	@rm -rf "./$(SOURCEDIR)/generated_api"
-	@rm -rf "./$(SOURCEDIR)/quickstart"
-	@rm -rf "./$(SOURCEDIR)/userguide"
 	@rm -rf "./$(SOURCEDIR)/README.rst"
 
 # copy-examples:

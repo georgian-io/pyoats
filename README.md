@@ -196,10 +196,10 @@ _For more details about the individual models, please refer to the [Documentatio
 
 Model | Type | Multivariate Support* | Requires Fitting | DL Framework Dependency | Paper | Reference Model
 --- | :---: | :---: | :---: | :---: | :---: |  :---: 
-`ARIMA` | Predictive | ⚠️ | ✅ |  | | [`darts.ARIMA`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.arima.html)
+`ARIMA` | Predictive | ⚠️ | ✅ |  | | [`statsmodels.ARIMA`](https://www.statsmodels.org/dev/generated/statsmodels.tsa.arima.model.ARIMA.html)
 `FluxEV` | Predictive | ⚠️ | ✅ |  | [📝](https://dl.acm.org/doi/10.1145/3437963.3441823) | 
 `LightGBM` | Predictive | ⚠️ | ✅ |  |  | [`darts.LightGBM`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.gradient_boosted_model.html)
-`Moving Average` | Predictive | ⚠️ | ✅ |  |  | 
+`Moving Average` | Predictive | ⚠️ |  |  |  | 
 `N-BEATS` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://openreview.net/forum?id=r1ecqn4YwB) | [`darts.NBEATS`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nbeats.html)
 `N-HiTS` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/2201.12886) | [`darts.NHiTS`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nhits.html)
 `RandomForest` | Predictive | ⚠️ | ✅ | | | [`darts.RandomForest`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.random_forest.html)
