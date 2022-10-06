@@ -47,7 +47,10 @@ class Model(Protocol):
     def _pseudo_mv_train(self, data):
         models = []
         for _ in range(data.shape[1]):
-            models.append(self.__class__(**self.__dict__))
+            params = self.__dict__
+            if "model_cls" in params:
+                params.pop("model_cls")
+            models.append(self.__class__(**params))
 
         for idx, series in enumerate(data.T):
             models[idx].fit(series)
