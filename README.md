@@ -115,13 +115,16 @@ We present a straight-forward interface for popular, state-of-the-art detection 
 
 
 ### Prerequisites
-[![Python][Python.org]][Python-url] >= 3.8
+[![Python][Python.org]][Python-url] >=3.8, <3.11
 
-For Docker Install:
- [![Docker][Docker.com]][Docker-url]
 
-For Local Install:
- [![Poetry][Python-Poetry.org]][Poetry-url]
+#### For Docker Install:
+
+[![Docker][Docker.com]][Docker-url]
+
+#### For Local Install:
+
+[![Poetry][Python-Poetry.org]][Poetry-url]
 
 
 ### Installation
@@ -130,6 +133,7 @@ For Local Install:
    ```sh
    pip install pyoats
    ```
+   **❗ Installing using an environment manager such as [`conda`](https://docs.conda.io/en/latest/miniconda.html), [`venv`](https://docs.python.org/3/library/venv.html), and [`poetry`](https://python-poetry.org/) is highly encouraged as this package contains deep learning frameworks.**
   
 #### Docker
 1. Clone the repo
