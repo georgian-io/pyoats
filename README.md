@@ -30,7 +30,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/georgian-io/oats">
-    <img src="https://github.com/georgian-io/oats/raw/main/static/oats.png" alt="Logo" width="auto" height="80">
+    <img src="https://github.com/georgian-io/pyoats/raw/main/static/oats.png" alt="Logo" width="auto" height="80">
   </a>
 
 <h3 align="center"> OATS</h3>
@@ -38,14 +38,14 @@
   <p align="center">
     Quick and Easy Outlier Detection for Time Series 
     <br />
-    <a href="https://github.com/georgian-io/oats"><strong>Explore the docs »</strong></a>
+    <a href="https://georgian-io.github.io/pyoats-docs/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/georgian-io/oats">View Demo</a>
     ·
-    <a href="https://github.com/georgian-io/oats/issues">Report Bug</a>
+    <a href="https://github.com/georgian-io/pyoats/issues">Report Bug</a>
     ·
-    <a href="https://github.com/georgian-io/oats/issues">Request Feature</a>
+    <a href="https://github.com/georgian-io/pyoats/issues">Request Feature</a>
   </p>
 </div>
 
@@ -109,7 +109,7 @@ We present a straight-forward interface for popular, state-of-the-art detection 
 ## Getting Started
 <br />
 <div align="center">
-    <img src="https://github.com/georgian-io/oats/raw/main/static/example-sine_wave.png" alt="Usage Example" width="600" height="auto">
+    <img src="https://github.com/georgian-io/pyoats/raw/main/static/example-sine_wave.png" alt="Usage Example" width="600" height="auto">
   </a>
   </div>
 
@@ -124,41 +124,42 @@ For Local Install:
  [![Poetry][Python-Poetry.org]][Poetry-url]
 
 
-
 ### Installation
 #### PyPI
 1. Install package via pip
    ```sh
-   pip install oats
+   pip install pyoats
    ```
   
 #### Docker
 1. Clone the repo
-	```sh
-	git clone https://github.com/georgian-io/oats.git && cd oats 
-	```
- 2. Build image
-	```sh
-	docker build -t oats . 
-	```
+    ```sh
+    git clone https://github.com/georgian-io/pyoats.git && cd pyoats 
+    ```
+2. Build image
+    ```sh
+    docker build -t pyoats . 
+    ```
 3. Run Container
-	```sh 
-	# CPU Only
-	docker run -it oats
-	
-	# with GPU
-	docker run -it --gpus all oats
-	```
-  
+    ```sh 
+    # CPU Only
+    docker run -it pyoats
+    
+    # with GPU
+    docker run -it --gpus all pyoats
+    ```
+    
 #### Local
 1. Clone the repo
-   ```sh
-   git clone https://github.com/georgian-io/oats.git && cd oats 
-   ```
-  1. Install via Poetry
-	   ```sh 
-	   poetry install
-	   ```
+    ```sh
+    git clone https://github.com/georgian-io/pyoats.git && cd pyoats 
+    ```
+2. Install via Poetry
+    ```sh 
+    poetry install
+    ```
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -183,7 +184,7 @@ t = QuantileThreshold()
 threshold = t.get_threshold(scores, 0.99)
 anom = scores > threshold
 ```
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation](https://georgian-io.github.io/pyoats-docs/)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -191,7 +192,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 ## Models
 
 
-_For more details about the individual models, please refer to the [Documentation](https://example.com)_
+_For more details about the individual models, please refer to the [Documentation](https://georgian-io.github.io/pyoats-docs/)_
 
 Model | Type | Multivariate Support* | Requires Fitting | DL Framework Dependency | Paper | Reference Model
 --- | :---: | :---: | :---: | :---: | :---: |  :---: 
@@ -232,7 +233,7 @@ Model | Type | Multivariate Support* | Requires Fitting | DL Framework Dependenc
 - [ ] More preprocessors
 - [ ] More models from `pyod`
 
-See the [open issues](https://github.com/georgian-io/oats/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/georgian-io/pyoats/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -310,19 +311,18 @@ Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/georgian-io/oats.svg?style=for-the-badge
-[contributors-url]: https://github.com/georgian-io/oats/graphs/contributors
+[contributors-url]: https://github.com/georgian-io/pyoats/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/georgian-io/contributors.svg?style=for-the-badge
-[forks-url]: https://github.com/georgian-io/oats/network/members
+[forks-url]: https://github.com/georgian-io/pyoats/network/members
 [stars-shield]: https://img.shields.io/github/stars/georgian-io/oats.svg?style=for-the-badge
-[stars-url]: https://github.com/georgian-io/oats/stargazers
+[stars-url]: https://github.com/georgian-io/pyoats/stargazers
 [issues-shield]: https://img.shields.io/github/issues/georgian-io/oats.svg?style=for-the-badge
-[issues-url]: https://github.com/georgian-io/oats/issues
+[issues-url]: https://github.com/georgian-io/pyoats/issues
 [license-shield]: https://img.shields.io/github/license/georgian-io/oats.svg?style=for-the-badge
-[license-url]: https://github.com/georgian-io/oats/blob/master/LICENSE
+[license-url]: https://github.com/georgian-io/pyoats/blob/master/LICENSE
 [last_commit-shield]: https://img.shields.io/github/last-commit/georgian-io/oats.svg?style=for-the-badge
-[last_commit-url]: https://github.com/georgian-io/oats/commits/
+[last_commit-url]: https://github.com/georgian-io/pyoats/commits/
 
-https://img.shields.io/github/last-commit/georgian-io/oats.svg?style=for-the-badge
 
 
 <!-- Deps Links -->

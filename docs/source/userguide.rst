@@ -8,5 +8,5 @@ User Guide
 .. toctree::
    :maxdepth: 1
 
-   userguide/installation.rst
-   userguide/101.rst
+   userguide/installation.md
+   userguide/101.md

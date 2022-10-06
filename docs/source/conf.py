@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.abspath("../../.."))
 project = "oats"
 copyright = f"2022 - {datetime.now().year}, Georgian Partners LP"
 author = "Benjmain Ye, Georgian Partners LP"
-release = "0.0.1"
+release = "0.1.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -25,8 +25,10 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
-    "m2r2",
+    "myst_parser",
 ]
+
+myst_enable_extensions = ["dollarmath", "tasklist"]
 
 templates_path = ["templates"]
 exclude_patterns = []

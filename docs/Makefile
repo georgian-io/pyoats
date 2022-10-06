@@ -37,16 +37,9 @@ clean:
 # 	@cp -r ../examples/static "$(SOURCEDIR)/quickstart/"
 
 generate-readme:
-	@echo "[Makefile] generating README rst file..."
-	@m2r2 ../README.md
-	@mv ../README.rst "$(SOURCEDIR)"
-
-generate-userguide:
-	@echo "[Makefile] generating userguide rst files..."
-	@find $(USERGUIDEDIR)/*.md -exec m2r2 {} \;
-	@mkdir -p "$(SOURCEDIR)/userguide"
-	@mv $(USERGUIDEDIR)/*.rst "$(SOURCEDIR)/userguide/"
-	@cp -r "$(USERGUIDEDIR)/images" "$(SOURCEDIR)/userguide/"
+	@echo "[Makefile] generating README page..."
+	@cp ../README.md "$(SOURCEDIR)"
+	@sed -i '1s/^/# Home\n/' $(SOURCEDIR)/README.md
 
 generate-api:
 	@echo "[Makefile] generating API using sphinx-apidoc..."
@@ -58,7 +51,7 @@ html:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 # build-all-docs: clean copy-examples copy-quickstart generate-readme generate-userguide generate-api html
-build-all-docs: clean generate-readme generate-userguide generate-api html
+build-all-docs: clean generate-readme generate-api html
 
 
 # Catch-all target: route all unknown targets to Sphinx using the new
