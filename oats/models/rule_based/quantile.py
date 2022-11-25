@@ -40,7 +40,6 @@ class QuantileModel(Model):
                 window_threshold = np.percentile(
                     data[i - self.window : i],
                     self.quantile * 100,
-                    method="closest_observation",
                 )
                 E[i] = 1 if data[i] > window_threshold else 0
 

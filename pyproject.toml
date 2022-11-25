@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyoats"
-version = "0.1.0"
+version = "0.1.1"
 description = "Quick and Easy Time Series Outlier Detection"
 authors = ["Benjamin Ye <benjamin.ye@georgian.io>"]
 license = "Apache-2.0"
@@ -10,11 +10,11 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.8, <3.11"
-numpy = "^1.23.3"
+python = ">=3.7.2, <3.11"
+numpy = "^1.21.0"
 darts = "0.20"
 statsmodels = "^0.13.2"
-scipy = "^1.9.1"
+scipy = "1.7.3"
 pyod = "1.0.4"
 stumpy = "^1.11.1"
 jenkspy = "^0.2.2"

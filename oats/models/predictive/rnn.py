@@ -2,7 +2,7 @@
 Recurrent Neural Networks (RNN)
 -----------------
 """
-from typing import Any, Literal
+from typing import Any
 from functools import partial
 
 from darts import models

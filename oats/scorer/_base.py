@@ -1,7 +1,4 @@
-from typing import Protocol
-
-
-class Scorer(Protocol):
+class Scorer():
     """Base class for Scorers.
     Scorer computes the result of a predictor; can be either unsupervised or supervised.
 

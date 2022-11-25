@@ -1,8 +1,8 @@
-from typing import Protocol, Tuple
+from typing import Tuple
 import numpy.typing as npt
 
 
-class Generator(Protocol):
+class Generator():
     """Base class for Generators
     Because of complex behavior of generators. Method signatures are not strictly enforced.
     But must implement `get_dataset()` method that returns `(train, test, label)`

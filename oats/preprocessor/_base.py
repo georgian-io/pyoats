@@ -1,9 +1,7 @@
-from typing import Protocol
-
 import numpy as np
 
 
-class Preprocessor(Protocol):
+class Preprocessor():
     """Base class for Preprocessors.
 
     Preprocessors are any function that transforms timeseries T to T'.
