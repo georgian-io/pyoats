@@ -126,7 +126,6 @@ We present a straight-forward interface for popular, state-of-the-art detection 
 
 [![Poetry][Python-Poetry.org]][Poetry-url]
 
-
 ### Installation
 #### PyPI
 1. Install package via pip
@@ -172,6 +171,10 @@ We present a straight-forward interface for popular, state-of-the-art detection 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+### Quick Start
+For a quick start, please refer to <a href="https://medium.com/@georgian-io/time-series-anomaly-detection-a-field-study-d13b35ee4344">our blog</a> or copy our <a href="https://tinyurl.com/pyoats-notebook">Colab notebook</a>!
+
+
 ### Getting Anomaly Score
 ```python 
 from oats.models import NHiTSModel
@@ -196,7 +199,7 @@ _For more examples, please refer to the [Documentation](https://georgian-io.gith
 ## Models
 
 
-_For more details about the individual models, please refer to the [Documentation](https://georgian-io.github.io/pyoats-docs/)_
+_For more details about the individual models, please refer to the [Documentation](https://georgian-io.github.io/pyoats-docs/) or <a href="https://medium.com/georgian-impact-blog/time-series-anomaly-detection-the-detectives-toolbox-9ef131dddaf9">this blog</a> for deeper explanation._
 
 Model | Type | Multivariate Support* | Requires Fitting | DL Framework Dependency | Paper | Reference Model
 --- | :---: | :---: | :---: | :---: | :---: |  :---: 
@@ -224,10 +227,8 @@ Model | Type | Multivariate Support* | Requires Fitting | DL Framework Dependenc
 
 **\*** For models with ⚠️, score calculation is done separately along each column. This implicitly assumes independence of covariates, which means that **the resultant anomaly scores do not take into account of inter-variable dependency structures.**
 
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 
 <!-- ROADMAP -->
 ## Roadmap
