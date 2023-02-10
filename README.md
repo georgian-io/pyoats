@@ -41,7 +41,7 @@
     <a href="https://georgian-io.github.io/pyoats-docs/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/georgian-io/oats">View Demo</a>
+    <a href="https://tinyurl.com/pyoats-notebook">View Demo</a>
     ·
     <a href="https://github.com/georgian-io/pyoats/issues">Report Bug</a>
     ·
