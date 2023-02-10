@@ -41,7 +41,7 @@
     <a href="https://georgian-io.github.io/pyoats-docs/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://tinyurl.com/pyoats-notebook">View Demo</a>
+    <a href="https://georgian-io.medium.com/time-series-anomaly-detection-a-field-study-d13b35ee4344">View Demo</a>
     ·
     <a href="https://github.com/georgian-io/pyoats/issues">Report Bug</a>
     ·
