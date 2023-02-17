@@ -10,8 +10,8 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.7.2, <3.11"
-numpy = "^1.21.0"
+python = ">=3.8, <3.11"
+numpy = ">=1.22.4"
 darts = "0.20"
 statsmodels = "^0.13.2"
 scipy = "1.7.3"
@@ -20,7 +20,8 @@ stumpy = "^1.11.1"
 jenkspy = "^0.2.2"
 optuna = "^2.10.0"
 statsforecast = "^0.7.1"
-tensorflow = "^2.9.1"
+tensorflow = {version = ">=2.9.1", markers = "sys_platform != 'darwin'"}
+tensorflow-macos = {version = ">=2.9.1 <2.10", markers = "sys_platform == 'darwin'"}
 tqdm = "^4.64.1"
 
 [tool.poetry.group.dev.dependencies]

@@ -15,7 +15,6 @@ torch==1.12.0
 pytorch-lightning==1.6.5
 
 sphinx
-pytest
 black
 pylint
 Sphinx
