@@ -5,7 +5,7 @@ import tensorflow as tf
 
 
 def has_gpu():
-    return tf.test.is_gpu_available()
+    return len(tf.config.list_physical_devices('GPU')) > 0
 
 
 MODELS = [
