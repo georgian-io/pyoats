@@ -22,6 +22,7 @@ optuna = "^2.10.0"
 statsforecast = "^0.7.1"
 tensorflow = {version = ">=2.9.1", markers = "sys_platform != 'darwin'"}
 tensorflow-macos = {version = ">=2.9.1 <2.10", markers = "sys_platform == 'darwin'"}
+tensorflow-metal = {version = "0.5.0 < 0.6.0", markers = "sys_platform == 'darwin'"}
 tqdm = "^4.64.1"
 
 [tool.poetry.group.dev.dependencies]
