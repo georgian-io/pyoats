@@ -234,7 +234,7 @@ class DartsModel(Model):
         i_preds = self.transformer.inverse_transform(i_preds).pd_dataframe().to_numpy()
 
         self._preds = i_preds
-        self._resudual = residual
+        self._residual = residual
 
         return anom
 
