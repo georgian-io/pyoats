@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyoats"
-version = "0.1.1"
+version = "0.1.2"
 description = "Quick and Easy Time Series Outlier Detection"
 authors = ["Benjamin Ye <benjamin.ye@georgian.io>"]
 license = "Apache-2.0"
