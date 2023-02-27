@@ -1,5 +1,5 @@
 optuna==2.10.0
-darts==0.20
+darts==0.23
 tensorboard==2.9.1
 numpy==1.22.4
 pandas==1.4.3
@@ -9,7 +9,7 @@ pyod==1.0.4
 stumpy==1.11.1
 pytest==7.1.2
 jenkspy==0.2.2
-statsforecast==0.7.1
+statsforecast==1.0.0
 tensorflow==2.9.1; sys_platform != 'darwin'
 tensorflow-macos==2.9.2; sys_platform == 'darwin'
 tensorflow-metal==0.5.0; sys_platform == 'darwin'
