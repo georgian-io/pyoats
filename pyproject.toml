@@ -20,8 +20,8 @@ stumpy = "^1.11.1"
 jenkspy = "^0.2.2"
 optuna = "^2.10.0"
 statsforecast = "1.0.0"
-tensorflow = {version = ">=2.9.1", markers = "sys_platform != 'darwin'"}
-tensorflow-macos = {version = ">=2.9.1 <2.10", markers = "sys_platform == 'darwin'"}
+tensorflow = {version = ">=2.9.3", markers = "sys_platform != 'darwin'"}
+tensorflow-macos = {version = ">=2.9.2 <2.10", markers = "sys_platform == 'darwin'"}
 tensorflow-metal = {version = "0.5.0 < 0.6.0", markers = "sys_platform == 'darwin'"}
 tqdm = "^4.64.1"
 
