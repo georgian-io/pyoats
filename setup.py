@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
     name="pyoats",
-    version="0.1.0",
+    version="0.1.2",
     description="Quick and Easy Time Series Anomaly Detection",
     author="Benjamin Ye, Georgian Partners LP",
     author_email="benjamin.ye@georgian.io",
