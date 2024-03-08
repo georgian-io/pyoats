@@ -76,3 +76,6 @@ logs
 /docs/source/generated_api/
 /docs/source/README.md
 /docs/build/
+
+# Distro
+/dist
