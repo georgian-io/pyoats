@@ -56,7 +56,7 @@ def _extrapolate_next(values):
     """
 
     last_value = values[-1]
-    slope = [(last_value - v) / i for (i, v) in enumerate(values[::-1])]
+    slope = [(last_value - v) / (i+1e-5) for (i, v) in enumerate(values[::-1])]
     slope[0] = 0
     next_values = last_value + np.cumsum(slope)
 
