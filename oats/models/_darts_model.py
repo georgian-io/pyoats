@@ -87,7 +87,7 @@ class DartsModel(Model):
         d = {}
 
         if self.use_gpu:
-            d.update({"accelerator": "gpu", "gpus": [i for i in range(device_count())]})
+            d.update({"accelerator": "gpu"})
 
         d.update({"callbacks": [get_default_early_stopping()]})
         return d
