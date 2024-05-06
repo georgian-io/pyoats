@@ -56,7 +56,10 @@ def _extrapolate_next(values):
     """
 
     last_value = values[-1]
-    slope = [(last_value - v) / (i+1e-5) for (i, v) in enumerate(values[::-1])]
+    slope = np.array(
+        [(last_value - v) / (i + 1e-5) for (i, v) in enumerate(values[::-1])]
+    )
+    slope = slope
     slope[0] = 0
     next_values = last_value + np.cumsum(slope)
 
@@ -64,7 +67,6 @@ def _extrapolate_next(values):
 
 
 def _merge_series(values, extend_num=5, forward=5):
-
     next_value = _extrapolate_next(values)[forward]
     extension = [next_value] * extend_num
 
