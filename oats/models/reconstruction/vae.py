@@ -34,14 +34,14 @@ class VAEModel(PyODModel):
             else 1
         )
 
-        if not self.params.get("encoder_neurons"):
-            self.params["encoder_neurons"] = [
+        if not self.params.get("encoder_neuron_list"):
+            self.params["encoder_neuron_list"] = [
                 n_feat * self.window,
                 n_feat * self.window // 2,
                 n_feat * self.window // 4,
             ]
-        if not self.params.get("decoder_neurons"):
-            self.params["decoder_neurons"] = [
+        if not self.params.get("decoder_neuron_list"):
+            self.params["decoder_neuron_list"] = [
                 n_feat * self.window // 4,
                 n_feat * self.window // 2,
                 n_feat * self.window,

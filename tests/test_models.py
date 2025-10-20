@@ -61,8 +61,18 @@ GPU_MODELS = [NBEATSModel, TranADModel, MatrixProfileModel]
 @pytest.mark.gpu
 @pytest.mark.parametrize("model", GPU_MODELS)
 def test_model_gpu(train_sv_1d, test_sv_1d, model):
-    if not has_gpu():
-        return
+    # Check for appropriate GPU support based on model
+    if model == MatrixProfileModel:
+        # MatrixProfileModel requires CUDA (NVIDIA GPUs)
+        try:
+            from numba import cuda
+            if not cuda.is_available():
+                pytest.skip("CUDA not available (required for MatrixProfileModel GPU)")
+        except Exception:
+            pytest.skip("CUDA not available (required for MatrixProfileModel GPU)")
+    elif not has_gpu():
+        pytest.skip("GPU not available")
+
     m = model(use_gpu=True)
     m.fit(train_sv_1d, epochs=1)
     res = m.get_scores(test_sv_1d)

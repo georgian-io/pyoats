@@ -54,9 +54,12 @@ def _extrapolate_next(values):
     :param values: a list or numpy array of time-series
     :return: the next value of time-series
     """
+    # Flatten if 2D array with single column
+    if isinstance(values, np.ndarray) and values.ndim > 1:
+        values = values.flatten()
 
     last_value = values[-1]
-    slope = [(last_value - v) / (i+1e-5) for (i, v) in enumerate(values[::-1])]
+    slope = np.array([(last_value - v) / (i+1e-5) for (i, v) in enumerate(values[::-1])])
     slope[0] = 0
     next_values = last_value + np.cumsum(slope)
 
