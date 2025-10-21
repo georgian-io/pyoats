@@ -9,7 +9,5 @@ class Generator:
     But must implement `get_dataset()` method that returns `(train, test, label)`
     """
 
-    def get_dataset(
-        self, *args, **kwargs
-    ) -> Tuple[npt.NDArray, npt.NDArray, npt.NDArray]:
+    def get_dataset(self, *args, **kwargs) -> Tuple[npt.NDArray, npt.NDArray, npt.NDArray]:
         raise NotImplementedError

@@ -158,17 +158,13 @@ class SPOTThreshold(Threshold):
         for y in Y:
             self._add_peak(y)
 
-        sigma, gamma = _GPDThreshold.get_gpd_params(
-            Y, robust=self.robust, estimator=self.estimator
-        )
+        sigma, gamma = _GPDThreshold.get_gpd_params(Y, robust=self.robust, estimator=self.estimator)
 
         n_y = len(Y)
         n = len(S)
 
         spot_thres = max(
-            _GPDThreshold.calc_spot_threshold(
-                self.percentile_thres, sigma, gamma, n, n_y, self.q
-            ),
+            _GPDThreshold.calc_spot_threshold(self.percentile_thres, sigma, gamma, n, n_y, self.q),
             _GPDThreshold.calc_half_normal_threshold(
                 self.percentile_thres, Y.std(ddof=1), self.q, support=self.support
             ),

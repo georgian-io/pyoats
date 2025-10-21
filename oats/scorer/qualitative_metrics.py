@@ -79,9 +79,7 @@ class QualitativeMetrics(Scorer):
         """The tightness of data from predicted non-anomalies, similar to the idea of `avg_anom_dist_from_mean`; should be low"""
         if self.num_anom in (0, len(self.data)):
             return 1e5
-        return (
-            np.abs(self._pred_non_anomalies.max() - self._pred_non_anomalies.min())
-        ).mean()
+        return (np.abs(self._pred_non_anomalies.max() - self._pred_non_anomalies.min())).mean()
 
     def _get_mid_avg_filter(self):
         # make sure window is odd
@@ -116,10 +114,7 @@ class QualitativeMetrics(Scorer):
             conv = np.abs(signal.convolve(grads, fil, mode="valid"))
             conv = np.pad(conv, (padding, padding), mode="edge")
             diffs.append(
-                (
-                    conv[self.preds == 1].mean(axis=0)
-                    - conv[self.preds == 0].mean(axis=0)
-                ).sum()
+                (conv[self.preds == 1].mean(axis=0) - conv[self.preds == 0].mean(axis=0)).sum()
             )
 
         return np.mean(diffs)
@@ -140,8 +135,7 @@ class QualitativeMetrics(Scorer):
             conv = np.abs(signal.convolve(arr, fil, mode="valid"))
             conv = np.pad(conv, (padding, padding), mode="edge")
             diffs.append(
-                conv[self.preds == 1].mean(axis=0)
-                - conv[self.preds == 0].mean(axis=0).sum()
+                conv[self.preds == 1].mean(axis=0) - conv[self.preds == 0].mean(axis=0).sum()
             )
 
         return np.mean(diffs)

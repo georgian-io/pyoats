@@ -41,9 +41,7 @@ class MatrixProfileModel(Model):
                 model = scrump
                 get_scores = lambda arr: arr
 
-                scores = model(
-                    data, self.window, percentage=0.01, pre_scrump=True, s=None
-                )
+                scores = model(data, self.window, percentage=0.01, pre_scrump=True, s=None)
                 scores.update()
                 scores = scores.P_
 
@@ -56,9 +54,7 @@ class MatrixProfileModel(Model):
         scores = get_scores(scores)
 
         if multivar:
-            scores = np.append(
-                np.zeros((self.window - 1, data.T.shape[1])), scores, axis=0
-            )
+            scores = np.append(np.zeros((self.window - 1, data.T.shape[1])), scores, axis=0)
         else:
             scores = np.append(np.zeros(self.window - 1), scores)
 

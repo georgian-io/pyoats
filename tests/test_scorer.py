@@ -80,10 +80,7 @@ def test_qualitative(data, preds):
         scorer.avg_anom_dist_from_mean
         == np.abs(np.array([9, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]) - np.mean(data)).mean()
     )
-    assert (
-        scorer.avg_cycles_delta_between_anom
-        == np.array([20, 1, 1, 1, 1, 1, 1, 1, 1, 1]).mean()
-    )
+    assert scorer.avg_cycles_delta_between_anom == np.array([20, 1, 1, 1, 1, 1, 1, 1, 1, 1]).mean()
     assert scorer.max_range_non_anom == 19
     assert scorer.diff_mean_trend == pytest.approx(0, abs=0.5)
     assert scorer.diff_mid_avg == pytest.approx(0, abs=0.5)
@@ -101,10 +98,7 @@ def test_qualitative_2d_sv(data, preds):
         scorer.avg_anom_dist_from_mean
         == np.abs(np.array([9, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]) - np.mean(data)).mean()
     )
-    assert (
-        scorer.avg_cycles_delta_between_anom
-        == np.array([20, 1, 1, 1, 1, 1, 1, 1, 1, 1]).mean()
-    )
+    assert scorer.avg_cycles_delta_between_anom == np.array([20, 1, 1, 1, 1, 1, 1, 1, 1, 1]).mean()
     assert scorer.max_range_non_anom == 19
     assert scorer.diff_mean_trend == pytest.approx(0, abs=0.5)
     assert scorer.diff_mid_avg == pytest.approx(0, abs=0.5)
@@ -122,10 +116,7 @@ def test_qualitative_mv(data, preds):
         scorer.avg_anom_dist_from_mean
         == np.abs(np.array([9, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]) - np.mean(data)).mean()
     )
-    assert (
-        scorer.avg_cycles_delta_between_anom
-        == np.array([20, 1, 1, 1, 1, 1, 1, 1, 1, 1]).mean()
-    )
+    assert scorer.avg_cycles_delta_between_anom == np.array([20, 1, 1, 1, 1, 1, 1, 1, 1, 1]).mean()
     assert scorer.max_range_non_anom == 19
     assert scorer.diff_mean_trend == pytest.approx(0, abs=0.5)
     assert scorer.diff_mid_avg == pytest.approx(0, abs=0.5)

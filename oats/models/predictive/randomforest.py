@@ -44,9 +44,7 @@ class RandomForestModel(SimpleDartsModel):
     def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {
             "n_estimators": trial.suggest_int("n_estimators", 30, 1000),
-            "max_features": trial.suggest_categorical(
-                "max_features", ["auto", "sqrt", "log2"]
-            ),
+            "max_features": trial.suggest_categorical("max_features", ["auto", "sqrt", "log2"]),
             "max_depth": trial.suggest_int("max_depth", 1, 5000),
             # "ccp_alpha": trial.suggest_float("ccp_alpha", 0.0, 2e-2)
         }

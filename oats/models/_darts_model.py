@@ -141,9 +141,7 @@ class DartsModel(Model):
         trial,
         train_data: npt.NDArray[any],
     ):
-        w_high = min(
-            int(0.25 * len(train_data)), int(len(train_data) * self.val_split * 0.5)
-        )
+        w_high = min(int(0.25 * len(train_data)), int(len(train_data) * self.val_split * 0.5))
 
         window = trial.suggest_int("w", 20, w_high, 5)
         n_steps = trial.suggest_int("s", 1, 20)
@@ -222,9 +220,7 @@ class DartsModel(Model):
         residual = np.abs(residual)
 
         if multivar:
-            residual = np.append(
-                np.zeros((self.window, test_data.shape[1])), residual, axis=0
-            )
+            residual = np.append(np.zeros((self.window, test_data.shape[1])), residual, axis=0)
         else:
             residual = np.append(np.zeros(self.window), residual)
 

@@ -29,11 +29,7 @@ class VAEModel(PyODModel):
         super().__init__(model_cls, window, **kwargs)
 
     def fit(self, train_data, **kwargs):
-        n_feat = (
-            train_data.shape[1]
-            if train_data.ndim > 1 and train_data.shape[1] > 1
-            else 1
-        )
+        n_feat = train_data.shape[1] if train_data.ndim > 1 and train_data.shape[1] > 1 else 1
 
         if not self.params.get("encoder_neuron_list"):
             self.params["encoder_neuron_list"] = [

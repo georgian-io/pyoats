@@ -155,9 +155,7 @@ class _FluxEV2000:
             self.bw = _SPOTMoM.fit_kde_bw(self.F_mem)
 
         self._step_train(x_t)
-        new_p_thres = _SPOTMoM.get_tail_threshold(
-            self.F_mem, self.level, samples=100, bw=self.bw
-        )
+        new_p_thres = _SPOTMoM.get_tail_threshold(self.F_mem, self.level, samples=100, bw=self.bw)
         self.spot_thres += new_p_thres - self.percentile_thres
         self.percentile_thres = new_p_thres
 
@@ -243,9 +241,7 @@ class _FluxEV2000:
         n = len(S)
 
         spot_thres = max(
-            _SPOTMoM.calc_spot_threshold(
-                self.percentile_thres, sigma, gamma, n, n_y, self.q
-            ),
+            _SPOTMoM.calc_spot_threshold(self.percentile_thres, sigma, gamma, n, n_y, self.q),
             _SPOTMoM.calc_half_normal_threshold(
                 self.percentile_thres, Y.std(ddof=1), self.q, support=self.support
             ),
@@ -304,9 +300,7 @@ class _SPOTMoM:
         data = np.append(data, 1e-3)  # added for stability in case data is all zeros
         x = np.linspace(data.min() + 1e-3, data.max(), samples)
 
-        kde = KernelDensity(kernel=kernel, rtol=rtol, bandwidth=bw).fit(
-            data[:, np.newaxis]
-        )
+        kde = KernelDensity(kernel=kernel, rtol=rtol, bandwidth=bw).fit(data[:, np.newaxis])
         pdf = np.exp(kde.score_samples(x[:, np.newaxis]))
 
         cdf = np.cumsum(pdf)
@@ -396,9 +390,7 @@ class FluxEVModel(Model):
     https://doi.org/10.1145/3437963.3441823
     """
 
-    def __init__(
-        self, window: int = 10, window_smoothing=None, q=1e-4, level=0.95, **kwargs
-    ):
+    def __init__(self, window: int = 10, window_smoothing=None, q=1e-4, level=0.95, **kwargs):
         """
         Args:
             window (int, optional): main window length. Defaults to 10.

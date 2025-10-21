@@ -20,9 +20,7 @@ from oats.models._base import Model
 
 
 class SimpleDartsModel(Model):
-    def __init__(
-        self, model_cls, window: int, n_steps: int, lags: int, val_split=0.2, **kwargs
-    ):
+    def __init__(self, model_cls, window: int, n_steps: int, lags: int, val_split=0.2, **kwargs):
         self.window = window
         self.n_steps = n_steps
         self.lags = lags
@@ -102,17 +100,13 @@ class SimpleDartsModel(Model):
         trial,
         train_data: npt.NDArray[any],
     ):
-        w_high = max(
-            int(0.25 * len(train_data)), int(len(train_data) * self.val_split * 0.5)
-        )
+        w_high = max(int(0.25 * len(train_data)), int(len(train_data) * self.val_split * 0.5))
 
         window = trial.suggest_int("w", 20, w_high, 5)
         n_steps = trial.suggest_int("s", 1, 20)
         lags = trial.suggest_int("l", 1, 20 - 1)
 
-        val_split = min(
-            self.val_split_mem, (self.window + self.n_steps) / len(train_data) + 0.01
-        )
+        val_split = min(self.val_split_mem, (self.window + self.n_steps) / len(train_data) + 0.01)
 
         cls = self.__class__(window, n_steps, lags, val_split)
         cls.model = cls.model_cls(lags)

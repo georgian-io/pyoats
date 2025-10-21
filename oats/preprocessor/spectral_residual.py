@@ -36,9 +36,7 @@ def _series_filter(values, kernel_size=3):
     """
     filter_values = np.cumsum(values, dtype=float)
 
-    filter_values[kernel_size:] = (
-        filter_values[kernel_size:] - filter_values[:-kernel_size]
-    )
+    filter_values[kernel_size:] = filter_values[kernel_size:] - filter_values[:-kernel_size]
     filter_values[kernel_size:] = filter_values[kernel_size:] / kernel_size
 
     for i in range(1, kernel_size):
@@ -58,9 +56,7 @@ def _extrapolate_next(values):
         values = values.flatten()
 
     last_value = values[-1]
-    slope = np.array(
-        [(last_value - v) / (i + 1e-5) for (i, v) in enumerate(values[::-1])]
-    )
+    slope = np.array([(last_value - v) / (i + 1e-5) for (i, v) in enumerate(values[::-1])])
     slope[0] = 0
     next_values = last_value + np.cumsum(slope)
 
@@ -108,9 +104,7 @@ class SpectralResidual(Preprocessor):
 
         freq = np.fft.fft(values)
         mag = np.sqrt(freq.real**2 + freq.imag**2)
-        spectral_residual = np.exp(
-            np.log(mag) - _series_filter(np.log(mag), self.amp_window_size)
-        )
+        spectral_residual = np.exp(np.log(mag) - _series_filter(np.log(mag), self.amp_window_size))
 
         freq.real = freq.real * spectral_residual / mag
         freq.imag = freq.imag * spectral_residual / mag
@@ -138,9 +132,7 @@ class SpectralResidual(Preprocessor):
         if multivar:
             return self._handle_multivariate(values, [self] * values.shape[1])
 
-        extended_series = _merge_series(
-            values, self.series_window_size, self.series_window_size
-        )
+        extended_series = _merge_series(values, self.series_window_size, self.series_window_size)
         mag = self._transform_spectral_residual(extended_series)[: len(values)]
 
         if type == "avg":

@@ -38,9 +38,7 @@ class SupervisedScorer(Scorer):
             # if alert delay more than 100 timesteps, count that as bad!
 
             if intersect.size != 0:
-                cond = (
-                    intersect[0] < r[0] + self.delay if self.delay is not None else True
-                )
+                cond = intersect[0] < r[0] + self.delay if self.delay is not None else True
                 if cond:
                     tp += r.size
                 else:
