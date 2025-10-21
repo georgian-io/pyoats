@@ -7,7 +7,7 @@ authors = [
 ]
 license = {text = "Apache-2.0"}
 readme = "README.md"
-requires-python = ">=3.9, <3.14"
+requires-python = ">=3.9, <3.13"
 dependencies = [
     "darts==0.28.0",
     "statsmodels>=0.14.1,<0.15.0",
@@ -26,7 +26,7 @@ dependencies = [
 dev = [
     "pytest>=7.4.4,<8.0.0",
     "black>=24.3.0,<25.0.0",
-    "pylint>=2.17.7,<3.0.0",
+    "ruff>=0.8.0,<0.9.0",
     "Sphinx>=5.3.0,<6.0.0",
     "pydata-sphinx-theme>=0.10.1,<0.11.0",
     "myst-parser>=0.18.1,<0.19.0",
@@ -43,3 +43,33 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["oats"]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::FutureWarning",
+    "ignore::UserWarning",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+# Enable pycodestyle (E), Pyflakes (F), and isort (I) by default
+select = ["E", "F", "I"]
+# Ignore common issues in scientific code
+ignore = [
+    "E501",  # line too long (handled by black)
+    "E402",  # module level import not at top of file
+    "E712",  # comparison to True/False
+    "E731",  # do not assign a lambda expression, use a def
+    "E741",  # ambiguous variable name (common in math: l, O, I, etc.)
+    "F403",  # unable to detect undefined names from star imports
+    "F405",  # may be undefined, or defined from star imports
+    "F401",  # imported but unused (in __init__.py files, used for re-export)
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311", "py312"]

@@ -1,7 +1,7 @@
 import pytest
+import tensorflow as tf
 
 from oats.models import *
-import tensorflow as tf
 
 
 def has_gpu():

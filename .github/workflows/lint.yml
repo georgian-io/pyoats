@@ -27,8 +27,7 @@ jobs:
       run: uv sync --all-extras
 
     - name: Check formatting with black
-      run: uv run black --check .
+      run: uv run black --check oats tests
 
-    - name: Run pylint
-      run: uv run pylint oats/ --fail-under=8.0
-      continue-on-error: true
+    - name: Lint with ruff
+      run: uv run ruff check oats tests

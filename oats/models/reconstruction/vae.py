@@ -4,6 +4,7 @@ Variational Auto-Encoder (VAE)
 """
 
 from pyod.models.vae import VAE
+
 from oats.models._pyod_model import PyODModel
 
 

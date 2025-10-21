@@ -3,9 +3,10 @@ Matrix Profile
 -----------------
 """
 
-from oats.models._base import Model
-from stumpy import stump, scrump, mstump, gpu_stump
 import numpy as np
+from stumpy import gpu_stump, mstump, scrump, stump
+
+from oats.models._base import Model
 
 
 class MatrixProfileModel(Model):

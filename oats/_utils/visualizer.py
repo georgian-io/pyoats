@@ -14,7 +14,7 @@ class Visualizer:
         dx = 0.775
         dy = 0.05
 
-        ax_new = p.add_axes([xmin, ymin, dx, dy], anchor="SW", sharex=self.ax1)
+        ax_new = self.p.add_axes([xmin, ymin, dx, dy], anchor="SW", sharex=self.ax1)
         ax_new.text(10, 0.5, model_name, fontfamily="monospace", va="center")
 
         ax_new.set_xticklabels([])

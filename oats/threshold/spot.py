@@ -3,12 +3,9 @@ Streaming Peaks-Over-Threshold (SPOT)
 -----------------
 """
 
-import time
 import numpy as np
-from numpy.lib.stride_tricks import sliding_window_view
+from scipy.stats import genpareto, norm
 from statsmodels.robust.scale import huber
-from scipy.stats import genpareto
-from scipy.stats import norm
 
 from oats.threshold._base import Threshold
 
@@ -220,7 +217,7 @@ class _GPDThreshold:
         return x - threshold
 
     @classmethod
-    def get_gpd_params_mv(cls, mean, var):
+    def get_gpd_params_mv(cls, mean, var, estimator="MoM"):
         if estimator == "MoM":
             if var == 0:
                 return 1, 1

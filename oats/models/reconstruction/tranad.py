@@ -9,15 +9,13 @@ import numpy as np
 import numpy.typing as npt
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-from importlib_metadata import version
-from oats.models._base import Model
-from torch.nn import TransformerDecoder, TransformerEncoder
-from torch.utils.data import DataLoader, Dataset, TensorDataset
-from oats._utils.dlutils import *
-from darts.timeseries import TimeSeries
 from darts.dataprocessing.transformers import Scaler
+from darts.timeseries import TimeSeries
+from torch.nn import TransformerDecoder, TransformerEncoder
+from torch.utils.data import DataLoader, TensorDataset
+
+from oats._utils.dlutils import *
+from oats.models._base import Model
 
 
 # Proposed Model + Self Conditioning + Adversarial + MAML (TKDE 21)
@@ -164,7 +162,7 @@ class TranADModel(Model):
         l = nn.MSELoss(reduction="none")
         n = self.epochs + 1
 
-        l1s, l2s = [], []
+        l1s = []
 
         for d, _ in dataloader:
             local_bs = d.shape[0]

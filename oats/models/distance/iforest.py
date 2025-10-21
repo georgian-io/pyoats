@@ -4,6 +4,7 @@ Isolation Forest
 """
 
 from pyod.models.iforest import IForest
+
 from oats.models._pyod_model import PyODModel
 
 

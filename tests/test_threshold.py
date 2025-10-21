@@ -1,8 +1,6 @@
 import pytest
 
 from oats.threshold import *
-import numpy as np
-
 
 THRES = [QuantileThreshold, POTThreshold, SPOTThreshold, JenksThreshold]
 

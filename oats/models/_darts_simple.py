@@ -2,19 +2,19 @@
 Implementation from: https://github.com/unit8co/darts
 """
 
-from typing import Any, Tuple
-from functools import partial
 import warnings
+from functools import partial
+from typing import Any, Tuple
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
 import numpy as np
 import numpy.typing as npt
-from numpy.lib.stride_tricks import sliding_window_view
-from darts.timeseries import TimeSeries
-from darts.dataprocessing.transformers import Scaler
-from scipy.stats import zscore
 import optuna
+from darts.dataprocessing.transformers import Scaler
+from darts.timeseries import TimeSeries
+from numpy.lib.stride_tricks import sliding_window_view
+from scipy.stats import zscore
 
 from oats.models._base import Model
 

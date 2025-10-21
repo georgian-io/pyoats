@@ -1,10 +1,10 @@
-from dataclasses import dataclass, astuple
-from typing import Tuple, Any, Union
+from dataclasses import astuple, dataclass
+from typing import Any, Tuple, Union
 
 import numpy as np
 import numpy.typing as npt
 
-from oats._data.base import DataReader, Data
+from oats._data.base import Data, DataReader
 from oats._utils.utils import array_safe_eq
 
 

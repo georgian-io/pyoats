@@ -1,8 +1,6 @@
 import pytest
 
 from oats.preprocessor import *
-import numpy as np
-import tensorflow as tf
 
 PROCESSORS = [SpectralResidual]
 

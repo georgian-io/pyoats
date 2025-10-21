@@ -6,10 +6,10 @@ from typing import Any
 
 import numpy as np
 import numpy.typing as npt
-from darts.timeseries import TimeSeries
 from darts.dataprocessing.transformers import Scaler
-from scipy.stats import zscore
+from darts.timeseries import TimeSeries
 from numpy.lib.stride_tricks import sliding_window_view
+from scipy.stats import zscore
 
 from oats.models._base import Model
 

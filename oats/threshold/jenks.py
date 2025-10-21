@@ -3,8 +3,8 @@ Jenks Natural Breaks
 -----------------
 """
 
-import numpy as np
 import jenkspy
+import numpy as np
 
 from oats.threshold._base import Threshold
 

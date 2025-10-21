@@ -5,12 +5,14 @@ FluxEV
 
 import time
 
-from oats.models._base import Model
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
-from sklearn.neighbors import KernelDensity
+from scipy.stats import genpareto, norm
 from sklearn.model_selection import GridSearchCV
-from scipy.stats import norm, genpareto
+from sklearn.neighbors import KernelDensity
+from statsmodels.robust.scale import Huber
+
+from oats.models._base import Model
 
 
 class _FluxEV2000:
@@ -358,6 +360,7 @@ class _SPOTMoM:
             return sigma, gamma
 
         if robust:
+            huber = Huber()
             huber.maxiter = 100
             huber.tol = 5e-2
             mu, std = huber(y)

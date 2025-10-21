@@ -4,11 +4,8 @@ N-BEATS
 """
 
 from typing import Any
-from functools import partial
 
-import numpy as np
 import numpy.typing as npt
-import optuna
 from darts import models
 
 from oats.models._darts_model import DartsModel

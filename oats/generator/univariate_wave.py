@@ -4,6 +4,7 @@ Univariate Sine Wave
 """
 
 import numpy as np
+
 from oats.generator._base import Generator
 
 
