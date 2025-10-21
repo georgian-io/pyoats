@@ -2,6 +2,7 @@
 Random Forest
 -----------------
 """
+
 from typing import Any
 from functools import partial
 
@@ -28,7 +29,7 @@ class RandomForestModel(SimpleDartsModel):
         n_steps: int = 1,
         lags: int = 1,
         val_split: float = 0.2,
-        **kwargs
+        **kwargs,
     ):
         """
         initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.random_forest.html

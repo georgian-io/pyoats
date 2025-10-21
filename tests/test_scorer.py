@@ -3,9 +3,11 @@ import numpy as np
 
 from oats.scorer import *
 
+
 @pytest.fixture
 def labels():
     return np.append(np.zeros(20), np.full(20, 1))
+
 
 @pytest.fixture
 def preds():
@@ -13,9 +15,11 @@ def preds():
     pred[10] = 1
     return pred
 
+
 @pytest.fixture
 def data():
     return np.append(np.arange(20), np.arange(19, -1, -1))
+
 
 @pytest.mark.scorer
 def test_no_delay(labels, preds):
@@ -32,6 +36,7 @@ def test_no_delay(labels, preds):
     assert tn == scorer.tn
     assert fn == scorer.fn
 
+
 @pytest.mark.scorer
 def test_delay_within(labels, preds):
     tp = 20
@@ -46,7 +51,6 @@ def test_delay_within(labels, preds):
     assert fp == scorer.fp
     assert tn == scorer.tn
     assert fn == scorer.fn
-
 
 
 @pytest.mark.scorer
@@ -71,9 +75,15 @@ def test_qualitative(data, preds):
     scorer.process(data, preds)
 
     assert scorer.num_anom == 11
-    assert scorer.pct_anom == 11/40
-    assert scorer.avg_anom_dist_from_mean == np.abs(np.array([9, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]) - np.mean(data)).mean()
-    assert scorer.avg_cycles_delta_between_anom == np.array([20, 1, 1, 1, 1, 1, 1, 1, 1, 1]).mean()
+    assert scorer.pct_anom == 11 / 40
+    assert (
+        scorer.avg_anom_dist_from_mean
+        == np.abs(np.array([9, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]) - np.mean(data)).mean()
+    )
+    assert (
+        scorer.avg_cycles_delta_between_anom
+        == np.array([20, 1, 1, 1, 1, 1, 1, 1, 1, 1]).mean()
+    )
     assert scorer.max_range_non_anom == 19
     assert scorer.diff_mean_trend == pytest.approx(0, abs=0.5)
     assert scorer.diff_mid_avg == pytest.approx(0, abs=0.5)
@@ -86,9 +96,15 @@ def test_qualitative_2d_sv(data, preds):
     scorer.process(data, preds)
 
     assert scorer.num_anom == 11
-    assert scorer.pct_anom == 11/40
-    assert scorer.avg_anom_dist_from_mean == np.abs(np.array([9, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]) - np.mean(data)).mean()
-    assert scorer.avg_cycles_delta_between_anom == np.array([20, 1, 1, 1, 1, 1, 1, 1, 1, 1]).mean()
+    assert scorer.pct_anom == 11 / 40
+    assert (
+        scorer.avg_anom_dist_from_mean
+        == np.abs(np.array([9, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]) - np.mean(data)).mean()
+    )
+    assert (
+        scorer.avg_cycles_delta_between_anom
+        == np.array([20, 1, 1, 1, 1, 1, 1, 1, 1, 1]).mean()
+    )
     assert scorer.max_range_non_anom == 19
     assert scorer.diff_mean_trend == pytest.approx(0, abs=0.5)
     assert scorer.diff_mid_avg == pytest.approx(0, abs=0.5)
@@ -101,12 +117,19 @@ def test_qualitative_mv(data, preds):
     scorer.process(data, preds)
 
     assert scorer.num_anom == 11
-    assert scorer.pct_anom == 11/40
-    assert scorer.avg_anom_dist_from_mean == np.abs(np.array([9, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]) - np.mean(data)).mean()
-    assert scorer.avg_cycles_delta_between_anom == np.array([20, 1, 1, 1, 1, 1, 1, 1, 1, 1]).mean()
+    assert scorer.pct_anom == 11 / 40
+    assert (
+        scorer.avg_anom_dist_from_mean
+        == np.abs(np.array([9, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]) - np.mean(data)).mean()
+    )
+    assert (
+        scorer.avg_cycles_delta_between_anom
+        == np.array([20, 1, 1, 1, 1, 1, 1, 1, 1, 1]).mean()
+    )
     assert scorer.max_range_non_anom == 19
     assert scorer.diff_mean_trend == pytest.approx(0, abs=0.5)
     assert scorer.diff_mid_avg == pytest.approx(0, abs=0.5)
+
 
 @pytest.mark.scorer
 def test_qualitative_non_matching_data_preds_shape(data, preds):
@@ -116,6 +139,7 @@ def test_qualitative_non_matching_data_preds_shape(data, preds):
 
     with pytest.raises(ValueError):
         scorer.process(data, preds)
+
 
 @pytest.mark.scorer
 def test_qualitative_non_matching_data_shape(data, preds):
@@ -127,7 +151,3 @@ def test_qualitative_non_matching_data_shape(data, preds):
 
     with pytest.raises(ValueError):
         scorer.process(data2, preds)
-
-
-
-    

@@ -5,7 +5,7 @@ import tensorflow as tf
 
 
 def has_gpu():
-    return len(tf.config.list_physical_devices('GPU')) > 0
+    return len(tf.config.list_physical_devices("GPU")) > 0
 
 
 MODELS = [
@@ -66,6 +66,7 @@ def test_model_gpu(train_sv_1d, test_sv_1d, model):
         # MatrixProfileModel requires CUDA (NVIDIA GPUs)
         try:
             from numba import cuda
+
             if not cuda.is_available():
                 pytest.skip("CUDA not available (required for MatrixProfileModel GPU)")
         except Exception:

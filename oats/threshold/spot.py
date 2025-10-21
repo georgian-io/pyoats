@@ -2,6 +2,7 @@
 Streaming Peaks-Over-Threshold (SPOT)
 -----------------
 """
+
 import time
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
@@ -34,7 +35,7 @@ class SPOTThreshold(Threshold):
         init_cutoff: float = 1,
         robust: bool = False,
         estimator: str = "MoM",
-        **kwargs
+        **kwargs,
     ):
         """
         Args:

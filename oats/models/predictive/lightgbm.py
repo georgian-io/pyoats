@@ -28,7 +28,7 @@ class LightGBMModel(SimpleDartsModel):
         n_steps: int = 1,
         lags: int = 1,
         val_split: float = 0.0,
-        **kwargs
+        **kwargs,
     ):
         """
         initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.gradient_boosted_model.html

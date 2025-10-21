@@ -3,7 +3,6 @@ Spectral Residual
 -------------------
 """
 
-
 # Copyright (c) 2019 Takahiro Yoshinaga
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -59,7 +58,9 @@ def _extrapolate_next(values):
         values = values.flatten()
 
     last_value = values[-1]
-    slope = np.array([(last_value - v) / (i+1e-5) for (i, v) in enumerate(values[::-1])])
+    slope = np.array(
+        [(last_value - v) / (i + 1e-5) for (i, v) in enumerate(values[::-1])]
+    )
     slope[0] = 0
     next_values = last_value + np.cumsum(slope)
 

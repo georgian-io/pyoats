@@ -80,7 +80,6 @@ class ConvLSTMCell(nn.Module):
 
 
 class ConvLSTM(nn.Module):
-
     """
 
     Parameters:
@@ -291,7 +290,7 @@ class TransformerDecoderLayer(nn.Module):
         memory_mask=None,
         tgt_key_padding_mask=None,
         memory_key_padding_mask=None,
-        **kwargs
+        **kwargs,
     ):
         tgt2 = self.self_attn(tgt, tgt, tgt)[0]
         tgt = tgt + self.dropout1(tgt2)

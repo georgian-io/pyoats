@@ -2,6 +2,7 @@
 N-HiTS
 -----------------
 """
+
 from typing import Any
 from functools import partial
 
@@ -27,7 +28,7 @@ class NHiTSModel(DartsModel):
         n_steps: int = 1,
         use_gpu: bool = False,
         val_split: float = 0.2,
-        **kwargs
+        **kwargs,
     ):
         """
         initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nhits.html

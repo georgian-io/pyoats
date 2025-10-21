@@ -1,6 +1,7 @@
 """
 Implementation from: https://github.com/yzhao062/pyod
 """
+
 from typing import Any
 
 import numpy as np

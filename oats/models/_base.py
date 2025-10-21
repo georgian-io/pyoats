@@ -2,7 +2,7 @@ import numpy.typing as npt
 import numpy as np
 
 
-class Model():
+class Model:
     """Base class for Models
 
     Preprocessors are any function that transforms timeseries T to T'.
