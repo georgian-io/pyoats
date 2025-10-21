@@ -18,7 +18,7 @@ install-dev:
 	uv sync --all-extras
 
 test:
-	uv run pytest -v --tb=short
+	uv run pytest -v --tb=short --cov
 
 lint:
 	uv run ruff check oats tests
