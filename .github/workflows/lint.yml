@@ -24,10 +24,7 @@ jobs:
         python-version: "3.12"
 
     - name: Install dependencies
-      run: uv sync --all-extras
+      run: make install-dev
 
-    - name: Check formatting with black
-      run: uv run black --check oats tests
-
-    - name: Lint with ruff
-      run: uv run ruff check oats tests
+    - name: Check formatting and lint
+      run: make format-check
