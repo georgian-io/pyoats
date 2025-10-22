@@ -172,7 +172,6 @@ class DartsModel(Model):
             TimeSeries.from_values(tr),
             val_series=TimeSeries.from_values(val),
             epochs=epochs,
-            num_loader_workers=1,
             **kwargs,
         )
 
@@ -204,9 +203,9 @@ class DartsModel(Model):
 
         for step in scores:
             if multivar:
-                preds = np.vstack((preds, step.pd_dataframe().to_numpy()))
+                preds = np.vstack((preds, step.to_dataframe().to_numpy()))
             else:
-                preds = np.append(preds, step.pd_dataframe().to_numpy())
+                preds = np.append(preds, step.to_dataframe().to_numpy())
 
         tdata_trim = test_data[self.window :]
 
@@ -227,7 +226,7 @@ class DartsModel(Model):
         anom = np.absolute(residual)
 
         i_preds = TimeSeries.from_values(preds[: len(tdata_trim)])
-        i_preds = self.transformer.inverse_transform(i_preds).pd_dataframe().to_numpy()
+        i_preds = self.transformer.inverse_transform(i_preds).to_dataframe().to_numpy()
 
         self._preds = i_preds
         self._residual = residual
@@ -251,7 +250,7 @@ class DartsModel(Model):
 
         series = self.transformer.transform(series)
 
-        return series.pd_dataframe().to_numpy().astype(np.float32)
+        return series.to_dataframe().to_numpy().astype(np.float32)
 
     def _get_hyperopt_res(self, params: dict, train_data):
         try:
