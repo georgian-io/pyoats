@@ -2,6 +2,7 @@
 Quantile
 -----------------
 """
+
 import numpy as np
 
 from oats.threshold._base import Threshold

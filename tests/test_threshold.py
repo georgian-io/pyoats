@@ -1,10 +1,10 @@
 import pytest
 
 from oats.threshold import *
-import numpy as np
-
 
 THRES = [QuantileThreshold, POTThreshold, SPOTThreshold, JenksThreshold]
+
+
 @pytest.mark.threshold
 @pytest.mark.parametrize("thres", THRES)
 def test_threshold_univariate_1d(test_sv_1d, thres):
@@ -12,7 +12,8 @@ def test_threshold_univariate_1d(test_sv_1d, thres):
     t.fit(test_sv_1d)
     threshold = t.get_threshold(test_sv_1d)
 
-    assert threshold.shape == (200, )
+    assert threshold.shape == (200,)
+
 
 @pytest.mark.threshold
 @pytest.mark.parametrize("thres", THRES)
@@ -21,7 +22,8 @@ def test_threshold_univariate_2d(test_sv_2d, thres):
     t.fit(test_sv_2d)
     threshold = t.get_threshold(test_sv_2d)
 
-    assert threshold.shape == (200, )
+    assert threshold.shape == (200,)
+
 
 @pytest.mark.threshold
 @pytest.mark.parametrize("thres", THRES)
@@ -39,7 +41,8 @@ def test_threshold_univariate_1d_untrained(test_sv_1d, thres):
     t = thres()
     threshold = t.get_threshold(test_sv_1d)
 
-    assert threshold.shape == (200, )
+    assert threshold.shape == (200,)
+
 
 @pytest.mark.threshold
 @pytest.mark.parametrize("thres", THRES)
@@ -47,7 +50,8 @@ def test_threshold_univariate_2d_untrained(test_sv_2d, thres):
     t = thres()
     threshold = t.get_threshold(test_sv_2d)
 
-    assert threshold.shape == (200, )
+    assert threshold.shape == (200,)
+
 
 @pytest.mark.threshold
 @pytest.mark.parametrize("thres", THRES)

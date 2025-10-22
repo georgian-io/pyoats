@@ -3,9 +3,10 @@ Matrix Profile
 -----------------
 """
 
-from oats.models._base import Model
-from stumpy import stump, scrump, mstump, gpu_stump
 import numpy as np
+from stumpy import gpu_stump, mstump, scrump, stump
+
+from oats.models._base import Model
 
 
 class MatrixProfileModel(Model):
@@ -40,9 +41,7 @@ class MatrixProfileModel(Model):
                 model = scrump
                 get_scores = lambda arr: arr
 
-                scores = model(
-                    data, self.window, percentage=0.01, pre_scrump=True, s=None
-                )
+                scores = model(data, self.window, percentage=0.01, pre_scrump=True, s=None)
                 scores.update()
                 scores = scores.P_
 
@@ -55,9 +54,7 @@ class MatrixProfileModel(Model):
         scores = get_scores(scores)
 
         if multivar:
-            scores = np.append(
-                np.zeros((self.window - 1, data.T.shape[1])), scores, axis=0
-            )
+            scores = np.append(np.zeros((self.window - 1, data.T.shape[1])), scores, axis=0)
         else:
             scores = np.append(np.zeros(self.window - 1), scores)
 

@@ -4,6 +4,7 @@ Univariate Sine Wave
 """
 
 import numpy as np
+
 from oats.generator._base import Generator
 
 
@@ -123,14 +124,10 @@ class UnivariateWaveGenerator(Generator):
             factor: the larger, the outliers are farther from inliers
             radius: the radius of collective outliers range
         """
-        position = (
-            np.random.rand(round(self.TEST_LENGTH * ratio)) * self.TEST_LENGTH
-        ).astype(int)
+        position = (np.random.rand(round(self.TEST_LENGTH * ratio)) * self.TEST_LENGTH).astype(int)
         maximum, minimum = max(self.test), min(self.test)
         for i in position:
-            local_std = self.test_orig[
-                max(0, i - radius) : min(i + radius, self.TEST_LENGTH)
-            ].std()
+            local_std = self.test_orig[max(0, i - radius) : min(i + radius, self.TEST_LENGTH)].std()
             self.test[i] = self.test_orig[i] * factor * local_std
             if 0 <= self.test[i] < maximum:
                 self.test[i] = maximum
@@ -147,19 +144,13 @@ class UnivariateWaveGenerator(Generator):
                     Notice: point contextual outliers will not exceed the range of [min, max] of original data
             radius: the radius of collective outliers range
         """
-        position = (
-            np.random.rand(round(self.TEST_LENGTH * ratio)) * self.TEST_LENGTH
-        ).astype(int)
+        position = (np.random.rand(round(self.TEST_LENGTH * ratio)) * self.TEST_LENGTH).astype(int)
         maximum, minimum = max(self.test), min(self.test)
         for i in position:
-            local_std = self.test[
-                max(0, i - radius) : min(i + radius, self.TEST_LENGTH)
-            ].std()
+            local_std = self.test[max(0, i - radius) : min(i + radius, self.TEST_LENGTH)].std()
             self.test[i] = self.test[i] * factor * local_std
             if self.test[i] > maximum:
-                self.test[i] = maximum * min(
-                    0.95, abs(np.random.normal(0, 0.5))
-                )  # previous(0, 1)
+                self.test[i] = maximum * min(0.95, abs(np.random.normal(0, 0.5)))  # previous(0, 1)
             if self.test[i] < minimum:
                 self.test[i] = minimum * min(0.95, abs(np.random.normal(0, 0.5)))
 
@@ -190,8 +181,7 @@ class UnivariateWaveGenerator(Generator):
             base: a list of values that we want to substitute inliers when we generate outliers
         """
         position = (
-            np.random.rand(round(self.TEST_LENGTH * ratio / (2 * radius)))
-            * self.TEST_LENGTH
+            np.random.rand(round(self.TEST_LENGTH * ratio / (2 * radius))) * self.TEST_LENGTH
         ).astype(int)
 
         valid_option = {"square", "other"}
@@ -225,8 +215,7 @@ class UnivariateWaveGenerator(Generator):
             radius: the radius of collective outliers range
         """
         position = (
-            np.random.rand(round(self.TEST_LENGTH * ratio / (2 * radius)))
-            * self.TEST_LENGTH
+            np.random.rand(round(self.TEST_LENGTH * ratio / (2 * radius))) * self.TEST_LENGTH
         ).astype(int)
         for i in position:
             start, end = max(0, i - radius), min(self.TEST_LENGTH, i + radius)
@@ -244,8 +233,7 @@ class UnivariateWaveGenerator(Generator):
             radius: the radius of collective outliers range
         """
         position = (
-            np.random.rand(round(self.TEST_LENGTH * ratio / (2 * radius)))
-            * self.TEST_LENGTH
+            np.random.rand(round(self.TEST_LENGTH * ratio / (2 * radius))) * self.TEST_LENGTH
         ).astype(int)
         seasonal_config = self.behavior_config
         seasonal_config["freq"] = factor * self.behavior_config["freq"]

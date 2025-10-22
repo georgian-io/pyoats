@@ -2,13 +2,11 @@
 Temporal Fusion Transformer (TFT)
 -----------------
 """
-from typing import Any
-from functools import partial
 
-from darts import models
-import numpy as np
+from typing import Any
+
 import numpy.typing as npt
-import optuna
+from darts import models
 
 from oats.models._darts_model import DartsModel
 
@@ -27,7 +25,7 @@ class TFTModel(DartsModel):
         n_steps: int = 1,
         use_gpu: bool = 1,
         val_split: float = 0.2,
-        **kwargs
+        **kwargs,
     ):
         """
         initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.tft_model.html
@@ -45,18 +43,12 @@ class TFTModel(DartsModel):
 
     def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {
-            "add_relative_index": trial.suggest_categorical(
-                "add_relative_idex", [True]
-            ),
+            "add_relative_index": trial.suggest_categorical("add_relative_idex", [True]),
             "hidden_size": trial.suggest_int("hidden_size", 8, 128),
             "lstm_layers": trial.suggest_int("lstm_layers", 1, 32),
             "num_attention_heads": trial.suggest_int("num_attention_heads", 2, 8),
-            "hidden_continuous_size": trial.suggest_int(
-                "hidden_continuous_size", 4, 32
-            ),
-            "full_attention": trial.suggest_categorical(
-                "full_attention", [True, False]
-            ),
+            "hidden_continuous_size": trial.suggest_int("hidden_continuous_size", 4, 32),
+            "full_attention": trial.suggest_categorical("full_attention", [True, False]),
             "dropout": trial.suggest_float("dropout", 0.0, 0.3),
         }
 

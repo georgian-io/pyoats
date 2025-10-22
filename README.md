@@ -23,6 +23,7 @@
 [![Issues][issues-shield]][issues-url]
 [![Apache 2.0 License][license-shield]][license-url]
 [![Last Commit][last_commit-shield]][last_commit-url]
+[![Python 3.9-3.12][python-versions-shield]][Python-url]
 
 
 
@@ -94,7 +95,7 @@ We present a straight-forward interface for popular, state-of-the-art detection 
 
 
 ### Built With
-[![Python][Python.org]][Python-url] [![Poetry][Python-Poetry.org]][Poetry-url]
+[![Python][Python.org]][Python-url] [![uv][uv-badge]][uv-url]
 
 [![Pytorch][Pytorch.org]][Torch-url]  [![PytorchLightning][PytorchLightning.ai]][Lightning-url] [![TensorFlow][TensorFlow.org]][TF-url] [![Numpy][Numpy.org]][Numpy-url]
 
@@ -115,52 +116,49 @@ We present a straight-forward interface for popular, state-of-the-art detection 
 
 
 ### Prerequisites
-[![Python][Python.org]][Python-url] >=3.8, <3.11
-
-
-#### For Docker Install:
-
-[![Docker][Docker.com]][Docker-url]
-
-#### For Local Install:
-
-[![Poetry][Python-Poetry.org]][Poetry-url]
+[![Python][Python.org]][Python-url] >=3.9, <3.13
+[![uv][uv-badge]][uv-url] (recommended) or [![Docker][Docker.com]][Docker-url]
 
 ### Installation
-#### PyPI
-1. Install package via pip
+
+#### Recommended: uv (Fast & Modern)
+The fastest way to get started with OATS:
+
+1. Install uv if you haven't already:
    ```sh
-   pip install pyoats
+   curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
-   **❗ Installing using an environment manager such as [`conda`](https://docs.conda.io/en/latest/miniconda.html), [`venv`](https://docs.python.org/3/library/venv.html), and [`poetry`](https://python-poetry.org/) is highly encouraged as this package contains deep learning frameworks.**
-  
-#### Docker
-1. Clone the repo
-    ```sh
-    git clone https://github.com/georgian-io/pyoats.git && cd pyoats 
-    ```
-2. Build image
-    ```sh
-    docker build -t pyoats . 
-    ```
-3. Run Container
-    ```sh 
-    # CPU Only
-    docker run -it pyoats
-    
-    # with GPU
-    docker run -it --gpus all pyoats
-    ```
-    
-#### Local
-1. Clone the repo
-    ```sh
-    git clone https://github.com/georgian-io/pyoats.git && cd pyoats 
-    ```
-2. Install via Poetry
-    ```sh 
-    poetry install
-    ```
+
+2. Clone and install:
+   ```sh
+   git clone https://github.com/georgian-io/pyoats.git && cd pyoats
+   uv sync --all-extras
+   ```
+
+3. Run tests or use the package:
+   ```sh
+   uv run pytest
+   # or
+   uv run python your_script.py
+   ```
+
+#### Alternative: Docker (For GPU or Isolated Environments)
+Perfect for GPU acceleration or containerized deployments:
+
+1. Build the image:
+   ```sh
+   git clone https://github.com/georgian-io/pyoats.git && cd pyoats
+   docker build -t pyoats .
+   ```
+
+2. Run container:
+   ```sh
+   # CPU only
+   docker run -it pyoats
+
+   # With NVIDIA GPU support
+   docker run -it --gpus all pyoats
+   ```
 
 
 
@@ -327,12 +325,13 @@ Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https
 [license-url]: https://github.com/georgian-io/pyoats/blob/master/LICENSE
 [last_commit-shield]: https://img.shields.io/github/last-commit/georgian-io/oats.svg?style=for-the-badge
 [last_commit-url]: https://github.com/georgian-io/pyoats/commits/
+[python-versions-shield]: https://img.shields.io/badge/Python-3.9--3.12-blue?style=for-the-badge&logo=python&logoColor=white
 
 
 
 <!-- Deps Links -->
-[Python-Poetry.org]: https://img.shields.io/badge/Poetry-60A5FA?style=for-the-badge&logo=poetry&logoColor=white
-[Poetry-url]: https://www.python-poetry.org/
+[uv-badge]: https://img.shields.io/badge/uv-DE5FE9?style=for-the-badge&logo=astral&logoColor=white
+[uv-url]: https://docs.astral.sh/uv/
 [Python.org]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
 [Python-url]: https://www.python.org/
 [PyTorch.org]: https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white

@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class Preprocessor():
+class Preprocessor:
     """Base class for Preprocessors.
 
     Preprocessors are any function that transforms timeseries T to T'.

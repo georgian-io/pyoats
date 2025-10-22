@@ -2,12 +2,10 @@
 Streaming Peaks-Over-Threshold (SPOT)
 -----------------
 """
-import time
+
 import numpy as np
-from numpy.lib.stride_tricks import sliding_window_view
+from scipy.stats import genpareto, norm
 from statsmodels.robust.scale import huber
-from scipy.stats import genpareto
-from scipy.stats import norm
 
 from oats.threshold._base import Threshold
 
@@ -34,7 +32,7 @@ class SPOTThreshold(Threshold):
         init_cutoff: float = 1,
         robust: bool = False,
         estimator: str = "MoM",
-        **kwargs
+        **kwargs,
     ):
         """
         Args:
@@ -160,17 +158,13 @@ class SPOTThreshold(Threshold):
         for y in Y:
             self._add_peak(y)
 
-        sigma, gamma = _GPDThreshold.get_gpd_params(
-            Y, robust=self.robust, estimator=self.estimator
-        )
+        sigma, gamma = _GPDThreshold.get_gpd_params(Y, robust=self.robust, estimator=self.estimator)
 
         n_y = len(Y)
         n = len(S)
 
         spot_thres = max(
-            _GPDThreshold.calc_spot_threshold(
-                self.percentile_thres, sigma, gamma, n, n_y, self.q
-            ),
+            _GPDThreshold.calc_spot_threshold(self.percentile_thres, sigma, gamma, n, n_y, self.q),
             _GPDThreshold.calc_half_normal_threshold(
                 self.percentile_thres, Y.std(ddof=1), self.q, support=self.support
             ),
@@ -219,7 +213,7 @@ class _GPDThreshold:
         return x - threshold
 
     @classmethod
-    def get_gpd_params_mv(cls, mean, var):
+    def get_gpd_params_mv(cls, mean, var, estimator="MoM"):
         if estimator == "MoM":
             if var == 0:
                 return 1, 1

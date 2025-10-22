@@ -1,6 +1,5 @@
-from typing import Protocol, Tuple, Any
+from typing import Any, Protocol, Tuple
 
-import numpy as np
 import numpy.typing as npt
 
 

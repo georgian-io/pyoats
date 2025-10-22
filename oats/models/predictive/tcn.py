@@ -2,13 +2,11 @@
 Temporal Convolution Networks (TCN)
 -----------------
 """
-from typing import Any
-from functools import partial
 
-from darts import models
-import numpy as np
+from typing import Any
+
 import numpy.typing as npt
-import optuna
+from darts import models
 
 from oats.models._darts_model import DartsModel
 
@@ -27,7 +25,7 @@ class TCNModel(DartsModel):
         n_steps: int = 1,
         use_gpu: bool = 1,
         val_split: float = 0.2,
-        **kwargs
+        **kwargs,
     ):
         """
         initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.tcn_model.html
@@ -45,9 +43,7 @@ class TCNModel(DartsModel):
 
     def _model_objective(self, trial, train_data: npt.NDArray[Any]):
         params = {
-            "kernel_size": trial.suggest_int(
-                "kernel_size", 2, min(32, self.window - 1)
-            ),
+            "kernel_size": trial.suggest_int("kernel_size", 2, min(32, self.window - 1)),
             "num_filters": trial.suggest_int("num_filters", 2, 8),
             "weight_norm": trial.suggest_categorical("weight_norm", [True, False]),
             "dilation_base": trial.suggest_int("dilation_base", 1, 4),

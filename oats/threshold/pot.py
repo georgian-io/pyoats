@@ -64,9 +64,7 @@ class POTThreshold(Threshold):
         if multivar:
             if not self._thresholders:
                 self._thresholders = self._pseudo_mv_fit(data)
-            return self._handle_multivariate(
-                data, self._thresholders, q=q, tail_level=tail_level
-            )
+            return self._handle_multivariate(data, self._thresholders, q=q, tail_level=tail_level)
 
         t = self._set_initial_threshold(tail_level, data)
         y = self._get_peak_set(t, data)

@@ -2,12 +2,10 @@
 N-BEATS
 -----------------
 """
-from typing import Any
-from functools import partial
 
-import numpy as np
+from typing import Any
+
 import numpy.typing as npt
-import optuna
 from darts import models
 
 from oats.models._darts_model import DartsModel
@@ -27,7 +25,7 @@ class NBEATSModel(DartsModel):
         n_steps: int = 1,
         use_gpu: bool = False,
         val_split: float = 0.2,
-        **kwargs
+        **kwargs,
     ):
         """
         initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nbeats.html
@@ -49,9 +47,7 @@ class NBEATSModel(DartsModel):
             "num_stacks": trial.suggest_int("num_stacks", 2, 32),
             "num_layers": trial.suggest_int("num_layers", 1, 16),
             "layer_widths": trial.suggest_int("layer_widths", 128, 512),
-            "expansion_coefficient_dim": trial.suggest_int(
-                "expansion_coefficient_dim", 1, 10
-            ),
+            "expansion_coefficient_dim": trial.suggest_int("expansion_coefficient_dim", 1, 10),
             "batch_size": trial.suggest_int(
                 "batch_size", 1, (len(train_data) - self.window) // self.n_steps // 4
             ),

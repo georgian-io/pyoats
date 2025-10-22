@@ -79,3 +79,5 @@ logs
 
 # Distro
 /dist
+
+.coverage*

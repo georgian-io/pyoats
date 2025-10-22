@@ -1,10 +1,10 @@
-from dataclasses import dataclass, astuple
-from typing import Tuple, Any, Union
+from dataclasses import astuple, dataclass
+from typing import Any, Tuple, Union
 
 import numpy as np
 import numpy.typing as npt
 
-from oats._data.base import DataReader, Data
+from oats._data.base import Data, DataReader
 from oats._utils.utils import array_safe_eq
 
 
@@ -27,9 +27,7 @@ class UcrData(Data):
         tl = self.train_len
         return self.series[tl:], self.labels[tl:]
 
-    def get_test_with_window(
-        self, window: int
-    ) -> Tuple[npt.NDArray[Any], npt.NDArray[Any]]:
+    def get_test_with_window(self, window: int) -> Tuple[npt.NDArray[Any], npt.NDArray[Any]]:
         tl = self.train_len
         return self.series[tl - window :], self.labels[tl:]
 

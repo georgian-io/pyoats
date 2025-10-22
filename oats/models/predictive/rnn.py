@@ -2,13 +2,11 @@
 Recurrent Neural Networks (RNN)
 -----------------
 """
-from typing import Any
-from functools import partial
 
-from darts import models
-import numpy as np
+from typing import Any
+
 import numpy.typing as npt
-import optuna
+from darts import models
 
 from oats.models._darts_model import DartsModel
 
@@ -28,7 +26,7 @@ class RNNModel(DartsModel):
         use_gpu: bool = False,
         val_split: float = 0.2,
         rnn_model: str = "RNN",
-        **kwargs
+        **kwargs,
     ):
         """
         initialization also accepts any parameters used by: https://unit8co.github.io/darts/generated_api/darts.models.forecasting.rnn_model.html
@@ -50,7 +48,7 @@ class RNNModel(DartsModel):
             use_gpu,
             val_split,
             rnn_model=rnn_model,
-            **kwargs
+            **kwargs,
         )
 
     def _model_objective(self, trial, train_data: npt.NDArray[Any]):

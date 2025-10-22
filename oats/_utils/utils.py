@@ -1,10 +1,9 @@
 from os import listdir
-from os.path import isfile, join, isdir
+from os.path import isdir, isfile, join
 from typing import Any
 
 import numpy as np
 import numpy.typing as npt
-import matplotlib.pyplot as plt
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 
 

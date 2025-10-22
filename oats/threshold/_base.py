@@ -3,7 +3,7 @@ from typing import Any
 import numpy as np
 
 
-class Threshold():
+class Threshold:
     """Base class for thresholders
 
     Preprocessor object must take a `fit()` method as well as `get_threshold()`.

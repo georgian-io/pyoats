@@ -4,7 +4,6 @@ ARIMA
 """
 
 import numpy as np
-
 from statsmodels.tsa.arima.model import ARIMA
 
 from oats.models._base import Model
