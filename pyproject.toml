@@ -7,9 +7,9 @@ authors = [
 ]
 license = {text = "Apache-2.0"}
 readme = "README.md"
-requires-python = ">=3.9, <3.13"
+requires-python = ">=3.10, <3.13"
 dependencies = [
-    "darts==0.28.0",
+    "darts>=0.38.0,<0.39.0",
     "statsmodels>=0.14.1,<0.15.0",
     "pyod>=2.0.0,<3.0.0",
     "stumpy>=1.12.0,<2.0.0",
@@ -20,6 +20,7 @@ dependencies = [
     "numpy>=1.26.4",
     "scipy>=1.12.0,<2.0.0",
     "tensorflow>=2.19.0,<2.20.0",
+    "transformers>=4.30.0,<5.0.0",
 ]
 
 [project.optional-dependencies]
@@ -67,7 +68,7 @@ skip_covered = false
 
 [tool.ruff]
 line-length = 100
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 # Enable pycodestyle (E), Pyflakes (F), and isort (I) by default
@@ -86,4 +87,4 @@ ignore = [
 
 [tool.black]
 line-length = 100
-target-version = ["py39", "py310", "py311", "py312"]
+target-version = ["py310", "py311", "py312"]

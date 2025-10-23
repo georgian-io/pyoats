@@ -84,4 +84,4 @@ class PyODModel(Model):
 
         series = self.scaler.transform(series)
 
-        return series.pd_dataframe().to_numpy().astype(np.float32)
+        return series.to_dataframe().to_numpy().astype(np.float32)
