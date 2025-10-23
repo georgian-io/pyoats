@@ -148,7 +148,9 @@ class PatchTSTModel(Model):
             # Create sliding windows for training
             for i in range(0, len(train_tensor) - self.window - self.n_steps, self.n_steps):
                 context = train_tensor[i : i + self.window].unsqueeze(0)  # (1, window, channels)
-                target = train_tensor[i + self.window : i + self.window + self.n_steps, :]  # (n_steps, channels)
+                target = train_tensor[
+                    i + self.window : i + self.window + self.n_steps, :
+                ]  # (n_steps, channels)
 
                 optimizer.zero_grad()
 
@@ -177,8 +179,6 @@ class PatchTSTModel(Model):
         original_shape = test_data.shape
         if test_data.ndim == 1:
             test_data = test_data[:, np.newaxis]
-
-        multivar = test_data.shape[1] > 1
 
         # Normalize
         test_data_norm = self._normalize(test_data).astype(np.float32)
@@ -215,7 +215,7 @@ class PatchTSTModel(Model):
 
             # Trim or pad to match input length
             if len(scores) > len(test_data):
-                scores = scores[:len(test_data), :]
+                scores = scores[: len(test_data), :]
             elif len(scores) < len(test_data):
                 # Pad end with mean score
                 pad_len = len(test_data) - len(scores)
