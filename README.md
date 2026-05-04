@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **Maintenance freeze.** This repository is in maintenance freeze. No new contributions are accepted; no new releases will be cut without explicit approval from Georgian leadership.
+
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
 <!--
