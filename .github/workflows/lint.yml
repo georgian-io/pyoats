@@ -9,9 +9,17 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Configure Cloudsmith package access
+      uses: georgian-io/terraform-infra/.github/actions/setup-cloudsmith@0be379908cc2dda36c063a4720fb3d073f39efb8
+      with:
+        python-repository: georgian-main
 
     - name: Install uv
       uses: astral-sh/setup-uv@v4
