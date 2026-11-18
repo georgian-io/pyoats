@@ -37,7 +37,7 @@ clean:
 generate-readme:
 	@echo "[Makefile] generating README page..."
 	@cp ../README.md "$(SOURCEDIR)"
-	@sed -i '1s/^/# Home\n/' $(SOURCEDIR)/README.md
+	@echo "# Home" | cat - "$(SOURCEDIR)/README.md" > "$(SOURCEDIR)/README.md.tmp" && mv "$(SOURCEDIR)/README.md.tmp" "$(SOURCEDIR)/README.md"
 
 generate-api:
 	@echo "[Makefile] generating API using sphinx-apidoc..."
