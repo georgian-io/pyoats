@@ -157,7 +157,7 @@ class SimpleDartsModel(Model):
         scores = self.model.predict(n=self.n_steps, series=seq)
 
         for step in scores:
-            preds = np.append(preds, step.pd_series().to_numpy())
+            preds = np.append(preds, step.to_series().to_numpy())
 
         tdata_trim = test_data[self.window :]
 
@@ -170,7 +170,7 @@ class SimpleDartsModel(Model):
         anom = np.absolute(residual)
 
         i_preds = TimeSeries.from_values(preds)
-        i_preds = self.transformer.inverse_transform(i_preds).pd_series().to_numpy()
+        i_preds = self.transformer.inverse_transform(i_preds).to_series().to_numpy()
         i_preds = np.append(np.zeros(self.window), i_preds)
 
         self._preds = i_preds
@@ -187,7 +187,7 @@ class SimpleDartsModel(Model):
 
         series = self.transformer.transform(series)
 
-        return series.pd_series().to_numpy().astype(np.float32)
+        return series.to_series().to_numpy().astype(np.float32)
 
     def _get_train_val_split(
         self, series: npt.NDArray[Any], pct_val: float

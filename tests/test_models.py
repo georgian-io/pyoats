@@ -16,6 +16,8 @@ MODELS = [
     RandomForestModel,
     ARIMAModel,
     NBEATSModel,
+    TSMixerModel,
+    PatchTSTModel,
     TranADModel,
     IsolationForestModel,
     MatrixProfileModel,

@@ -196,4 +196,4 @@ class TranADModel(Model):
 
         series = self.transformer.transform(series)
 
-        return series.pd_dataframe().to_numpy().astype(np.float32)
+        return series.to_dataframe().to_numpy().astype(np.float32)

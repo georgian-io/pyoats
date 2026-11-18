@@ -23,7 +23,7 @@
 [![Issues][issues-shield]][issues-url]
 [![Apache 2.0 License][license-shield]][license-url]
 [![Last Commit][last_commit-shield]][last_commit-url]
-[![Python 3.9-3.12][python-versions-shield]][Python-url]
+[![Python 3.10-3.12][python-versions-shield]][Python-url]
 
 
 
@@ -116,7 +116,7 @@ We present a straight-forward interface for popular, state-of-the-art detection 
 
 
 ### Prerequisites
-[![Python][Python.org]][Python-url] >=3.9, <3.13
+[![Python][Python.org]][Python-url] >=3.10, <3.13
 [![uv][uv-badge]][uv-url] (recommended) or [![Docker][Docker.com]][Docker-url]
 
 ### Installation
@@ -207,12 +207,14 @@ Model | Type | Multivariate Support* | Requires Fitting | DL Framework Dependenc
 `Moving Average` | Predictive | ⚠️ |  |  |  | 
 `N-BEATS` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://openreview.net/forum?id=r1ecqn4YwB) | [`darts.NBEATS`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nbeats.html)
 `N-HiTS` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/2201.12886) | [`darts.NHiTS`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nhits.html)
+`PatchTST` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/2211.14730) | [`transformers.PatchTST`](https://huggingface.co/docs/transformers/model_doc/patchtst)
 `RandomForest` | Predictive | ⚠️ | ✅ | | | [`darts.RandomForest`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.random_forest.html)
 `Regression` | Predictive | ⚠️ | ✅ | | | [`darts.Regression`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.regression_model.html)
 `RNN` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | | [`darts.RNN`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.rnn_model.html)
 `Temporal Convolution Network` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/1803.01271) | [`darts.TCN`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.tcn_model.html)
 `Temporal Fusion Transformers` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/1912.09363) | [`darts.TFT`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.tft_model.html)
 `Transformer` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/1706.03762) | [`darts.Transformer`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.transformer_model.html)
+`TSMixer` | Predictive | ✅ | ✅ | [![Pytorch][Pytorch.org]][Torch-url] | [📝](https://arxiv.org/abs/2303.06053) | [`darts.TSMixer`](https://unit8co.github.io/darts/generated_api/darts.models.forecasting.tsmixer_model.html)
 `Isolation Forest` | Distance-Based | ✅ | ✅ | || [`pyod.IForest`](https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.iforest)
 `Matrix Profile` | Distance-Based | ✅ |  | | [📝](https://www.cs.ucr.edu/~eamonn/MatrixProfile.html) | [`stumpy`](https://github.com/TDAmeritrade/stumpy)
 `TranAD` | Reconstruction-Based | ✅ | ✅ | [![TensorFlow][TensorFlow.org]][Torch-url] | [📝](https://arxiv.org/abs/2201.07284) | [`tranad`](https://github.com/imperial-qore/TranAD)
@@ -325,7 +327,7 @@ Finally, it'll be remiss of me to not mention [DATA Lab @ Rice University](https
 [license-url]: https://github.com/georgian-io/pyoats/blob/master/LICENSE
 [last_commit-shield]: https://img.shields.io/github/last-commit/georgian-io/oats.svg?style=for-the-badge
 [last_commit-url]: https://github.com/georgian-io/pyoats/commits/
-[python-versions-shield]: https://img.shields.io/badge/Python-3.9--3.12-blue?style=for-the-badge&logo=python&logoColor=white
+[python-versions-shield]: https://img.shields.io/badge/Python-3.10--3.12-blue?style=for-the-badge&logo=python&logoColor=white
 
 
 

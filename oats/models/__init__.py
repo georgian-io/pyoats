@@ -19,12 +19,14 @@ from oats.models.predictive.lightgbm import LightGBMModel
 from oats.models.predictive.ma import MovingAverageModel
 from oats.models.predictive.nbeats import NBEATSModel
 from oats.models.predictive.nhits import NHiTSModel
+from oats.models.predictive.patchtst import PatchTSTModel
 from oats.models.predictive.randomforest import RandomForestModel
 from oats.models.predictive.regression import RegressionModel
 from oats.models.predictive.rnn import RNNModel
 from oats.models.predictive.tcn import TCNModel
 from oats.models.predictive.tft import TFTModel
 from oats.models.predictive.transformer import TransformerModel
+from oats.models.predictive.tsmixer import TSMixerModel
 
 # Reconstruction
 from oats.models.reconstruction.tranad import TranADModel
