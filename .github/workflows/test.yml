@@ -27,15 +27,20 @@ jobs:
       with:
         python-repository: georgian-main
 
-    - name: Install uv
-      uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
-      with:
-        enable-cache: true
-
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@803947b9bd8e9f986429fa0c5a41c367cd732b41 # v7.2.1
+      with:
+        # Keep downloaded wheels between runs. Every package comes through
+        # Cloudsmith, which bills per byte delivered, so re-downloading them
+        # in every job is expensive. prune-cache: false stops setup-uv
+        # dropping pre-built wheels before it saves the cache.
+        enable-cache: true
+        prune-cache: false
 
     - name: Install dependencies
       run: make install-dev
